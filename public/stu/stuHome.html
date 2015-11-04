@@ -1,0 +1,38 @@
+<div ng-controller="stuController">
+    <header class="navbar">
+        <div class="container">
+            <div class="col-xs-8 text-info">
+                <h2>SDE管理系统</h2>
+            </div>
+            <div class="col-xs-4" style="margin-top: 20px">
+                <h4 class="text-warning">{{ user }},welcome to the home!
+                    <a href="/logout" style="margin-left:15px">登出</a>
+                </h4>
+            </div>
+        </div>
+    </header>
+    <hr class="alert-info" style="height: 3px">
+    <!-- 左侧div -->
+    <div class="col-xs-4 col-xs-offset-1" style="width: 13%;padding-top: 10px">
+        <ul class="nav nav-pills nav-stacked">
+            <li name='myli' ui-sref-active="active">
+                <!--如果视图加载 则显示class为active
+                    或者用 ng-class="{'active': $state.includes('stuHome.page2')}"
+                -->
+                <a ui-sref=".showMyPaper">我发表的论文</a>
+            </li>
+            <li name='myli' ui-sref-active="active">
+                <a ui-sref=".page2">查看所有论文</a>
+            </li>
+            <li name='myli' ui-sref-active="active">
+                <a ui-sref="page3">我的信息</a>
+            </li>
+            <li name='myli' ui-sref-active="active">
+                <a ui-sref="page4">修改密码</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 右侧div -->
+    <div class="col-xs-8" ui-view="stuRight"></div>
+</div>

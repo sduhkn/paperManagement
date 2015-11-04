@@ -1,0 +1,58 @@
+<div ng-controller="editPaperController" style="text-align: center">
+    <div class="container col-xs-offset-1">
+        <div class="row">
+            <div class="col-xs-1 control-label">
+                论文编号:
+            </div>
+            <div class="col-xs-2 ">
+                <input type="text" class="form-control" ng-model="paper.paperid">
+            </div>
+            <div class="col-xs-1 control-label">
+                论文题目:
+            </div>
+            <div class="col-xs-2">
+                <input type="text" class="form-control" ng-model="paper.title">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 control-label">
+                发表日期:
+            </div>
+            <div class="col-xs-2 ">
+                <input type="date" class="form-control" ng-model="paper.pubdate">
+            </div>
+            <div class="col-xs-1 control-label">
+                起始页:
+            </div>
+            <div class="col-xs-2">
+                <input type="text" class="form-control" ng-model="paper.spage">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1 control-label">
+                终止页:
+            </div>
+            <div class="col-xs-2">
+                <input type="text" class="form-control" ng-model="paper.tpage">
+            </div>
+
+            <div class="col-xs-1 control-label">
+                第一作者:
+            </div>
+            <div class="col-xs-2">
+                <input type="text" class="form-control" ng-model="paper.fauthor">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-2">
+                <button class="btn btn-primary" onClick="javascript :history.back(-1);">返回上页</button>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-primary" ng-click="updatePaperInfo()">保存修改</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

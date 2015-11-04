@@ -1,0 +1,43 @@
+body{
+    font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+.home-left-block {
+    height: 40px;
+    width: 100%;
+    padding-left: 20px;
+    background-color: #F8F6F5;
+    text-align: left;
+    line-height: 40px;
+}
+
+.home-block-visiting {
+    text-decoration: none;
+    background-color: #5792ED;
+    color: #FFF;
+}
+
+#paperHeaderStyle {
+    line-height: 1.8;
+    text-align: center;
+    font-weight: 500;
+    color: #1B809E;
+}
+
+#paperStyle {
+    padding-top: 10px;
+    text-align: center;
+    font-weight: 400;
+}
+
+.control-label {
+    padding-top: 5px;
+}
+
+.row {
+    padding-top: 10px;
+}
