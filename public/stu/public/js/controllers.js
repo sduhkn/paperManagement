@@ -4,8 +4,13 @@
  */
 angular.module('myApp.controllers')
     .controller('stuController',function($scope, $cookies, $state){
-        $scope.user = $cookies.userID;
-        $scope.$state = $state;
+        if($cookies.userID == undefined)
+            $state.go('login');
+        else{
+            $scope.user = $cookies.userID;
+            $scope.$state = $state;
+        }
+
     }).controller('stu_showPaperInfoController',function($scope, $window, stuService){
         /*showMyPaper.html controller*/
         stuService.getPaperInfo()

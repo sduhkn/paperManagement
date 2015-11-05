@@ -9,7 +9,6 @@ angular.module('myApp.controllers',[])
             var obj={id:101,age:30,name:"李四"};
             $scope.list.push(obj);
         }
-
         $scope.del=function(idx){
             $scope.list.splice(idx,1);
         }

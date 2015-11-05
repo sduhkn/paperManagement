@@ -15,7 +15,13 @@ angular.module('myApp')
                     'stuRight@stuHome':{
                         template: '<p>welcome to the home</p>',
                     }
-                }
+                },
+                /*resolve: {
+                    Authorization: function(){
+
+                    }
+
+                },*/
             })
             .state('stuHome.showMyPaper',{
                 url: '/showMyPaper',
