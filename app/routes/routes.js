@@ -2,7 +2,7 @@
  * Created by Administrator on 2015/10/28.
  */
 /*
-* ×Üroute
+* æ€»route
 * */
 module.exports = function(app){
 

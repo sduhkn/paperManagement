@@ -6,7 +6,7 @@ module.exports = {
         host: '211.87.239.153',
         user: 'root',
         password: 'dareway.DAREWAY',
-        database:'db_sde', // Ç°Ãæ½¨µÄuser±íÎ»ÓÚÕâ¸öÊı¾İ¿âÖĞ
+        database:'db_sde', // å‰é¢å»ºçš„userè¡¨ä½äºè¿™ä¸ªæ•°æ®åº“ä¸­
         port: 3306
     }
 };

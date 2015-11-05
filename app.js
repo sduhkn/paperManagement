@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'')));
 app.use(session({
-    secret: "111",//"111"代表加密
+    secret: "111",//"111"浠ｈ〃鍔犲瘑
     resave: false,
     name: 'session',
     saveUninitialized: true,
@@ -35,7 +35,7 @@ app.use(session({
     cookie: {secure: false}
 }));
 
-//调用总route
+//璋冪敤鎬籸oute
 require('./app/routes/routes')(app);
 
 // catch 404 and forward to error handler
