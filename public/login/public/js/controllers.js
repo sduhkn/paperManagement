@@ -3,7 +3,7 @@
  * angular loginController
  */
 angular.module('myApp.controllers',[])
-    .controller('loginController',function($scope, $http, $state, loginServices){
+    .controller('loginController',function($rootScope, $scope, $http, $state, $window, authenticationService){
         $scope.list=[{id:100,age:30,name:"张三"}]
         $scope.add=function(){
             var obj={id:101,age:30,name:"李四"};
@@ -17,13 +17,14 @@ angular.module('myApp.controllers',[])
             password: ""
         };
         $scope.clickLogin = function(user){
-            loginServices.checkLogin(user)
-                .success(function(data, status){
-                    if(1 === data.state){
-                        $state.go('stuHome');
-                    }else{
-                        $scope.errMsg = data.errMsg;
-                    }
+            var promise = authenticationService.login(user);
+            promise
+                .then(function(data){
+                    $window.sessionStorage.token = data.token;
+                    $state.go('stu');
+                },function(err){
+                    delete $window.sessionStorage.token;
+                    $scope.errMsg = "用户名密码错误";
                 });
         }
     });

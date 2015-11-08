@@ -6,32 +6,39 @@
 angular.module('myApp')
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('stuHome', {
-                url: '/home',
+            .state('stu', {
+                url: '/stu',
                 views: {
                     '':{
                         templateUrl: "./public/stu/stuHome.html",
                     },
-                    'stuRight@stuHome':{
+                    'stuRight@stu':{
                         template: '<p>welcome to the home</p>',
                     }
                 },
                 /*resolve: {
-                    Authorization: function(){
-
-                    }
+                    auth: ["$q","authenticationService",function($q, $state, authenticationService){
+                        var userInfo = authenticationService.getUserInfo();
+                        if(userInfo){
+                            alert(123);
+                            return $q.when(userInfo);
+                        }else{
+                            return $q.reject({ authenticated: false });
+                        }
+                    }]
 
                 },*/
             })
-            .state('stuHome.showMyPaper',{
+            .state('stu.showMyPaper',{
                 url: '/showMyPaper',
                 views:{
                     'stuRight':{
                         templateUrl: "./public/stu/showMyPaper.html",
                     }
-                }
+                },
+                access: { requiredLogin: true }
             })
-            .state('stuHome.editPaper',{
+            .state('stu.editPaper',{
                 url: '/editPaper',
                 views:{
                     'stuRight':{
@@ -39,7 +46,7 @@ angular.module('myApp')
                     }
                 }
             })
-            .state('stuHome.page2',{
+            .state('stu.page2',{
                 url: '/page2',
                 views:{
                     'stuRight':{

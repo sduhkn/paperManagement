@@ -5,7 +5,7 @@
 angular.module('myApp.services')
     .factory('stuService',function($http){
         var getPaper = function(){
-            return $http.get('/stu/myPaperInfo');
+            return $http.get('/stu/showMyPaper');
         }
 
         return {

@@ -9,7 +9,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var expressJwt = require('express-jwt');
 var ejs = require('ejs');
 var app = express();
 
@@ -28,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'')));
 app.use(session({
-    secret: "111",//"111"代表加密
+    secret: "111",//"111"加密信息
     resave: false,
     name: 'session',
     saveUninitialized: true,
@@ -36,7 +35,9 @@ app.use(session({
     cookie: {secure: false}
 }));
 
-//调用总route
+app.set('jwtSecret','YOUR_SECRET_STRING');
+
+//总路由
 require('./app/routes/routes')(app);
 
 // catch 404 and forward to error handler

@@ -12,7 +12,7 @@ module.exports = {
     checkLogin: function (req, res, callback) {
         pool.getConnection(function (err, conn) {
             var params = req.body.user;
-            var sql = 'select sid,password from student_info where sid = ?';
+            var sql = 'select sid,sname,password from student_info where sid = ?';
             conn.query(sql, params.sid, function (err, result) {
                 if(err)
                     throw err;

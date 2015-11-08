@@ -3,28 +3,27 @@
  * angular stuController
  */
 angular.module('myApp.controllers')
-    .controller('stuController',function($scope, $cookies, $state){
-        if($cookies.userID == undefined)
-            $state.go('login');
-        else{
-            $scope.user = $cookies.userID;
-            $scope.$state = $state;
-        }
+    .controller('stuController',function($rootScope, $scope, $cookies, $state){
 
-    }).controller('stu_showPaperInfoController',function($scope, $window, stuService){
+        $scope.user = $cookies.userName;
+        $scope.$state = $state;
+
+
+    }).controller('stu_showPaperInfoController',function($rootScope,$scope, $window, stuService){
         /*showMyPaper.html controller*/
         stuService.getPaperInfo()
             .success(function(data){
-                if(data)
-                    $scope.paperInfo = data.paperInfo;
+                $scope.paperInfo = data.paperInfo;
+                $rootScope.user.userName = data.userName;
             });
         $scope.editPaper = function (paper) {
-            $window.sessionStorage.setItem('paper',JSON.stringify(paper));
+            //$window.sessionStorage.setItem('paper',JSON.stringify(paper));
+            $window.sessionStorage.paper = JSON.stringify(paper);
         };
     })
     .controller('editPaperController',function($scope, $window, $state){
-        if($window.sessionStorage.getItem('paper')){
-            var editPaperInfo = JSON.parse($window.sessionStorage.getItem('paper'));
+        if($window.sessionStorage.paper){
+            var editPaperInfo = JSON.parse($window.sessionStorage.paper);
             $scope.paper = editPaperInfo;
             $scope.paper.pubdate = new Date(editPaperInfo.pubdate);
         }else {

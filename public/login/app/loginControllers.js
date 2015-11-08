@@ -4,29 +4,25 @@
  */
 var userModel = require('../../../app/models/userModel');
 var crypto = require('crypto');
+var jwt = require('jsonwebtoken');//token加密专用
 
 exports.login = function(req, res){
-    var message;
     userModel.checkLogin(req,res,function(err, result){
         if(result.length != 0) {
             if (result[0].password == crypto.createHash('sha1').update(req.body.user.password).digest("base64")) {
-                res.cookie('userID',result[0].sid,{ maxAge: 10*60*1000 });
-                req.session.user = result;
-                res.send({
-                    state: 1
+                res.cookie('userName',result[0].sname,{ maxAge: 10*60*1000 });
+                req.session.user = result[0];
+                var user = result[0];
+                var token = jwt.sign(user, 'YOUR_SECRET_STRING',{ expiresIn: 60*60 });
+                return res.send({
+                    token: token,
+                    user: result[0],
                 });
             } else {
-                message = '用户名密码错误';
-                //状态为1返回成功，0密码错误，-1查询db失败
-                res.send({
-                    errMsg: message, state: 0,
-                });
+                return res.send(401);
             }
         }else{
-            message = '用户名密码错误';
-            res.send({
-                errMsg: message, state: -1,
-            });
+            return res.send(401);
         }
     });
 }

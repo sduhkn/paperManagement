@@ -3,13 +3,35 @@
  * angular loginServices
  */
 angular.module('myApp.services',[])
-    .factory('loginServices',function($http){
-        var doRequest = function(user){
-            return $http.post('/login',{
+    .factory('authenticationService',function($http, $q, $window){
+
+        function login(user){
+            var deferred = $q.defer();
+            $http.post('/login',{
                 user: user,
+            }).success(function(data){
+                deferred.resolve(data);
+            }).error(function(err){
+                deferred.reject(err);
             });
-        }
+            return deferred.promise;
+        };
+
         return {
-            checkLogin: function(user){ return doRequest(user); }
+            login: login,
         }
+    }).factory('TokenInterceptor',function($q, $window){
+        return {
+            request: function (config) {
+                config.headers = config.headers || {};
+                if ($window.sessionStorage.token) {
+                    config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+                }
+                return config;
+            },
+
+            response: function (response) {
+                return response || $q.when(response);
+            }
+        };
     });
