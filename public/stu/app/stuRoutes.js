@@ -4,7 +4,7 @@
  */
 
 var stuCtrl = require('./stuControllers');
-//var ensureAuthorized = require('../../../myModules/Authentication/ensureAuthorized'); 自己可以写中间件
+//var ensureAuthorized = require('../../../myModules/Authentication/ensureAuthorized'); 鑷繁鍙互鍐欎腑闂翠欢
 var expressJWT = require('express-jwt');
 
 
@@ -13,6 +13,6 @@ module.exports = function(app){
         res.redirect('/#stu');
     });
     app.get('/stu/showMyPaper',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getMyPaperInfo);
-
-
+    app.get('/stu/stuOwnInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getStuOwnInfo);
+    app.post('/stu/updateStuInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updateStuInfo);
 }

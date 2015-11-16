@@ -14,9 +14,9 @@ module.exports = {
             var params = req.body.user;
             var sql = 'select sid,sname,password from student_info where sid = ?';
             conn.query(sql, params.sid, function (err, result) {
-                if(err)
+                if (err)
                     throw err;
-                else{
+                else {
                     callback(err, result);
                 }
             });
@@ -27,23 +27,28 @@ module.exports = {
     showPaperInfoQueryByID: function (sql, callback) {
         pool.getConnection(function (err, conn) {
             conn.query(sql, function (err, result) {
-                if(err)
+                if (err)
                     throw err;
-                else{
-                        callback(err, result);
+                else {
+                    callback(err, result);
                 }
-
             });
             conn.release();
         });
     },
-    showStuOwnInfoQueryByID: function (sql, callback) {
+    showStuOwnInfoQueryByID: function (res, params, callback) {
         pool.getConnection(function (err, conn) {
-            conn.query(sql, function (err, result) {
-                if (result) {
-                    callback(err, result);
+            var sql1 = "select sid,sname,sex,stype,content,school,major,enrolldate,tid,gschool from student_info,code_info " +
+                "where sid = ? and code_info.code='stype' and student_info.stype = code_info.codeid";
+            conn.query(sql1, params, function (err, result) {
+                if (result.length!=0) {
+                    var sql2 = "select content,codeid from code_info where code_info.code='stype'"
+                    conn.query(sql2, function (err, result1) {
+                        if (result1.length!=0) {
+                            callback(err, result, result1);
+                        }
+                    });
                 }
-
             });
             conn.release();
         });
@@ -73,18 +78,20 @@ module.exports = {
         pool.getConnection(function (err, conn) {
             var params = req.body;
             var sql = 'update paper_info set title =?,pubdate=?,spage=?,tpage=?,fauthor=? where paperid = ?';
-            conn.query(sql, [params.paper.title,new Date(params.paper.pubdate),
-                params.paper.spage,params.paper.tpage,params.paper.fauthor, params.paper.paperid], function (err, result) {
+            conn.query(sql, [params.paper.title, new Date(params.paper.pubdate),
+                params.paper.spage, params.paper.tpage, params.paper.fauthor, params.paper.paperid], function (err, result) {
                 callback(err);
             });
             conn.release();
         });
     },
-    updateStuInfo: function (req, res, callback) {
+    updateStuInfo: function (req, res, sid, callback) {
         pool.getConnection(function (err, conn) {
-            var params = req.body;
-            var sql = 'update student_info set sex =? ,sname=? where sid = ?';
-            conn.query(sql, [params.stu.sex, params.stu.sname,req.cookies['userID']], function (err, result) {
+            var params = req.body.stu;
+            var enrolldate =new Date(params.enrolldate);
+            var sql = 'update student_info set sname=?,sex=?,stype=?,school=?,major=?,enrolldate=?,tid=?,gschool=? where sid = ?';
+            conn.query(sql, [params.sname, params.sex,params.stype, params.school,params.major,
+                enrolldate,params.tid,params.gschool,sid], function (err, result) {
                 callback(err);
             });
             conn.release();
