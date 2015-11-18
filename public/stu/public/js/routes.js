@@ -46,11 +46,11 @@ angular.module('myApp')
                     }
                 }
             })
-            .state('stu.page2', {
-                url: '/page2',
+            .state('stu.showAllPaper', {
+                url: '/showAllPaper',
                 views: {
                     'stuRight': {
-                        templateUrl: "./public/stu/page2.html",
+                        templateUrl: "./public/stu/showAllPaper.html",
                     }
                 }
             })

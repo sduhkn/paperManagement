@@ -1,36 +1,107 @@
-<div ng-controller="stuOwnInfoController">
-    <div>
-        学号：{{stu.sid}}<br>
-        姓名：<input type="text" ng-model="stu.sname" ng-disabled="!disable"><br>
-        <!--性别：<input type="text" ng-model="sex" ng-disabled="!disable"><br>-->
-        <div>
-            性别：
+<div class="container col-xs-offset-1" ng-controller="stuOwnInfoController">
+    <div class="row">
+        <div class="col-xs-1 control-label">
+            学号:
+        </div>
+        <div class="col-xs-2">
+            {{stu.sid}}
+        </div>
+
+        <div class="col-xs-1 control-label">
+            姓名：
+        </div>
+        <div class="col-xs-2">
+            <input type="text" class="form-control" ng-model="stu.sname" ng-readonly="!disable">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 control-label">
+            性别:
+        </div>
+        <div class="col-xs-2 ">
             <label>
-                <input type="radio" name="sexSelect" value="男" ng-model="stu.sex" ng-disabled="!disable">
+                <input type="radio" name="sexSelect" value="男" ng-model="stu.sex" ng-readonly="!disable">
                 男
-                <input type="radio" name="sexSelect" value="女" ng-model="stu.sex" ng-disabled="!disable">
+                <input type="radio" name="sexSelect" value="女" ng-model="stu.sex" ng-readonly="!disable">
                 女
             </label>
         </div>
-
-        类型：<select ng-model="stu.stype" ng-disabled="!disable">
-        <option ng-repeat="v in stype" ng-selected="v.codeid == stu.stype" value="{{v.codeid}}">{{v.content}}</option>
-    </select><br>
-        学院：<input type="text" ng-model="stu.school" ng-disabled="!disable"><br>
-        专业：<input type="text" ng-model="stu.major" ng-disabled="!disable"><br>
-        入学年份：<input type="date" ng-model="stu.enrolldate" ng-disabled="!disable"><br>
-        导师编号：<input type="text" ng-model="stu.tid" ng-disabled="!disable"><br>
-        毕业学校：<input type="text" ng-model="stu.gschool" ng-disabled="!disable"><br><br>
-        修改： <input type="checkbox" ng-model="disable" ng-checked="fasle"/>
+        <div class="col-xs-1 control-label">
+            类型:
+        </div>
+        <div class="col-xs-2">
+            <select ng-model="stu.stype" class="form-control" ng-readonly="!disable">
+                <option ng-repeat="v in stype" ng-selected="v.codeid == stu.stype" value="{{v.codeid}}">
+                    {{v.content}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 control-label">
+            学院:
+        </div>
+        <div class="col-xs-2 ">
+            <input type="text" class="form-control" ng-model="stu.school" ng-readonly="!disable">
+        </div>
+        <div class="col-xs-1 control-label">
+            专业:
+        </div>
+        <div class="col-xs-2">
+            <input type="text" class="form-control" ng-model="stu.major" ng-readonly="!disable">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 control-label">
+            入学时间:
+        </div>
+        <div class="col-xs-2 ">
+            <input type="date" class="form-control" ng-model="stu.enrolldate" ng-readonly="!disable">
+        </div>
+        <div class="col-xs-1 control-label">
+            毕业时间:
+        </div>
+        <div class="col-xs-2">
+            <input type="date" class="form-control" ng-model="stu.graduationdate" ng-readonly="!disable">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 control-label">
+            入学时间:
+        </div>
+        <div class="col-xs-2 ">
+            <input type="date" class="form-control" ng-model="stu.enrolldate" ng-readonly="!disable">
+        </div>
+        <div class="col-xs-1 control-label">
+            毕业时间:
+        </div>
+        <div class="col-xs-2">
+            <input type="date" class="form-control" ng-model="stu.graduationdate" ng-readonly="!disable">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1 control-label">
+            导师编号:
+        </div>
+        <div class="col-xs-2 ">
+            <input type="text" class="form-control" ng-model="stu.tid" ng-readonly="!disable">
+        </div>
+        <div class="col-xs-1 control-label">
+            毕业学校:
+        </div>
+        <div class="col-xs-2">
+            <input type="text" class="form-control" ng-model="stu.gschool" ng-readonly="!disable"><br>
+        </div>
     </div>
 
-    <!--<div>-->
-    <!--下拉框：-->
-    <!--<select>-->
-    <!--<option ng-repeat="v in sexList">{{ v.name }}</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <div>
-        <button ng-click="updateStuInfo()">提交</button>
+    <div class="row">
+        <div class="col-xs-2 control-label">
+            修改:<input type="checkbox" ng-model="disable"/>
+        </div>
+
+        <div class="col-xs-2" ng-if="disable">
+            <button class="btn btn-primary" ng-click="updateStuInfo()">提交</button>
+        </div>
     </div>
+</div>
 </div>

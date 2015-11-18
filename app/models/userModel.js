@@ -36,9 +36,21 @@ module.exports = {
             conn.release();
         });
     },
+    showAllPaperInfo: function (sql, callback) {
+        pool.getConnection(function (err, conn) {
+            conn.query(sql, function (err, result) {
+                if (err)
+                    throw err;
+                else {
+                    callback(err, result);
+                }
+            });
+            conn.release();
+        });
+    },
     showStuOwnInfoQueryByID: function (res, params, callback) {
         pool.getConnection(function (err, conn) {
-            var sql1 = "select sid,sname,sex,stype,content,school,major,enrolldate,tid,gschool from student_info,code_info " +
+            var sql1 = "select sid,sname,sex,stype,content,school,major,enrolldate,graduationdate,tid,gschool from student_info,code_info " +
                 "where sid = ? and code_info.code='stype' and student_info.stype = code_info.codeid";
             conn.query(sql1, params, function (err, result) {
                 if (result.length != 0) {
@@ -89,10 +101,19 @@ module.exports = {
     updateStuInfo: function (req, res, sid, callback) {
         pool.getConnection(function (err, conn) {
             var params = req.body.stu;
-            var enrolldate = new Date(params.enrolldate);
-            var sql = 'update student_info set sname=?,sex=?,stype=?,school=?,major=?,enrolldate=?,tid=?,gschool=? where sid = ?';
+            var sql = 'update student_info set sname=?,sex=?,stype=?,school=?,major=?,enrolldate=?,graduationdate=?,tid=?,gschool=? where sid = ?';
             conn.query(sql, [params.sname, params.sex, params.stype, params.school, params.major,
-                enrolldate, params.tid, params.gschool, sid], function (err, result) {
+                new Date(params.enrolldate),new Date(params.graduationdate), params.tid, params.gschool, sid], function (err, result) {
+                callback(err);
+            });
+            conn.release();
+        });
+    },
+    deletePaper: function (req, res, callback) {
+        pool.getConnection(function (err, conn) {
+            var params = req.body;
+            var sql = 'delete from paper_info where paperid = ?';
+            conn.query(sql, [params.paper.paperid], function (err, result) {
                 callback(err);
             });
             conn.release();

@@ -7,6 +7,9 @@ angular.module('myApp.services')
         var getPaper = function () {
             return $http.get('/stu/showMyPaper');
         }
+        var getAllPaper = function () {
+            return $http.get('/stu/showAllPaper');
+        }
         var stuOwnInfo = function () {
             return $http.get('/stu/stuOwnInfo');
         }
@@ -25,9 +28,17 @@ angular.module('myApp.services')
                 paper: paper
             })
         }
+        var deleteConfirm = function (paper) {
+            return $http.post('/stu/deletePaper', {
+                paper: paper
+            })
+        }
         return {
             getPaperInfo: function () {
                 return getPaper();
+            },
+            getAllPaperInfo: function () {
+                return getAllPaper();
             },
             getStuOwnInfo: function () {
                 return stuOwnInfo();
@@ -40,6 +51,9 @@ angular.module('myApp.services')
             },
             updatePaperInfo: function (paper) {
                 return updatePaperInfo(paper);
+            },
+            deleteConfirm: function (paper) {
+                return deleteConfirm(paper);
             }
 
         }

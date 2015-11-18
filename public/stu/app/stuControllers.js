@@ -18,6 +18,19 @@ exports.getMyPaperInfo = function (req, res) {
 
     });
 }
+exports.getAllPaperInfo = function (req, res) {
+    var sql = "select * from paper_info";
+    userModel.showAllPaperInfo(sql, function (err, result) {
+        if (result.length != 0) {
+            return res.send({
+                paperInfo: result,
+            });
+        } else {
+            return res.sendStatus(401);
+        }
+
+    });
+}
 exports.getStuOwnInfo = function (req, res) {
     userModel.showStuOwnInfoQueryByID(res, req.user.sid, function (err, result, result1) {
         if (result.length != 0) {
@@ -59,12 +72,19 @@ exports.changePassword = function (req, res) {
 exports.updatePaperInfo = function (req, res) {
     userModel.updatePaperInfo(req, res, function (err) {
         if (err) {
-            console.log("1");
-            return res.send(404);
+            return res.send(304);
         }
         else{
-            console.log("11");
-            res.send(200);
+            return res.send(200);
         }
+    })
+}
+exports.deletePaper = function (req, res) {
+    userModel.deletePaper(req, res, function (err) {
+        if (err) {
+            return res.send(304);
+        }
+        else
+            return res.send(200);
     })
 }
