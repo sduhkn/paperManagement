@@ -10,12 +10,21 @@ angular.module('myApp.services')
         var stuOwnInfo = function () {
             return $http.get('/stu/stuOwnInfo');
         }
-        var updateStuInfo= function(stu){
+        var updateStuInfo = function (stu) {
             return $http.post('/stu/updateStuInfo', {
                 stu: stu,
             });
         }
-
+        var changePassword = function (pwd) {
+            return $http.post('/stu/changePwd', {
+                pwd: pwd
+            });
+        }
+        var updatePaperInfo = function (paper) {
+            return $http.post('/stu/updatePaperInfo', {
+                paper: paper
+            })
+        }
         return {
             getPaperInfo: function () {
                 return getPaper();
@@ -25,6 +34,12 @@ angular.module('myApp.services')
             },
             updateStuInfo: function (stu) {
                 return updateStuInfo(stu);
+            },
+            changePassword: function (pwd) {
+                return changePassword(pwd);
+            },
+            updatePaperInfo: function (paper) {
+                return updatePaperInfo(paper);
             }
 
         }

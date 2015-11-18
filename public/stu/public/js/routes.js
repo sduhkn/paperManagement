@@ -69,9 +69,7 @@ angular.module('myApp')
                         templateUrl: "./public/stu/changePwd.html",
                     }
                 }
-            });
-
-
+            })
     });
 /*angular.module("myApp")
  .config(function ($routeProvider){

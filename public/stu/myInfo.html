@@ -1,4 +1,4 @@
-<div ng-controller="stuOwnInfo">
+<div ng-controller="stuOwnInfoController">
     <div>
         学号：{{stu.sid}}<br>
         姓名：<input type="text" ng-model="stu.sname" ng-disabled="!disable"><br>
@@ -14,7 +14,7 @@
         </div>
 
         类型：<select ng-model="stu.stype" ng-disabled="!disable">
-        <option ng-repeat="v in stype" value="{{v.codeid}}">{{v.content}}</option>
+        <option ng-repeat="v in stype" ng-selected="v.codeid == stu.stype" value="{{v.codeid}}">{{v.content}}</option>
     </select><br>
         学院：<input type="text" ng-model="stu.school" ng-disabled="!disable"><br>
         专业：<input type="text" ng-model="stu.major" ng-disabled="!disable"><br>

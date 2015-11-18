@@ -15,4 +15,6 @@ module.exports = function(app){
     app.get('/stu/showMyPaper',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getMyPaperInfo);
     app.get('/stu/stuOwnInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getStuOwnInfo);
     app.post('/stu/updateStuInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updateStuInfo);
+    app.post('/stu/changePwd',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.changePassword);
+    app.post('/stu/updatePaperInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updatePaperInfo);
 }
