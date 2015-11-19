@@ -57,7 +57,10 @@ module.exports = {
                     var sql2 = "select content,codeid from code_info where code_info.code='stype'"
                     conn.query(sql2, function (err, result1) {
                         if (result1.length != 0) {
-                            callback(err, result, result1);
+                            var sql3 = "select tid,tname from teacher_info"
+                            conn.query(sql3, function (err, result2) {
+                                callback(err, result, result1,result2);
+                            });
                         }
                     });
                 }
@@ -103,7 +106,7 @@ module.exports = {
             var params = req.body.stu;
             var sql = 'update student_info set sname=?,sex=?,stype=?,school=?,major=?,enrolldate=?,graduationdate=?,tid=?,gschool=? where sid = ?';
             conn.query(sql, [params.sname, params.sex, params.stype, params.school, params.major,
-                new Date(params.enrolldate),new Date(params.graduationdate), params.tid, params.gschool, sid], function (err, result) {
+                new Date(params.enrolldate), new Date(params.graduationdate), params.tid, params.gschool, sid], function (err, result) {
                 callback(err);
             });
             conn.release();

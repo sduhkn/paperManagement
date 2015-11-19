@@ -30,7 +30,7 @@
             类型:
         </div>
         <div class="col-xs-2">
-            <select ng-model="stu.stype" class="form-control" ng-readonly="!disable">
+            <select ng-model="stu.stype" class="form-control" ng-disabled="!disable">
                 <option ng-repeat="v in stype" ng-selected="v.codeid == stu.stype" value="{{v.codeid}}">
                     {{v.content}}
                 </option>
@@ -84,7 +84,11 @@
             导师编号:
         </div>
         <div class="col-xs-2 ">
-            <input type="text" class="form-control" ng-model="stu.tid" ng-readonly="!disable">
+            <select ng-model="stu.tid" class="form-control" ng-disabled="!disable">
+                <option ng-repeat="v in teaInfo" ng-selected="v.tid == stu.tid" value="{{v.tid}}">
+                    {{v.tname}}
+                </option>
+            </select>
         </div>
         <div class="col-xs-1 control-label">
             毕业学校:

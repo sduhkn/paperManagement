@@ -55,6 +55,5 @@ angular.module('myApp.services')
             deleteConfirm: function (paper) {
                 return deleteConfirm(paper);
             }
-
         }
     });

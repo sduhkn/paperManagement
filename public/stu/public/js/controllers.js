@@ -13,7 +13,7 @@ angular.module('myApp.controllers')
             .success(function (data) {
                 $scope.paperInfo = data.paperInfo;
             });
-        $scope.editPaper = function (paper) {
+        $scope.editPaper = function (paper,included) {
             $window.sessionStorage.paper = JSON.stringify(paper);
         };
         $scope.deleteConfirm = function (index, paper) {
@@ -60,10 +60,10 @@ angular.module('myApp.controllers')
         stuService.getStuOwnInfo()
             .success(function (data, status) {
                 $scope.stu = data.stu;
-                //alert(data.stu.stype);
                 $scope.stu.enrolldate = new Date(data.stu.enrolldate);
                 $scope.stu.graduationdate = new Date(data.stu.graduationdate);
                 $scope.stype = data.stype;
+                $scope.teaInfo = data.teaInfo;
             })
             .error(function (data, status) {
                 alert("error: " + status);

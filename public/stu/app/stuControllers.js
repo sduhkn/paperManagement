@@ -32,11 +32,12 @@ exports.getAllPaperInfo = function (req, res) {
     });
 }
 exports.getStuOwnInfo = function (req, res) {
-    userModel.showStuOwnInfoQueryByID(res, req.user.sid, function (err, result, result1) {
+    userModel.showStuOwnInfoQueryByID(res, req.user.sid, function (err, result, result1,result2) {
         if (result.length != 0) {
             return res.send({
                 stu: result[0],
-                stype: result1
+                stype: result1,
+                teaInfo:result2
             });
         }
         else

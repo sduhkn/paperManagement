@@ -56,7 +56,7 @@
                     <p>{{ paper.paperid }}</p>
                 </div>
                 <div class="col-xs-4">
-                    {{ paper.title }}
+                    <a class="" ui-sref="stu.editPaper" ng-click="editPaper(paper)">{{ paper.title }}</a>
                 </div>
                 <div class="col-xs-1">
                     {{ paper.pubdate | date:'yyyy/MM/dd' }}
