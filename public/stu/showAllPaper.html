@@ -1,30 +1,10 @@
 <!-- 我发表的论文右侧 -->
 <div ng-controller="stu_showAllPaperInfoController">
     <!--如果有发表文章内容-->
-    <div class="container" ng-show="paperInfo">
+    <div class="container paperInfoHeight">
         <!-- 搜索栏 -->
         <div class="row">
-            <div class="col-xs-offset-1 col-xs-3">
-                <nav>
-                    <ul class="pagination">
-                        <li>
-                            <a href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+
 
             <div class="input-group col-xs-offset-5 col-xs-3" style="padding-top: 16px">
                 <input type="text" class="form-control" placeholder="输入搜索内容：" ng-model="searchText">
@@ -35,33 +15,57 @@
             <!-- /input-group -->
         </div><!--搜索栏结束-->
 
-        <!-- show paper info -->
-        <div class="row" id="paperHeaderStyle">
-            <div class="col-xs-1 col-xs-offset-1">
-                论文ID
+        <!--论文展示部分-->
+        <div>
+            <!-- show paper info -->
+            <div class="row" id="paperHeaderStyle">
+                <div class="col-xs-1 col-xs-offset-1">
+                    论文ID
+                </div>
+                <div class="col-xs-4">
+                    论文名称
+                </div>
+                <div class="col-xs-1">
+                    发表日期
+                </div>
             </div>
-            <div class="col-xs-4">
-                论文名称
-            </div>
-            <div class="col-xs-1">
-                发表日期
+            <div class="row" id="paperStyle" ng-repeat="paper in paperInfo | filter:searchText">
+                <div class="col-xs-1">
+                    <p>{{ $index + 1 }}</p>
+                </div>
+                <div class="col-xs-1">
+                    <p>{{ paper.paperid }}</p>
+                </div>
+                <div class="col-xs-4">
+                    <a ui-sref="stu.editPaper" ng-click="editPaper(paper)">{{ paper.title }}</a>
+                </div>
+                <div class="col-xs-1">
+                    {{ paper.pubdate | date:'yyyy/MM/dd' }}
+                </div>
             </div>
         </div>
-        <div class="row" id="paperStyle" ng-repeat="paper in paperInfo | filter:searchText">
-            <div class="col-xs-1">
-                <p>{{ $index + 1 }}</p>
-            </div>
-            <div class="col-xs-1">
-                <p>{{ paper.paperid }}</p>
-            </div>
-            <div class="col-xs-4">
-                {{ paper.title }}
-            </div>
-            <div class="col-xs-1">
-                {{ paper.pubdate | date:'yyyy/MM/dd' }}
-            </div>
-            <div class="col-xs-1">
-                <a class="btn-primary btn btn-sm" ui-sref="stu.editPaper" ng-click="editPaper(paper)">查看</a>
+        <!--分页部分-->
+        <div class="row" style="margin-top: 10px">
+            <div class="col-xs-offset-1">
+                <nav>
+                    <ul class="pagination" ng-show="totalPage>0">
+                        <li ng-class="{true:'active'}[currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="currentPage=1;load()">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[currentPage==1]">
+                            <a href="javascript:void(0);" ng-click="prev()">上一页</a>
+                        </li>
+                        <li ng-repeat="page in pages" ng-class="{true: 'active'}[currentPage == page]">
+                            <a  href="javascript:void(0);" ng-click="loadPage(page)">{{ page }}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[currentPage==totalPage]">
+                            <a href="javascript:void(0);" ng-click="next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[currentPage==totalPage]">
+                            <a href="javascript:void(0)" ng-click="currentPage=totalPage;load()">末页</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div><!-- /.container -->

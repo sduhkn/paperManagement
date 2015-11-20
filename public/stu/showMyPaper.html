@@ -28,7 +28,8 @@
                 </div>
 
                 <div class="input-group col-xs-offset-5 col-xs-3" style="padding-top: 16px">
-                    <input type="text" class="form-control" placeholder="输入搜索内容：" ng-model="searchText">
+                    <input style="border-radius: 10px" name="searchInput"
+                           type="text" class="form-control" placeholder="输入搜索内容：" ng-model="searchText">
                     <!--                      <span class="input-group-btn">
                                             <button class="btn btn-default" type="button">Go!</button>
                                           </span>-->
@@ -60,9 +61,6 @@
                 </div>
                 <div class="col-xs-1">
                     {{ paper.pubdate | date:'yyyy/MM/dd' }}
-                </div>
-                <div class="col-xs-1">
-                    <a class="btn-primary btn btn-sm" ui-sref="stu.editPaper" ng-click="editPaper(paper)">编辑</a>
                 </div>
                 <div class="col-xs-1">
                     <button type="button" class="btn-danger btn btn-sm" ng-click="deleteConfirm($index,paper)">删除</button>

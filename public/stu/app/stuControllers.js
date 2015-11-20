@@ -19,11 +19,28 @@ exports.getMyPaperInfo = function (req, res) {
     });
 }
 exports.getAllPaperInfo = function (req, res) {
-    var sql = "select * from paper_info";
-    userModel.showAllPaperInfo(sql, function (err, result) {
-        if (result.length != 0) {
+    var currentPage = req.query.currentPage;
+    var pageSize = req.query.pageSize;
+    var totalSize = 0;
+    var sql_count;
+    if(req.cookies['paperCount'] && req.cookies['paperCount']!=0){
+        totalSize = req.cookies['paperCount'];
+    }else{
+        sql_count = "select count(paperid) as count from paper_info";
+        userModel.showAllPaperInfo(sql_count,function(err, paperCount){
+            if(paperCount){
+                res.cookie('paperCount',paperCount[0].count,{ maxAge: 10*60*1000 });
+                totalSize = paperCount[0].count;
+            }
+        });
+    }
+
+    var sql = "select * from paper_info limit "+(currentPage-1)*pageSize+","+pageSize;
+    userModel.showAllPaperInfo(sql, function (err, paperInfo) {
+        if (paperInfo.length != 0) {
             return res.send({
-                paperInfo: result,
+                paperInfo: paperInfo,
+                totalSize: totalSize
             });
         } else {
             return res.sendStatus(401);

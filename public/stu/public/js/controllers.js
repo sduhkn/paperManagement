@@ -7,7 +7,7 @@ angular.module('myApp.controllers')
         $scope.user = $cookies.userName;
         $scope.$state = $state;
     })
-    .controller('stu_showPaperInfoController', function ($rootScope, $scope, $window, stuService) {
+    .controller('stu_showPaperInfoController', function ($scope, $window, stuService) {
         /*showMyPaper.html controller*/
         stuService.getPaperInfo()
             .success(function (data) {
@@ -29,11 +29,63 @@ angular.module('myApp.controllers')
             }
         }
     })
-    .controller('stu_showAllPaperInfoController', function ($rootScope, $scope, $window, stuService) {
-        stuService.getAllPaperInfo()
-            .success(function (data) {
-                $scope.paperInfo = data.paperInfo;
-            });
+    .controller('stu_showAllPaperInfoController', function ($scope, stuService) {
+        $scope.currentPage = 1;
+        $scope.totalPage = 1;
+        $scope.pageSize = 10;
+        $scope.pages = [];
+        $scope.endPage = 1;
+
+        $scope.next = function () {
+            if ($scope.currentPage < $scope.totalPage) {
+                $scope.currentPage++;
+                $scope.load();
+            }
+        };
+
+        $scope.prev = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+                $scope.load();
+            }
+        };
+
+        $scope.loadPage = function (page) {
+            $scope.currentPage = page;
+            $scope.load();
+        };
+
+        $scope.load = function(){
+            stuService.getAllPaperInfo($scope.currentPage, $scope.pageSize)
+                .success(function (data) {
+                    $scope.paperInfo = data.paperInfo;
+                    $scope.totalPage = Math.ceil(data.totalSize / $scope.pageSize);
+                    console.log($scope.totalPage);
+                    $scope.endPage = $scope.totalPage;
+                    //生成数字链接
+                    if ($scope.currentPage > 1 && $scope.currentPage < $scope.totalPage) {
+                        $scope.pages = [
+                            $scope.currentPage - 1,
+                            $scope.currentPage,
+                            $scope.currentPage + 1
+                        ];
+                    } else if ($scope.currentPage == 1 && $scope.totalPage > 1) {
+                        $scope.pages = [
+                            $scope.currentPage,
+                            $scope.currentPage + 1
+                        ];
+                    } else if ($scope.currentPage == $scope.totalPage && $scope.totalPage > 1) {
+                        $scope.pages = [
+                            $scope.currentPage - 1,
+                            $scope.currentPage
+                        ];
+                    }
+                });
+        };
+
+        $scope.load();
+        console.log("当前页： "+$scope.currentPage+"总页数："+$scope.totalPage);
+
         $scope.editPaper = function (paper) {
             $window.sessionStorage.paper = JSON.stringify(paper);
         };
