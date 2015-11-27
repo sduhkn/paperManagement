@@ -2,8 +2,8 @@
  * Created by Administrator on 2015/10/28.
  * angular loginController
  */
-angular.module('myApp.controllers',[])
-    .controller('loginController',function($rootScope, $scope, $http, $state, $window, authenticationService){
+angular.module('myApp.controllers',['myApp.directives'])
+    .controller('loginController',function($scope, $state, $window, authenticationService){
         $scope.list=[{id:100,age:30,name:"张三"}]
         $scope.add=function(){
             var obj={id:101,age:30,name:"李四"};

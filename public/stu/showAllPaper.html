@@ -44,38 +44,16 @@
                 </div>
             </div>
         </div>
-        <!--分页部分-->
-        <div class="row" style="margin-top: 10px">
-            <div class="col-xs-offset-1">
-                <nav>
-                    <ul class="pagination" ng-show="totalPage>0">
-                        <li ng-class="{true:'active'}[currentPage==1]">
-                            <a href="javascript:void(0)" ng-click="currentPage=1;load()">首页</a>
-                        </li>
-                        <li ng-class="{true:'disabled'}[currentPage==1]">
-                            <a href="javascript:void(0);" ng-click="prev()">上一页</a>
-                        </li>
-                        <li ng-repeat="page in pages" ng-class="{true: 'active'}[currentPage == page]">
-                            <a  href="javascript:void(0);" ng-click="loadPage(page)">{{ page }}</a>
-                        </li>
-                        <li ng-class="{true:'disabled'}[currentPage==totalPage]">
-                            <a href="javascript:void(0);" ng-click="next()">下一页</a>
-                        </li>
-                        <li ng-class="{true:'active'}[currentPage==totalPage]">
-                            <a href="javascript:void(0)" ng-click="currentPage=totalPage;load()">末页</a>
-                        </li>
-                    </ul>
-                </nav>
+        <!--如果没有文章-->
+        <div ng-show="!paperInfo" class="row">
+            <div class="col-xs-offset-1 col-xs-5 text-center text-info">
+                <h2>居然一篇论文都没有</h2>
             </div>
         </div>
+        <!--分页部分-->
+        <myPagination conf="paginationConf" load-data="load()"></myPagination>
     </div><!-- /.container -->
 
-    <!--如果没有文章-->
-    <div ng-show="!paperInfo" class="row">
-        <div class="col-xs-offset-3 col-xs-11 text-center text-info">
-            <h2>居然一篇论文都没有</h2>
-        </div>
-    </div>
 </div>
 
 

@@ -8,6 +8,13 @@ angular.module('myApp.controllers')
         $scope.$state = $state;
     })
     .controller('stu_showPaperInfoController', function ($scope, $window, stuService) {
+        $scope.paginationConf = {
+            currentPage: 1,
+            totalItems: 8000,
+            totalPage:1,
+            itemsPerPage: 15,
+            pagesLength: 8,
+        };
         /*showMyPaper.html controller*/
         stuService.getPaperInfo()
             .success(function (data) {
@@ -30,7 +37,7 @@ angular.module('myApp.controllers')
         }
     })
     .controller('stu_showAllPaperInfoController', function ($scope, stuService) {
-        $scope.currentPage = 1;
+        /*$scope.currentPage = 1;
         $scope.totalPage = 1;
         $scope.pageSize = 10;
         $scope.pages = [];
@@ -83,8 +90,40 @@ angular.module('myApp.controllers')
                 });
         };
 
+        $scope.load();*/
+        $scope.paginationConf = {
+            currentPage: 1,
+            totalPage:1, //总页数
+            itemsPerPage: 10, //每页项数
+            pagerSize: 5,//显示的页码个数
+        };
+
+        $scope.load = function(){
+            stuService.getAllPaperInfo($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                .success(function (data) {
+                    $scope.paperInfo = data.paperInfo;
+                    $scope.paginationConf.totalPage = Math.ceil(data.totalSize / $scope.paginationConf.itemsPerPage);
+                    //生成数字链接
+                    /*if ($scope.paginationConf.currentPage > 1 && $scope.paginationConf.currentPage < $scope.paginationConf.totalPage) {
+                        $scope.paginationConf.pages = [
+                            $scope.paginationConf.currentPage - 1,
+                            $scope.paginationConf.currentPage,
+                            $scope.paginationConf.currentPage + 1
+                        ];
+                    } else if ($scope.paginationConf.currentPage == 1 && $scope.paginationConf.totalPage > 1) {
+                        $scope.paginationConf.pages = [
+                            $scope.paginationConf.currentPage,
+                            $scope.paginationConf.currentPage + 1
+                        ];
+                    } else if ($scope.paginationConf.currentPage == $scope.paginationConf.totalPage && $scope.paginationConf.totalPage > 1) {
+                        $scope.paginationConf.pages = [
+                            $scope.paginationConf.currentPage - 1,
+                            $scope.paginationConf.currentPage
+                        ];
+                    }*/
+                });
+        };
         $scope.load();
-        console.log("当前页： "+$scope.currentPage+"总页数："+$scope.totalPage);
 
         $scope.editPaper = function (paper) {
             $window.sessionStorage.paper = JSON.stringify(paper);

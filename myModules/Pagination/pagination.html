@@ -1,0 +1,23 @@
+<div class="row" style="margin-top: 10px">
+    <div class="col-xs-offset-1">
+        <nav>
+            <ul class="pagination" ng-show="conf.totalPage>0">
+                <li ng-class="{true:'active'}[conf.currentPage==1]">
+                    <a href="javascript:void(0)" ng-click="conf.currentPage=1;load()">首页</a>
+                </li>
+                <li ng-class="{true:'disabled'}[conf.currentPage==1]">
+                    <a href="javascript:void(0);" ng-click="prev()">上一页</a>
+                </li>
+                <li ng-repeat="page in pagers()" ng-class="{true: 'active'}[conf.currentPage == page]">
+                    <a  href="javascript:void(0);" ng-click="loadPage(page)">{{ page }}</a>
+                </li>
+                <li ng-class="{true:'disabled'}[conf.currentPage==conf.totalPage]">
+                    <a href="javascript:void(0);" ng-click="next()">下一页</a>
+                </li>
+                <li ng-class="{true:'active'}[conf.currentPage==conf.totalPage]">
+                    <a href="javascript:void(0)" ng-click="conf.currentPage=conf.totalPage;load()">末页</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
