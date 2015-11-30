@@ -17,6 +17,9 @@
                 <li ng-class="{true:'active'}[conf.currentPage==conf.totalPage]">
                     <a href="javascript:void(0)" ng-click="conf.currentPage=conf.totalPage;load()">末页</a>
                 </li>
+                <li style="padding-left:30px;">
+                    <input style="width: 30px;text-align: center" type="text" ng-model="conf.currentPage"> / {{ conf.totalPage }}
+                </li>
             </ul>
         </nav>
     </div>
