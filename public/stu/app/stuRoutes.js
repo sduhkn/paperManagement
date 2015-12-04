@@ -13,10 +13,12 @@ module.exports = function(app){
         res.redirect('/#stu');
     });
     app.get('/stu/showMyPaper',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getMyPaperInfo);
-    app.get('/stu/showAllPaper',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getAllPaperInfo);
+    app.get('/stu/showAllPaper',stuCtrl.getAllPaperInfo);
     app.get('/stu/stuOwnInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getStuOwnInfo);
     app.post('/stu/updateStuInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updateStuInfo);
     app.post('/stu/changePwd',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.changePassword);
     app.post('/stu/updatePaperInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updatePaperInfo);
     app.post('/stu/deletePaper',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.deletePaper);
+    app.post('/stu/addPaper',stuCtrl.addPaper);
+    app.get('/stu/queryUserInfo',stuCtrl.queryUserInfo);
 }

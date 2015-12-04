@@ -43,6 +43,20 @@ angular.module('myApp.services')
                 paper: paper
             })
         }
+        /*用户添加paper*/
+        var addPaper = function(paper) {
+            return $http.post('/stu/addPaper', {
+                paper: paper
+            })
+        }
+        /*条件查询用户信息*/
+        var queryUserInfo = function(user) {
+            return $http.get('/stu/getUserInfo', {
+                params: {
+                    user: user
+                }
+            })
+        }
 
         return {
             getPaperInfo: function () {
@@ -50,6 +64,8 @@ angular.module('myApp.services')
             },
 
             getAllPaperInfo: getAllPaper,
+            addPaper: addPaper,
+            queryUserInfo: queryUserInfo,
 
             getStuOwnInfo: function () {
                 return stuOwnInfo();

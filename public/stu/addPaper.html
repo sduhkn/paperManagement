@@ -1,0 +1,109 @@
+<div ng-controller="addPaperController">
+    <form name="addPaperForm" role="form" ng-submit="addPaper(paper)">
+    <div class="container">
+        <div class="col-xs-10">
+            <table class="table table-bordered" >
+                <thead class="paperHeaderStyle">
+                    <tr>
+                        <td colspan="2">论文信息添加</td>
+                    </tr>
+                </thead>
+
+                <tbody class="paperContentStyle">
+                    <tr>
+                        <td style="text-align: center;" width="30%"><span style="color: red">*</span>论文标题：</td>
+                        <td width="70%">
+                            <input ng-model="paper.title" class="form-control" style="width: 60%"  maxlength="50" type="text" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>归属作者信息：</td>
+                        <td class="form-inline">
+                            <div>
+                                <input ng-model="paper.authorName" class="form-control" style="background-color: #ffffb5" size="27" type="text" readonly />
+                                <input ng-model="paper.authorID" class="form-control" style="background-color: #ffffb5" type="text"  size="27" readonly />
+                                <a href="javascript:void(0)" type="button" data-toggle="modal" data-target=".selectUser">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </a>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>归属作者类型：</td>
+                        <td>
+                            <input style="height: 25px" size="27" type="text" value="123" readonly />
+                            <input type="text"  size="27" value="123" readonly />
+                        </td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td colspan="2">
+                            <input type="radio" ng-model="paper.isConference" name="isConference" value="1">会议
+                            <input type="radio" ng-model="paper.isConference" name="isConference" value="0" >期刊
+                            <input ng-disabled="addPaperForm.$invalid" class="btn btn-sm btn-primary" type="submit" value="添加" />
+                            <input type="button" class="btn btn-default" ng-click="getVar()" value="获取变量"/>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody ng-show="paper.isConference == 1">
+                    <tr>
+                        <td colspan="2" >
+                            <select ng-model="paper.ccflevel">
+                                <option value="" selected>选择ccf级别</option>
+                                <option value="111">1111</option>
+                                <option value="222">222</option>
+                            </select>
+                            <a class="btn btn-sm btn-primary">我是会议测试</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="paper.isConference == 0">
+                <tr>
+                    <td colspan="2" >
+                        <a class="btn btn-sm btn-primary">我是期刊测试</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </form>
+
+    <!--获取用户的Modal-->
+    <div class="modal fade selectUser" id="selectUser" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">人员查询</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" style="text-align: center" >
+                        <thead class="paperHeaderStyle">
+                            <tr>
+                                <td colspan="5">人员信息查询</td>
+                            </tr>
+                        </thead>
+                        <tbody class="paperContentStyle">
+                            <tr>
+                                <td width="10%">姓名</td>
+                                <td width="30%"><input ng-model="user.name" class="form-control" type="text" /></td>
+                                <td width="10%">编号</td>
+                                <td width="30%"><input ng-model="user.id" class="form-control" type="text" /></td>
+                                <td width="20%"><button class="btn btn-default" type="button" ng-click="queryUserInfo()">查询</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div><!--modal结束-->
+</div>
+
+<script src="/public/js/static/bootstrap.js"></script>

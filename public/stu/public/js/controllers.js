@@ -4,7 +4,8 @@
  */
 angular.module('myApp.controllers')
     .controller('stuController', function ($rootScope, $scope, $cookies, $state) {
-        $scope.user = $cookies.userName;
+        console.log($cookies.user)
+        $scope.user = JSON.parse($cookies.user).userName;
         $scope.$state = $state;
     })
     .controller('stu_showPaperInfoController', function ($scope, $window, stuService) {
@@ -127,4 +128,31 @@ angular.module('myApp.controllers')
                 $scope.pwd.old = null;
             }
         }
-    );
+    )
+    .controller("addPaperController", function($scope,$cookies,stuService){
+        $scope.paper = {
+            isConference : 1,
+            authorName: JSON.parse($cookies.user).userName,
+            authorID: JSON.parse($cookies.user).userID,
+            };
+        $scope.addPaper = function(paper) {
+            stuService.addPaper(paper)
+                .success(function(data, status){
+                    alert("添加成功");
+                }).error(function(){
+                    alert('添加失败');
+                });
+        }
+        $scope.getVar = function() {
+            console.log("ccflevel: "+$scope.paper.ccflevel);
+        }
+        /*获取所有人员的信息  供人员选择*/
+        $scope.getUserInfo = function() {
+            stuService.queryUserInfo()
+                .success(function(){
+
+                }).error(function(){
+
+                });
+        }
+    });

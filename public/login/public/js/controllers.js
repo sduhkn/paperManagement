@@ -4,7 +4,6 @@
  */
 angular.module('myApp.controllers',['myApp.directives'])
     .controller('loginController',function($scope, $state, $window, authenticationService){
-        $scope.people;
         $scope.list=[{id:100,age:30,name:"张三"}]
         $scope.add=function(){
             var obj={id:101,age:30,name:"李四"};

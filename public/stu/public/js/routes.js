@@ -70,6 +70,14 @@ angular.module('myApp')
                     }
                 }
             })
+            .state('stu.addPaper', {
+                url: '/addPaper',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/stu/addPaper.html",
+                    }
+                }
+            })
     });
 /*angular.module("myApp")
  .config(function ($routeProvider){

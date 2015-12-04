@@ -13,11 +13,16 @@ a:hover{
     padding-bottom: 20px;
 }
 
-#paperHeaderStyle {
-    line-height: 1.8;
+.paperHeaderStyle{
     text-align: center;
+    font-size: 18px;
+    line-height: 1.0;
     font-weight: 500;
     color: #1B809E;
+    background-color: #f9f9f9;
+}
+.paperContentStyle {
+    font-size: 14px;
 }
 
 #paperStyle {
@@ -33,3 +38,14 @@ a:hover{
 .row {
     padding-top: 10px;
 }
+
+.paperContentStyle input {
+    height: 25px;
+}
+/*
+input.ng-invalid {
+    border: 1px solid red;
+}
+input.ng-valid{
+    border: 1px solid green;
+}*/

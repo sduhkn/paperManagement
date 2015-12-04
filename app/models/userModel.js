@@ -2,7 +2,7 @@
  * Created by Administrator on 2015/9/10.
  */
 var mysql = require("mysql");
-var conf = require('../../config/DB/mysql');
+var conf = require('../../config/DB/DBsettings');
 var pool = mysql.createPool(conf.mysql);
 var crypto = require('crypto');
 

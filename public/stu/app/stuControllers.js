@@ -2,6 +2,8 @@
  * Created by Administrator on 2015/10/29.
  */
 var userModel = require('../../../app/models/userModel');
+var Paper = require('../../../app/models/paperModel');
+var User = require('../../../app/models/user.model');
 var crypto = require('crypto');
 
 exports.getMyPaperInfo = function (req, res) {
@@ -104,5 +106,26 @@ exports.deletePaper = function (req, res) {
         }
         else
             return res.send(200);
+    })
+}
+/*用户添加论文信息*/
+exports.addPaper = function(req, res) {
+    var paper = new Paper(req.body.paper);
+    paper.save(function(err,result){
+        if(err){
+            console.log('添加失败');
+            res.sendStatus(402);
+        }else {
+            console.log('添加成功');
+            res.sendStatus(200);
+        }
+    })
+}
+
+/**/
+exports.queryUserInfo = function(req, res) {
+    var user = new User(req.query.user);
+    user.queryUserInfo(function(err, result){
+
     })
 }
