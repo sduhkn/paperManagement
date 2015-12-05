@@ -20,8 +20,8 @@
                         <td style="text-align: center;"><span style="color: red">*</span>归属作者信息：</td>
                         <td class="form-inline">
                             <div>
-                                <input ng-model="paper.authorName" class="form-control" style="background-color: #ffffb5" size="27" type="text" readonly />
-                                <input ng-model="paper.authorID" class="form-control" style="background-color: #ffffb5" type="text"  size="27" readonly />
+                                <input ng-model="paper.authorName" class="form-control" style="background-color: #ffffb5" size="27" type="text" required readonly />
+                                <input ng-model="paper.authorID" class="form-control" style="background-color: #ffffb5" type="text"  size="27" required readonly />
                                 <a href type="button" data-toggle="modal" data-target=".selectUser">
                                     <span class="glyphicon glyphicon-user"></span>
                                 </a>
@@ -31,10 +31,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>归属作者类型：</td>
+                        <td style="text-align: center;">归属作者类型：</td>
                         <td>
-                            <input style="height: 25px" size="27" type="text" value="123" readonly />
-                            <input type="text"  size="27" value="123" readonly />
+                            <div style="height: 26px">
+                                <input type="checkbox" ng-model="isfauthor"/> <span style="vertical-align: text-top">第一作者</span>
+                                <input type="checkbox" ng-model="isCauthor"/> 通讯作者
+                            </div>
+
                         </td>
                     </tr>
                     <tr style="text-align: center;">

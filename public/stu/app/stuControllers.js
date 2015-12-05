@@ -125,13 +125,10 @@ exports.addPaper = function(req, res) {
 /**/
 exports.queryUserInfo = function(req, res) {
     var jsonUser = JSON.parse(req.query.users);
-console.log(jsonUser.name+"\t"+("id" in jsonUser));
     var user = new User(jsonUser);
 
     user.queryUserInfo(function(err, result){
-console.log(result);
         if(err){
-console.log('添加失败');
             return res.sendStatus(500);//服务器出错
         }else {
             return res.json({userList: result});
