@@ -22,7 +22,7 @@
                             <div>
                                 <input ng-model="paper.authorName" class="form-control" style="background-color: #ffffb5" size="27" type="text" readonly />
                                 <input ng-model="paper.authorID" class="form-control" style="background-color: #ffffb5" type="text"  size="27" readonly />
-                                <a href="javascript:void(0)" type="button" data-toggle="modal" data-target=".selectUser">
+                                <a href type="button" data-toggle="modal" data-target=".selectUser">
                                     <span class="glyphicon glyphicon-user"></span>
                                 </a>
 
@@ -71,6 +71,7 @@
     </div>
     </form>
 
+    <form name="listUserForm" role="form">
     <!--获取用户的Modal-->
     <div class="modal fade selectUser" id="selectUser" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog">
@@ -80,7 +81,7 @@
                     <h4 class="modal-title" id="gridSystemModalLabel">人员查询</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-bordered" style="text-align: center" >
+                    <table class="table table-bordered" style="text-align: center" cellspacing="0" cellpadding="0">
                         <thead class="paperHeaderStyle">
                             <tr>
                                 <td colspan="5">人员信息查询</td>
@@ -89,13 +90,29 @@
                         <tbody class="paperContentStyle">
                             <tr>
                                 <td width="10%">姓名</td>
-                                <td width="30%"><input ng-model="user.name" class="form-control" type="text" /></td>
+                                <td width="30%"><input name="userName" ng-model="users.name" class="form-control" type="text" /></td>
                                 <td width="10%">编号</td>
-                                <td width="30%"><input ng-model="user.id" class="form-control" type="text" /></td>
-                                <td width="20%"><button class="btn btn-default" type="button" ng-click="queryUserInfo()">查询</button></td>
+                                <td width="30%"><input name="userID" ng-model="users.id" class="form-control" type="text" /></td>
+                                <td width="20%">
+                                    <button ng-disabled="" class="btn btn-primary btn-sm" ng-click="queryUserInfo(users)">查询</button>
+                                </td>
                             </tr>
                         </tbody>
+                        <tbody class="paperContentStyle" style="font-size: 13px;">
+                        <tr>
+                            <td colspan="2" width="45%">ID</td>
+                            <td colspan="3" width="55%">姓名</td>
+                        </tr>
+                        <tr ng-repeat="person in userList">
+                            <td colspan="2" width="45%">{{ person.id }}</td>
+                            <td colspan="3" width="55%"><a href ng-click="transUser(person)" data-dismiss="modal">{{ person.name }}</a></td>
+                        </tr>
+                        <tr ng-show="!userList">
+                            <td colspan="5"><p style="font-size: 16px" class="alert-danger">{{errorMsg}}</p></td>
+                        </tr>
+                        </tbody>
                     </table>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -104,6 +121,7 @@
             </div>
         </div>
     </div><!--modal结束-->
+    </form>
 </div>
 
 <script src="/public/js/static/bootstrap.js"></script>

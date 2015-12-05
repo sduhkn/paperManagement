@@ -33,8 +33,9 @@ User.prototype.save = function save(callback) {
     });
 }*/
 User.prototype.queryUserInfo = function queryUserInfo(callback) {
-    var querySQL = "select * from all_persons where name = ?";
-    client.getDbConParams(querySQL, this.name,function(err, result) {
+    var querySQL = "select * from all_persons where name like '%"+this.name+"%' and id like '%"+this.id+"%' ";
+console.log(querySQL);
+    client.getDbCon(querySQL, function(err, result) {
         if(err){ throw err }
         else{
             callback(err, result);

@@ -50,12 +50,12 @@ angular.module('myApp.services')
             })
         }
         /*条件查询用户信息*/
-        var queryUserInfo = function(user) {
-            return $http.get('/stu/getUserInfo', {
+        var queryUserInfo = function(users) {
+            return $http.get('/stu/queryUserInfo', {
                 params: {
-                    user: user
+                    users: JSON.stringify(users)
                 }
-            })
+            });
         }
 
         return {

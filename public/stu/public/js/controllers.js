@@ -4,7 +4,6 @@
  */
 angular.module('myApp.controllers')
     .controller('stuController', function ($rootScope, $scope, $cookies, $state) {
-        console.log($cookies.user)
         $scope.user = JSON.parse($cookies.user).userName;
         $scope.$state = $state;
     })
@@ -142,17 +141,31 @@ angular.module('myApp.controllers')
                 }).error(function(){
                     alert('添加失败');
                 });
-        }
-        $scope.getVar = function() {
-            console.log("ccflevel: "+$scope.paper.ccflevel);
-        }
+        };
         /*获取所有人员的信息  供人员选择*/
-        $scope.getUserInfo = function() {
-            stuService.queryUserInfo()
-                .success(function(){
-
-                }).error(function(){
-
-                });
+        $scope.queryUserInfo = function(users) {
+            if(users.name || users.id){
+                if(!users.name){
+                    users.name = '';
+                }
+                if(!users.id){
+                    users.id = '';
+                }
+                stuService.queryUserInfo(users)
+                    .success(function(data){
+                        if(data.userList.length != 0){
+                            $scope.userList = data.userList;
+                        }
+                        $scope.errorMsg = "无用户信息";
+                    }).error(function(){
+                        $scope.errorMsg = "服务器出错";
+                    });
+            }
+            $scope.users = {};//清空用户输入
+        };
+        /*将查询出来的用户添加到页面内*/
+        $scope.transUser = function(person) {
+            $scope.paper.authorName = person.name;
+            $scope.paper.authorID = person.id;
         }
     });
