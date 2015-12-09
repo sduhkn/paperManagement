@@ -32,7 +32,7 @@ User.prototype.save = function save(callback) {
         }
     });
 }*/
-User.prototype.queryUserInfo = function queryUserInfo(callback) {
+User.prototype.queryUserInfoByNameOrID = function queryUserInfoByNameOrID(callback) {
     var querySQL = "select * from all_persons where name like '%"+this.name+"%' and id like '%"+this.id+"%' ";
 console.log(querySQL);
     client.getDbCon(querySQL, function(err, result) {

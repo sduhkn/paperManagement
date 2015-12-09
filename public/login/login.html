@@ -27,12 +27,17 @@
         </form>
     </div>
     <!--test-->
-    <div>
+    <div ng-init="test = false ">
         <div ng-repeat="person in list">
             <input type="text" ng-model="person.name" /> <input type="input" ng-model="person.age" />
             <a ng-show="$index!=0" style="color:red;" ng-click="del($index)">移除</a>
         </div>
         <a ng-click="add()">增加一个</a>
+    </div>
+    <button ng-click="test = !test ">toggle</button>
+    <div class="testAnimate" ng-show="test">
+        Animate test
+
     </div>
 
     <div>

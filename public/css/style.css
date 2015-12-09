@@ -40,8 +40,26 @@ a:hover{
 }
 
 .paperContentStyle input {
-    height: 25px;
+    height: 24px;
 }
+
+tbody>tr>td {
+    height: 24px;
+}
+
+@keyframes myfirst
+{
+    from {background:red;}
+    to {background:yellow;}
+}
+/*.animate-enter {
+    -webkit-transition: 1s linear all; /!* Chrome *!/
+    transition: 1s linear all;
+    opacity: 0;
+}
+.animate-enter.animate-enter-active {
+    opacity: 1;
+}*/
 /*
 input.ng-invalid {
     border: 1px solid red;
@@ -49,3 +67,4 @@ input.ng-invalid {
 input.ng-valid{
     border: 1px solid green;
 }*/
+/* rotate and fall */

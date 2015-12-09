@@ -1,7 +1,7 @@
 <div ng-controller="addPaperController">
-    <form name="addPaperForm" role="form" ng-submit="addPaper(paper)">
-    <div class="container">
-        <div class="col-xs-10">
+    <form name="addPaperForm" role="form">
+    <div class="container" ng-init="firstPage = true" >
+        <div class="col-xs-10" ng-show="firstPage">
             <table class="table table-bordered" >
                 <thead class="paperHeaderStyle">
                     <tr>
@@ -20,8 +20,8 @@
                         <td style="text-align: center;"><span style="color: red">*</span>归属作者信息：</td>
                         <td class="form-inline">
                             <div>
-                                <input ng-model="paper.authorName" class="form-control" style="background-color: #ffffb5" size="27" type="text" required readonly />
-                                <input ng-model="paper.authorID" class="form-control" style="background-color: #ffffb5" type="text"  size="27" required readonly />
+                                <input ng-model="paper.chargeAuthor.authorName" class="form-control" style="background-color: #ffffb5;width: 150px" type="text" required readonly />
+                                <input ng-model="paper.chargeAuthor.authorID" class="form-control" style="background-color: #ffffb5;width: 150px" type="text" required readonly />
                                 <a href type="button" data-toggle="modal" data-target=".selectUser">
                                     <span class="glyphicon glyphicon-user"></span>
                                 </a>
@@ -33,24 +33,78 @@
                     <tr>
                         <td style="text-align: center;">归属作者类型：</td>
                         <td>
-                            <div style="height: 26px">
-                                <input type="checkbox" ng-model="isfauthor"/> <span style="vertical-align: text-top">第一作者</span>
-                                <input type="checkbox" ng-model="isCauthor"/> 通讯作者
+                            <div>
+                                <label class="checkbox-inline">
+                                    <input style="margin-top: 0" type="checkbox" ng-model="isfauthor" value="1"/>
+                                    第一作者
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input style="margin-top: 0" type="checkbox" ng-model="isCauthor" value="0"/> 通讯作者
+                                </label>
+                            </div>
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>第一单位是否为山大：</td>
+                        <td>
+                            <div>
+                                <label class="radio-inline">
+                                    <input style="margin-top: 0" type="radio" ng-model="paper.isfistSDU" name="isfistSDU" value="1" required/>是
+                                </label>
+                                <label class="radio-inline">
+                                    <input style="margin-top: 0" type="radio" ng-model="paper.isfistSDU" name="isfistSDU" value="0"/> 否
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>出版单位：</td>
+                        <td>
+                            <input type="text" class="form-control" style="width: 60%">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>发表时间：</td>
+                        <td><!--时间控件-->
+                            <div>
+                                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="16" ng-model="paper.pubdate" type="text" required readonly />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input2" value="" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <!--选择不同的类型 会议 or 期刊-->
+                        <td colspan="2">
+                            <label class="radio-inline">
+                                <input type="radio" style="margin-top: 0" ng-model="paper.isConference" name="isConference" value="1">会议
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" style="margin-top: 0" ng-model="paper.isConference" name="isConference" value="0" >期刊
+                            </label>
+                        </td>
+                    </tr>
+                </tbody>
+                <!--如果 不是 会议则显示下列-->
+                <tbody ng-show="paper.isConference == 0" class="paperContentStyle sample-show-hide">
+                    <tr>
+                        <td style="text-align: center;">期刊专用：</td>
+                        <td>
+                            <div class="form-inline">
+                                第<input style="text-align: center;width: 15%" type="text" class="form-control" />卷，
+                                第<input style="text-align: center;width: 15%" type="text" class="form-control" />期
                             </div>
 
                         </td>
                     </tr>
-                    <tr style="text-align: center;">
-                        <td colspan="2">
-                            <input type="radio" ng-model="paper.isConference" name="isConference" value="1">会议
-                            <input type="radio" ng-model="paper.isConference" name="isConference" value="0" >期刊
-                            <input ng-disabled="addPaperForm.$invalid" class="btn btn-sm btn-primary" type="submit" value="添加" />
-                            <input type="button" class="btn btn-default" ng-click="getVar()" value="获取变量"/>
-                        </td>
-                    </tr>
                 </tbody>
-
-                <tbody ng-show="paper.isConference == 1">
+                <!--公共显示-->
+                <tbody class="paperContentStyle">
                     <tr>
                         <td colspan="2" >
                             <select ng-model="paper.ccflevel">
@@ -61,16 +115,52 @@
                             <a class="btn btn-sm btn-primary">我是会议测试</a>
                         </td>
                     </tr>
-                </tbody>
-                <tbody ng-show="paper.isConference == 0">
-                <tr>
-                    <td colspan="2" >
-                        <a class="btn btn-sm btn-primary">我是期刊测试</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center">
+                            <input ng-disabled="addPaperForm.$invalid" class="btn btn-sm btn-primary" type="button" value="下一步" ng-click=" nextPage() "/>
+                            <input type="button" class="btn btn-default" ng-click="getVar()" value="获取变量"/>
+                        </td>
+
+                    </tr>
                 </tbody>
             </table>
         </div>
+
+        <!--下步页面-->
+        <div name="nextPage" ng-show="!firstPage" class="col-xs-10">
+            <table class="table table-bordered" >
+                <thead class="paperHeaderStyle">
+                <tr>
+                    <td width="15%">序号</td>
+                    <td width="15%">作者位次</td>
+                    <td width="25%">作者姓名</td>
+                    <td width="25%">作者编号</td>
+                    <td width="10%">操作</td>
+                </tr>
+                </thead>
+                <tbody class="paperContentStyle" style="text-align: center">
+                <tr ng-repeat="author in authors">
+                    <td>{{ $index+1 }}</td>
+                    <td>{{ author.station }}</td>
+                    <td>{{ author.name }}</td>
+                    <td>{{ author.id }}</td>
+                    <td><a class="btn btn-primary btn-sm" ng-click="delAuthor($index)">删除</a></td>
+                </tr>
+                </tbody>
+                <tbody class="paperContentStyle" style="text-align: center">
+                    <tr>
+                        <td colspan="2">
+                            选择作者位次：
+                            <select ng-repeat="num in totalAuthorNum">
+                                <option value="{{ $index+1 }}">第{{ $index+1 }}位作者</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input class="btn btn-sm btn-primary" type="button" value="返回上一步" ng-click=" firstPage = !firstPage "/>
+        </div>
+
     </div>
     </form>
 
@@ -97,7 +187,7 @@
                                 <td width="10%">编号</td>
                                 <td width="30%"><input name="userID" ng-model="users.id" class="form-control" type="text" /></td>
                                 <td width="20%">
-                                    <button ng-disabled="" class="btn btn-primary btn-sm" ng-click="queryUserInfo(users)">查询</button>
+                                    <button ng-disabled="" class="btn btn-primary btn-sm" ng-click="queryUserInfoByNameOrID(users)">查询</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -128,3 +218,18 @@
 </div>
 
 <script src="/public/js/static/bootstrap.js"></script>
+<!--时间控件-->
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>

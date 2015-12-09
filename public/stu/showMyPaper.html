@@ -39,7 +39,7 @@
                     </tbody>
 
                     <tbody class="paperContentStyle">
-                        <tr ng-repeat="paper in paperInfo | filter:searchText">
+                        <tr ng-repeat="paper in paperInfo | filter:searchText" ng-animate="'animate'" class="myAnimation">
                             <td>{{ $index + 1 }}</td>
                             <td><a ui-sref="stu.editPaper" ng-click="editPaper(paper)">{{ paper.title }}</a></td>
                             <td>{{ paper.fauthor }}</td>

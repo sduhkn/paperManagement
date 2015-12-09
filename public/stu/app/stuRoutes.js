@@ -20,5 +20,5 @@ module.exports = function(app){
     app.post('/stu/updatePaperInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updatePaperInfo);
     app.post('/stu/deletePaper',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.deletePaper);
     app.post('/stu/addPaper',stuCtrl.addPaper);
-    app.get('/stu/queryUserInfo',stuCtrl.queryUserInfo);
+    app.get('/stu/queryUserInfoByNameOrID',stuCtrl.queryUserInfoByNameOrID);
 }

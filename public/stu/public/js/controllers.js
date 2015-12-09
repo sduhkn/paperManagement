@@ -8,6 +8,7 @@ angular.module('myApp.controllers')
         $scope.$state = $state;
     })
     .controller('stu_showPaperInfoController', function ($scope, $window, stuService) {
+        /*showMyPaper.html controller*/
         $scope.paginationConf = {
             currentPage: 1,
             totalItems: 8000,
@@ -15,7 +16,6 @@ angular.module('myApp.controllers')
             itemsPerPage: 15,
             pagesLength: 8,
         };
-        /*showMyPaper.html controller*/
         stuService.getPaperInfo()
             .success(function (data) {
                 $scope.paperInfo = data.paperInfo;
@@ -43,7 +43,6 @@ angular.module('myApp.controllers')
             itemsPerPage: 10, //每页项数
             pagerSize: 5,//显示的页码个数
         };
-
         $scope.load = function(){
             stuService.getAllPaperInfo($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
                 .success(function (data) {
@@ -129,10 +128,23 @@ angular.module('myApp.controllers')
         }
     )
     .controller("addPaperController", function($scope,$cookies,stuService){
+        var myContains = function(a, obj) {
+            for(var i = 0; i < a.length; i++) {
+                if(a[i].station === obj.station){
+                    return true;
+                }
+            }
+            return false;
+        }
+        $scope.totalAuthorNum = new Array(12);
+        $scope.authors = [];
         $scope.paper = {
             isConference : 1,
-            authorName: JSON.parse($cookies.user).userName,
-            authorID: JSON.parse($cookies.user).userID,
+            chargeAuthor:{
+                authorName: JSON.parse($cookies.user).userName,
+                authorID: JSON.parse($cookies.user).userID,
+            },
+            isfistSDU: 1,//第一位是否为山大
             };
         $scope.addPaper = function(paper) {
             stuService.addPaper(paper)
@@ -142,8 +154,12 @@ angular.module('myApp.controllers')
                     alert('添加失败');
                 });
         };
+        $scope.getVar = function(){
+            console.log("$scope.isfauthor:"+$scope.isfauthor+"\t $scope.isCauthor:"+$scope.isCauthor);
+            console.log("$scope.paper.isfistSDU:"+$scope.paper.isfistSDU);
+        }
         /*获取所有人员的信息  供人员选择*/
-        $scope.queryUserInfo = function(users) {
+        $scope.queryUserInfoByNameOrID = function(users) {
             if(users.name || users.id){
                 if(!users.name){
                     users.name = '';
@@ -151,12 +167,13 @@ angular.module('myApp.controllers')
                 if(!users.id){
                     users.id = '';
                 }
-                stuService.queryUserInfo(users)
+                stuService.queryUserInfoByNameOrID(users)
                     .success(function(data){
                         if(data.userList.length != 0){
                             $scope.userList = data.userList;
+                        }else{
+                            $scope.errorMsg = "无用户信息";
                         }
-                        $scope.errorMsg = "无用户信息";
                     }).error(function(){
                         $scope.errorMsg = "服务器出错";
                     });
@@ -167,5 +184,38 @@ angular.module('myApp.controllers')
         $scope.transUser = function(person) {
             $scope.paper.authorName = person.name;
             $scope.paper.authorID = person.id;
+        }
+        $scope.nextPage = function() {
+            $scope.authors = [];
+            if($scope.isfauthor || $scope.isCauthor){
+                if($scope.isfauthor){
+                    var fAuthor = {
+                        name:JSON.parse($cookies.user).userName,
+                        id:JSON.parse($cookies.user).userID,station:1
+                    };
+                    if(!myContains($scope.authors,fAuthor)){
+                        $scope.authors.push(fAuthor);
+                    }
+                }
+                if($scope.isCauthor) {
+                    var cAuthor = {
+                        name:JSON.parse($cookies.user).userName,
+                        id:JSON.parse($cookies.user).userID,
+                        station:0
+                    };
+                    if(!myContains($scope.authors,cAuthor)){
+                        $scope.authors.push(cAuthor);
+                    }
+                }
+            }else {
+                $scope.authors = [];
+            }
+            $scope.firstPage = !$scope.firstPage;
+        }
+        $scope.delAuthor = function(idx){
+            $scope.authors.splice(idx,1);
+        }
+        $scope.addAuthor = function(){
+            $scope.authors.push();
         }
     });

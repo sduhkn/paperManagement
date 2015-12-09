@@ -50,8 +50,8 @@ angular.module('myApp.services')
             })
         }
         /*条件查询用户信息*/
-        var queryUserInfo = function(users) {
-            return $http.get('/stu/queryUserInfo', {
+        var queryUserInfoByNameOrID = function(users) {
+            return $http.get('/user/queryUserInfoByNameOrID', {
                 params: {
                     users: JSON.stringify(users)
                 }
@@ -65,7 +65,7 @@ angular.module('myApp.services')
 
             getAllPaperInfo: getAllPaper,
             addPaper: addPaper,
-            queryUserInfo: queryUserInfo,
+            queryUserInfoByNameOrID: queryUserInfoByNameOrID,
 
             getStuOwnInfo: function () {
                 return stuOwnInfo();

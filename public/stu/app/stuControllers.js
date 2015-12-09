@@ -123,11 +123,11 @@ exports.addPaper = function(req, res) {
 }
 
 /**/
-exports.queryUserInfo = function(req, res) {
+exports.queryUserInfoByNameOrID = function(req, res) {
     var jsonUser = JSON.parse(req.query.users);
     var user = new User(jsonUser);
 
-    user.queryUserInfo(function(err, result){
+    user.queryUserInfoByNameOrID(function(err, result){
         if(err){
             return res.sendStatus(500);//服务器出错
         }else {
