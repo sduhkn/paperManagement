@@ -1,8 +1,7 @@
 /**
  * Created by Administrator on 2015/10/27.
  */
-angular.module('myApp',['ngAnimate',
-    'ui.router','myApp.controllers','myApp.services','ngCookies'])
+angular.module('myApp',['ui.router','myApp.controllers','myApp.services','ngCookies'])
     .config(function($stateProvider,$urlRouterProvider,$httpProvider){
         $urlRouterProvider.when("", "/login");
         $stateProvider

@@ -1,6 +1,6 @@
 <div ng-controller="addPaperController">
-    <form name="addPaperForm" role="form">
-    <div class="container" ng-init="firstPage = true" >
+    <form  role="form" name="addPaperForm" ng-init="firstPage = true" >
+    <div class="container">
         <div class="col-xs-10" ng-show="firstPage">
             <table class="table table-bordered" >
                 <thead class="paperHeaderStyle">
@@ -25,9 +25,7 @@
                                 <a href type="button" data-toggle="modal" data-target=".selectUser">
                                     <span class="glyphicon glyphicon-user"></span>
                                 </a>
-
                             </div>
-
                         </td>
                     </tr>
                     <tr>
@@ -42,8 +40,6 @@
                                     <input style="margin-top: 0" type="checkbox" ng-model="isCauthor" value="0"/> 通讯作者
                                 </label>
                             </div>
-
-
                         </td>
                     </tr>
                     <tr>
@@ -99,12 +95,21 @@
                                 第<input style="text-align: center;width: 15%" type="text" class="form-control" />卷，
                                 第<input style="text-align: center;width: 15%" type="text" class="form-control" />期
                             </div>
-
                         </td>
                     </tr>
                 </tbody>
                 <!--公共显示-->
                 <tbody class="paperContentStyle">
+                    <tr>
+                        <td style="text-align: center;">起始页--结束页：</td>
+                        <td>
+                            <div class="form-inline">
+                                <input style="text-align: center;width: 15%" type="text" class="form-control" />
+                                --
+                                <input style="text-align: center;width: 15%" type="text" class="form-control" />
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="2" >
                             <select ng-model="paper.ccflevel">
@@ -117,7 +122,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center">
-                            <input ng-disabled="addPaperForm.$invalid" class="btn btn-sm btn-primary" type="button" value="下一步" ng-click=" nextPage() "/>
+                            <a ng-disabled="addPaperForm.$invalid" class="btn btn-sm btn-primary" type="button" ng-click=" nextPage() ">下一步</a>
                             <input type="button" class="btn btn-default" ng-click="getVar()" value="获取变量"/>
                         </td>
 
@@ -125,46 +130,72 @@
                 </tbody>
             </table>
         </div>
-
-        <!--下步页面-->
-        <div name="nextPage" ng-show="!firstPage" class="col-xs-10">
-            <table class="table table-bordered" >
-                <thead class="paperHeaderStyle">
-                <tr>
-                    <td width="15%">序号</td>
-                    <td width="15%">作者位次</td>
-                    <td width="25%">作者姓名</td>
-                    <td width="25%">作者编号</td>
-                    <td width="10%">操作</td>
-                </tr>
-                </thead>
-                <tbody class="paperContentStyle" style="text-align: center">
-                <tr ng-repeat="author in authors">
-                    <td>{{ $index+1 }}</td>
-                    <td>{{ author.station }}</td>
-                    <td>{{ author.name }}</td>
-                    <td>{{ author.id }}</td>
-                    <td><a class="btn btn-primary btn-sm" ng-click="delAuthor($index)">删除</a></td>
-                </tr>
-                </tbody>
-                <tbody class="paperContentStyle" style="text-align: center">
-                    <tr>
-                        <td colspan="2">
-                            选择作者位次：
-                            <select ng-repeat="num in totalAuthorNum">
-                                <option value="{{ $index+1 }}">第{{ $index+1 }}位作者</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <input class="btn btn-sm btn-primary" type="button" value="返回上一步" ng-click=" firstPage = !firstPage "/>
-        </div>
-
     </div>
     </form>
 
-    <form name="listUserForm" role="form">
+    <!--下步页面-->
+    <form role="form" name="authorForm">
+        <div class="container">
+            <div name="nextPage" ng-show="!firstPage" class="col-xs-10">
+                <table class="table table-bordered" >
+                    <thead class="paperHeaderStyle">
+                    <tr>
+                        <td width="10%">序号</td>
+                        <td width="20%">作者位次</td>
+                        <td width="25%">作者姓名</td>
+                        <td width="25%">作者编号</td>
+                        <td width="10%">操作</td>
+                    </tr>
+                    </thead>
+                    <tbody class="paperContentStyle" style="text-align: center">
+                    <tr ng-repeat="author in authors">
+                        <td>{{ $index+1 }}</td>
+                        <td>
+                            <div ng-show="author.station != '0' ">第{{ author.station }}位作者</div>
+                            <div ng-show="author.station == '0' ">通讯作者</div>
+                        </td>
+                        <td>{{ author.name }}</td>
+                        <td>{{ author.id }}</td>
+                        <td><a class="btn btn-danger btn-sm" ng-click="delAuthor($index)">删除</a></td>
+                    </tr>
+                    </tbody>
+                    <tbody class="paperContentStyle" style="text-align: center">
+                    <tr>
+                        <td colspan="2" class="form-inline">
+                            <span style="color: red">*</span>选择作者位次：
+                            <select ng-model="currAuthor.station" required>
+                                <option value="0">通讯作者</option><option value="1">第一位作者</option>
+                                <option value="2">第二位作者</option><option value="3">第三位作者</option>
+                                <option value="4">第四位作者</option>option value="5">第五位作者</option>
+                                <option value="6">第六位作者</option><option value="7">第七位作者</option>
+                                <option value="8">第八位作者</option><option value="7">第九位作者</option>
+                            </select>
+                        </td>
+                        <td colspan="2" class="form-inline">
+                            <div>
+                                <input ng-model="currAuthor.id" class="form-control" style="background-color: #ffffb5;width: 150px" type="text" required readonly />
+                                <input ng-model="currAuthor.name" class="form-control" style="background-color: #ffffb5;width: 150px" type="text" required readonly />
+                                <a href type="button" data-toggle="modal" data-target=".selectAuthor">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </a>
+                            </div>
+                        </td>
+                        <td><a type="button" ng-disabled="authorForm.$invalid" ng-click="addAuthor(currAuthor)" class="btn btn-primary">添加</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <a class="btn btn-sm btn-primary" type="button" ng-click=" firstPage = !firstPage ">返回上一步</a>
+                            <a class="btn btn-sm btn-primary" type="button" ng-click="">提交</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </form>
+
     <!--获取用户的Modal-->
     <div class="modal fade selectUser" id="selectUser" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog">
@@ -174,38 +205,8 @@
                     <h4 class="modal-title" id="gridSystemModalLabel">人员查询</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-bordered" style="text-align: center" cellspacing="0" cellpadding="0">
-                        <thead class="paperHeaderStyle">
-                            <tr>
-                                <td colspan="5">人员信息查询</td>
-                            </tr>
-                        </thead>
-                        <tbody class="paperContentStyle">
-                            <tr>
-                                <td width="10%">姓名</td>
-                                <td width="30%"><input name="userName" ng-model="users.name" class="form-control" type="text" /></td>
-                                <td width="10%">编号</td>
-                                <td width="30%"><input name="userID" ng-model="users.id" class="form-control" type="text" /></td>
-                                <td width="20%">
-                                    <button ng-disabled="" class="btn btn-primary btn-sm" ng-click="queryUserInfoByNameOrID(users)">查询</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody class="paperContentStyle" style="font-size: 13px;">
-                        <tr>
-                            <td colspan="2" width="45%">ID</td>
-                            <td colspan="3" width="55%">姓名</td>
-                        </tr>
-                        <tr ng-repeat="person in userList">
-                            <td colspan="2" width="45%">{{ person.id }}</td>
-                            <td colspan="3" width="55%"><a href ng-click="transUser(person)" data-dismiss="modal">{{ person.name }}</a></td>
-                        </tr>
-                        <tr ng-show="!userList">
-                            <td colspan="5"><p style="font-size: 16px" class="alert-danger">{{errorMsg}}</p></td>
-                        </tr>
-                        </tbody>
-                    </table>
-
+                <select-sth trans-fun="transUser(person)" query-fun="queryUserInfoByNameOrID(users)" my-data="userList" error="errorMsg">
+                </select-sth>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -214,7 +215,26 @@
             </div>
         </div>
     </div><!--modal结束-->
-    </form>
+
+    <!--获取作者的Modal-->
+    <div class="modal fade selectAuthor"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">作者查询</h4>
+                </div>
+                <div class="modal-body">
+                    <select-sth trans-fun="transAuthor(person)" query-fun="queryUserInfoByNameOrID(users)" my-data="userList" error="errorMsg">
+                    </select-sth>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div><!--modal结束-->
 </div>
 
 <script src="/public/js/static/bootstrap.js"></script>

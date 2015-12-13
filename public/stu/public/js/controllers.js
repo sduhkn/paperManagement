@@ -136,8 +136,7 @@ angular.module('myApp.controllers')
             }
             return false;
         }
-        $scope.totalAuthorNum = new Array(12);
-        $scope.authors = [];
+        $scope.authors = [];//存放所有作者信息
         $scope.paper = {
             isConference : 1,
             chargeAuthor:{
@@ -182,16 +181,21 @@ angular.module('myApp.controllers')
         };
         /*将查询出来的用户添加到页面内*/
         $scope.transUser = function(person) {
-            $scope.paper.authorName = person.name;
-            $scope.paper.authorID = person.id;
+            $scope.paper.chargeAuthor.authorName = person.name;
+            $scope.paper.chargeAuthor.authorID = person.id;
+        }
+        $scope.transAuthor = function(person) {
+            $scope.currAuthor.id = person.id;
+            $scope.currAuthor.name = person.name;
         }
         $scope.nextPage = function() {
             $scope.authors = [];
             if($scope.isfauthor || $scope.isCauthor){
                 if($scope.isfauthor){
                     var fAuthor = {
-                        name:JSON.parse($cookies.user).userName,
-                        id:JSON.parse($cookies.user).userID,station:1
+                        name:$scope.paper.chargeAuthor.authorName,
+                        id:$scope.paper.chargeAuthor.authorID,
+                        station:"1"
                     };
                     if(!myContains($scope.authors,fAuthor)){
                         $scope.authors.push(fAuthor);
@@ -201,7 +205,7 @@ angular.module('myApp.controllers')
                     var cAuthor = {
                         name:JSON.parse($cookies.user).userName,
                         id:JSON.parse($cookies.user).userID,
-                        station:0
+                        station:"0"
                     };
                     if(!myContains($scope.authors,cAuthor)){
                         $scope.authors.push(cAuthor);
@@ -215,7 +219,14 @@ angular.module('myApp.controllers')
         $scope.delAuthor = function(idx){
             $scope.authors.splice(idx,1);
         }
-        $scope.addAuthor = function(){
-            $scope.authors.push();
+        $scope.addAuthor = function(myAuthor){
+console.log($scope.authors);
+            if(!myContains($scope.authors,myAuthor)){
+                $scope.authors.push(myAuthor);
+console.log($scope.currAuthor);
+                $scope.currAuthor = {};
+            }else {
+                alert("位置冲突");
+            }
         }
     });

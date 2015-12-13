@@ -1934,7 +1934,7 @@ function setupModuleLoader(window) {
            * @ngdoc method
            * @name angular.Module#directive
            * @module ng
-           * @param {string|Object} name Directive name, or an object map of directives where the
+           * @param {string|Object} name SelectSth name, or an object map of directives where the
            *    keys are the names and the values are the factories.
            * @param {Function} directiveFactory Factory function for creating new instance of
            * directives.
@@ -5792,19 +5792,19 @@ function $TemplateCacheProvider() {
  * see the {@link guide/directive directive guide}.
  * </div>
  *
- * ## Comprehensive Directive API
+ * ## Comprehensive SelectSth API
  *
  * There are many different options for a directive.
  *
  * The difference resides in the return value of the factory function.
- * You can either return a "Directive Definition Object" (see below) that defines the directive properties,
+ * You can either return a "SelectSth Definition Object" (see below) that defines the directive properties,
  * or just the `postLink` function (all other properties will have the default values).
  *
  * <div class="alert alert-success">
  * **Best Practice:** It's recommended to use the "directive definition object" form.
  * </div>
  *
- * Here's an example directive declared with a Directive Definition Object:
+ * Here's an example directive declared with a SelectSth Definition Object:
  *
  * ```js
  *   var myModule = angular.module(...);
@@ -5863,7 +5863,7 @@ function $TemplateCacheProvider() {
  *
  *
  *
- * ### Directive Definition Object
+ * ### SelectSth Definition Object
  *
  * The directive definition object provides instructions to the {@link ng.$compile
  * compiler}. The attributes are:
@@ -6289,7 +6289,7 @@ function $TemplateCacheProvider() {
  * the attributes object allows for normalized access to
  *   the attributes.
  *
- * * *Directive inter-communication:* All directives share the same instance of the attributes
+ * * *SelectSth inter-communication:* All directives share the same instance of the attributes
  *   object which allows the directives to use the attributes object as inter directive
  *   communication.
  *
@@ -6458,7 +6458,7 @@ var $compileMinErr = minErr('$compile');
 $CompileProvider.$inject = ['$provide', '$$sanitizeUriProvider'];
 function $CompileProvider($provide, $$sanitizeUriProvider) {
   var hasDirectives = {},
-      Suffix = 'Directive',
+      Suffix = 'SelectSth',
       COMMENT_DIRECTIVE_REGEXP = /^\s*directive\:\s*([\w\-]+)\s+(.*)$/,
       CLASS_DIRECTIVE_REGEXP = /(([\w\-]+)(?:\:([^;]+))?;?)/,
       ALL_OR_NOTHING_ATTRS = makeMap('ngSrc,ngSrcset,src,srcset'),
@@ -18557,7 +18557,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
  * @restrict E
  *
  * @description
- * Directive that instantiates
+ * SelectSth that instantiates
  * {@link form.FormController FormController}.
  *
  * If the `name` attribute is specified, the form controller is published onto the current scope under
@@ -25304,7 +25304,7 @@ var ngSwitchDefaultDirective = ngDirective({
  * @restrict EAC
  *
  * @description
- * Directive that marks the insertion point for the transcluded DOM of the nearest parent directive that uses transclusion.
+ * SelectSth that marks the insertion point for the transcluded DOM of the nearest parent directive that uses transclusion.
  *
  * Any existing content of the element that this directive is placed on will be removed before the transcluded content is inserted.
  *
