@@ -11,12 +11,11 @@ exports.login = function(req, res){
         if(result.length != 0) {
             if (result[0].password == crypto.createHash('sha1').update(req.body.user.password).digest("base64")) {
                 var user = {
-                    userName: result[0].sname,
-                    userID: result[0].sid
+                    name: result[0].sname,
+                    id: result[0].sid
                 };
                 res.cookie('user',JSON.stringify(user),{ maxAge: 10*60*1000 });
-                req.session.user = result[0];
-                var user = result[0];
+                req.session.user = user;
                 var token = jwt.sign(user, 'YOUR_SECRET_STRING',{ expiresIn: 60*60 });
                 return res.send({
                     token: token,

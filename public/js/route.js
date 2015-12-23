@@ -11,7 +11,7 @@ angular.module('myApp',['ui.router','myApp.controllers','myApp.services','ngCook
             });
         $urlRouterProvider.otherwise("/home");
         $httpProvider.interceptors.push('TokenInterceptor');
-    }).run(function($rootScope, $state, $window){
+    }).run(function($rootScope, $state, $window,$templateCache){
         $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
             if(toState.name == 'login') return;// 如果是进入登录界面则允许
             //redirect only if both isLogged is false and no token is set

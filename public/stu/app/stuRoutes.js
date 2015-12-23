@@ -17,8 +17,8 @@ module.exports = function(app){
     app.get('/stu/stuOwnInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getStuOwnInfo);
     app.post('/stu/updateStuInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updateStuInfo);
     app.post('/stu/changePwd',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.changePassword);
-    app.post('/stu/updatePaperInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updatePaperInfo);
-    app.post('/stu/deletePaper',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.deletePaper);
-    app.post('/stu/addPaper',stuCtrl.addPaper);
-    app.get('/stu/queryUserInfoByNameOrID',stuCtrl.queryUserInfoByNameOrID);
+
+    //app.post('/stu/deletePaper',stuCtrl.deletePaper);
+    app.post('/stu/addPaper',stuCtrl.addPaper);/*用户添加论文信息*/
+    app.get('/stu/queryUserInfoByNameOrID',stuCtrl.queryUserInfoByNameOrID);/*根据id或者名字查询用户*/
 }

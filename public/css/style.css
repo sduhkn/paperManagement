@@ -1,5 +1,5 @@
 body{
-    font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 }
 
 a:hover{
@@ -24,6 +24,9 @@ a:hover{
 .paperContentStyle {
     font-size: 14px;
 }
+.paperContentStyle input,.paperContentStyle select {
+    height: 26px;
+}
 
 #paperStyle {
     padding-top: 10px;
@@ -37,14 +40,16 @@ a:hover{
 
 .row {
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.paperContentStyle input {
-    height: 24px;
+table td{
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+    border: 2px solid #c8c9e8;
 }
-
 tbody>tr>td {
-    height: 24px;
+    height: 26px;
+    vertical-align: middle;
 }
 
 @keyframes myfirst
@@ -52,6 +57,11 @@ tbody>tr>td {
     from {background:red;}
     to {background:yellow;}
 }
+
+.myInput {
+    border-radius: 4px
+}
+
 /*.animate-enter {
     -webkit-transition: 1s linear all; /!* Chrome *!/
     transition: 1s linear all;

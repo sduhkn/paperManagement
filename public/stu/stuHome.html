@@ -15,7 +15,7 @@
     <!-- 左侧div -->
     <div class="col-xs-3" style="width: 13%;padding-top: 10px">
         <ul class="nav nav-pills nav-stacked">
-            <li name='myli' ui-sref-active="active">
+            <li name='myli' ui-sref-active="active" ui-sref-opt="{reload:true}">
                 <!--如果视图加载 则显示class为active
                     或者用 ng-class="{'active': $state.includes('stuHome.page2')}"
                 -->
@@ -36,3 +36,4 @@
     <!-- 右侧div -->
     <div class="col-xs-8" ui-view="stuRight"></div>
 </div>
+

@@ -1,0 +1,90 @@
+<div ng-controller="showPaperController">
+    <div class="container">
+        <div class="col-xs-10">
+            <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
+                <thead class="paperHeaderStyle">
+                    <tr>
+                        <td colspan="4">论文题目：{{ paper.title }}</td>
+                    </tr>
+                </thead>
+                <tbody class="paperContentStyle">
+                    <tr>
+                        <td style="width: 15%;text-align: right">第一单位是否为山东大学：</td>
+                        <td style="width: 35%">
+                            <p ng-show="paper.isfistSDU == '1' ">是</p>
+                            <p ng-show="paper.isfistSDU == '2' ">否</p>
+                        </td>
+                        <td style="width: 15%;text-align: right">收录情况：</td>
+                        <td style="width: 35%">{{ paper.included }}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right">影响因子：</td>
+                        <td>{{ paper.factor }}</td>
+                        <td style="text-align: right">是否会议论文：</td>
+                        <td>
+                            <p ng-show="paper.isconference == '1' ">是</p>
+                            <p ng-show="paper.isconference == '2' ">否</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right">是否CCF：</td>
+                        <td>
+                            <p ng-show="paper.isccf == '1' ">是</p>
+                            <p ng-show="paper.isccf == '2' ">否</p>
+                        </td>
+                        <td style="text-align: right">CCF级别：</td>
+                        <td>{{ paper.ccflevel }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">出版年月：</td>
+                        <td>{{ paper.pubdate }}</td>
+                        <td style="text-align: right">录用期刊或者会议名称：</td>
+                        <td>{{ paper.publish }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">卷-期：</td>
+                        <td>第{{ paper.column }}卷，第{{ paper.issue }}期</td>
+                        <td style="text-align: right">起止页：</td>
+                        <td>{{ paper.spage }} -- {{paper.tpage }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">版面费：</td>
+                        <td>{{ paper.fee }} &nbsp; {{ paper.currency }}</td>
+                        <td style="text-align: right">版面费支付方式：</td>
+                        <td>{{ paper.modeofpayment }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">版面费付款日期：</td>
+                        <td>{{ paper.paymentDate }} </td>
+                        <td style="text-align: right">论文字数：</td>
+                        <td>{{ paper.wordcount }} &nbsp; 千字</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right; vertical-align: middle;" rowspan="{{ authors.length + 1 }}">作者：</td>
+                    </tr>
+                    <tr ng-repeat="author in authors">
+                        <td colspan="3">
+                            <div ng-show="author.station != '0' ">第{{ author.station }}位: {{ author.authorname }}</div>
+                            <div ng-show="author.station == '0' ">通讯作者: {{ author.authorname }}</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 15%;text-align: right">备注：</td>
+                        <td colspan="3">{{ paper.comment }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center">
+                            <a href onclick="javascript :history.back(-1);" class="btn btn-sm btn-primary">返回上一页</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

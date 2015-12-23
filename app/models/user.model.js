@@ -7,7 +7,7 @@
 var client = require('../../config/DB/DBConnect');
 
 function User(user) {
-    this.id = user.id;
+    this.id = user.id ? user.id : '';
     this.name = user.name;
     this.sex = user.sex;
     this.stype = user.stype;
@@ -34,10 +34,19 @@ User.prototype.save = function save(callback) {
 }*/
 User.prototype.queryUserInfoByNameOrID = function queryUserInfoByNameOrID(callback) {
     var querySQL = "select * from all_persons where name like '%"+this.name+"%' and id like '%"+this.id+"%' ";
-console.log(querySQL);
     client.getDbCon(querySQL, function(err, result) {
         if(err){ throw err }
         else{
+            callback(err, result);
+        }
+    })
+}
+/*¥”paper_authorªÒ»°paperid*/
+User.prototype.getPaperIDFromPaper_author = function getPaperIDFromPaper_author(callback) {
+    var sql = "select distinct(paperid) from paper_author where authorid = ?";
+    client.getDbConParams(sql, this.id, function(err, result){
+        if(err) { throw err; }
+        else {
             callback(err, result);
         }
     })

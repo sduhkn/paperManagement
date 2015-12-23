@@ -39,12 +39,20 @@ angular.module('myApp')
                 access: {requiredLogin: true}
             })
             .state('stu.editPaper', {
-                url: '/editPaper',
+                url: '/editPaper/:paperid',
                 views: {
                     'stuRight': {
                         templateUrl: "./public/stu/editPaper.html",
                     }
-                }
+                },
+            })
+            .state('stu.showPaper', {
+                url: '/showPaper/:paperid',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/stu/showPaper.html",
+                    }
+                },
             })
             .state('stu.showAllPaper', {
                 url: '/showAllPaper',
