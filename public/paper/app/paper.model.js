@@ -2,7 +2,7 @@
  * Created by Administrator on 2015/11/2.
  */
 var moment = require('moment');
-var client = require('../../config/DB/DBConnect');
+var client = require('../../../config/DB/DBConnect');
 
 
 function Paper(paper) {
@@ -15,6 +15,7 @@ function Paper(paper) {
     this.ccflevel = paper.ccflevel ? paper.ccflevel: '';
     this.isconference = paper.isconference ? paper.isconference: '';
     this.publish = paper.publish ? paper.publish: '';
+    this.pubabb = paper.pubabb ? paper.pubabb : '';//论文简称
     this.pubdate = paper.pubdate ? paper.pubdate: '0000-00-00';
     this.column = paper.column ? paper.column: '';//卷（期刊论文专用，会议论文不填）
     this.issue = paper.issue ? paper.issue: '';//期（期刊论文专用，会议论文不填）
@@ -33,10 +34,10 @@ function Paper(paper) {
 module.exports = Paper;
 
 Paper.prototype.save = function save(callback) {
-    var sql = "replace into paper_info values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    var sql = "replace into paper_info values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     var params = [
         this.paperid,this.title,this.included,this.factor,this.isfistSDU,this.isccf,this.ccflevel,this.isconference,
-        this.publish,this.pubdate,this.column,this.issue,this.spage,this.tpage,this.wordcount,this.fauthor,
+        this.publish,this.pubabb,this.pubdate,this.column,this.issue,this.spage,this.tpage,this.wordcount,this.fauthor,
         this.cauthor,this.fee,this.currency,this.modeofpayment,this.paymentDate,this.comment];
     client.getDbConParams(sql, params, function(err, result){
         if(err){ throw  err }

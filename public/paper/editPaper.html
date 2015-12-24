@@ -1,15 +1,15 @@
-<div ng-controller="addPaperController">
-    <form  role="form" name="addPaperForm" ng-init="firstPage = true" >
-    <div class="container">
-        <div class="col-xs-10" ng-show="firstPage">
-            <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
-                <thead class="paperHeaderStyle">
+<div ng-controller="editPaperController">
+    <form role="form" name="addPaperForm" ng-init="firstPage = true" >
+        <div class="container">
+            <div class="col-xs-10" ng-show="firstPage">
+                <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
+                    <thead class="paperHeaderStyle">
                     <tr>
-                        <td colspan="2">论文信息添加</td>
+                        <td colspan="2">论文信息修改</td>
                     </tr>
-                </thead>
+                    </thead>
 
-                <tbody class="paperContentStyle">
+                    <tbody class="paperContentStyle">
                     <tr>
                         <td style="text-align: center;" width="30%"><span style="color: red">*</span>论文标题：</td>
                         <td width="70%">
@@ -17,28 +17,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>归属作者信息：</td>
+                        <td style="text-align: center;"><span style="color: red">*</span>录用期刊或者会议名称：</td>
                         <td class="form-inline">
-                            <div>
-                                <input ng-model="paper.chargeAuthorInfo.authorname" class="form-control"
-                                       style="background-color: #ffffb5;width: 150px" type="text" required readonly />
-                                <input ng-model="paper.chargeAuthorInfo.authorid" class="form-control"
-                                       style="background-color: #ffffb5;width: 150px" type="text" required readonly />
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">归属作者类型：</td>
-                        <td>
-                            <div>
-                                <label class="checkbox-inline">
-                                    <input style="margin-top: 0" type="checkbox" ng-model="isfauthor" value="1"/>
-                                    第一作者
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input style="margin-top: 0" type="checkbox" ng-model="isCauthor" value="0"/> 通讯作者
-                                </label>
-                            </div>
+                            <input ng-show="editYourself" type="text" class="form-control" style="width: 60%" ng-model="paper.publish">
+                            <select ng-show="!editYourself" ng-model="conInfo"
+                                    style="width: 60%;border-radius: 4px"
+                                    ng-options="conInfo.cjname for conInfo in con_jouInfos"
+                                    ng-change="transCon_JouInfo(conInfo)">
+                                <option value="">选择会议或期刊信息</option>
+                            </select>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" ng-model="editYourself" style="margin-top: 0;">自己填写会议信息
+                            </label>
+
                         </td>
                     </tr>
                     <tr>
@@ -81,12 +72,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>录用期刊或者会议名称：</td>
-                        <td>
-                            <input type="text" class="form-control" style="width: 60%" ng-model="paper.publish">
-                        </td>
-                    </tr>
-                    <tr>
                         <td style="text-align: center;"><span style="color: red">*</span>发表时间：</td>
                         <td><!--时间控件-->
                             <div>
@@ -104,17 +89,16 @@
                         <!--选择不同的类型 会议 or 期刊-->
                         <td style="text-align: center;"><span style="color: red">*</span>期刊或者会议：</td>
                         <td>
-                            <label class="radio-inline">
-                                <input type="radio" style="margin-top: 0" ng-model="paper.isconference" name="isConference" value="1">会议
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" style="margin-top: 0" ng-model="paper.isconference" name="isConference" value="2" >期刊
-                            </label>
+                            <select style="width: 30%;border-radius: 4px" ng-model="paper.isconference"
+                                    ng-disabled="!editYourself">
+                                <option value="1">会议</option>
+                                <option value="2">期刊</option>
+                            </select>
                         </td>
                     </tr>
-                </tbody>
-                <!--如果 不是 会议则显示下列-->
-                <tbody ng-show="paper.isconference == 2" class="paperContentStyle sample-show-hide">
+                    </tbody>
+                    <!--如果 不是 会议则显示下列-->
+                    <tbody ng-show="paper.isconference == 2" class="paperContentStyle sample-show-hide">
                     <tr>
                         <td style="text-align: center;">期刊专用：</td>
                         <td>
@@ -124,9 +108,9 @@
                             </div>
                         </td>
                     </tr>
-                </tbody>
-                <!--公共显示-->
-                <tbody class="paperContentStyle">
+                    </tbody>
+                    <!--公共显示-->
+                    <tbody class="paperContentStyle">
                     <tr>
                         <td style="text-align: center;">起始页--结束页：</td>
                         <td>
@@ -176,7 +160,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;vertical-align: middle">备注：</td>
+                        <td style="text-align: center;">备注：</td>
                         <td>
                             <textarea ng-model="paper.comment" class="form-control" rows="3" maxlength="100"></textarea>
                         </td>
@@ -190,10 +174,10 @@
                         </td>
 
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     </form>
 
 
@@ -231,9 +215,9 @@
                             <select ng-model="currAuthor.station" required>
                                 <option value="0">通讯作者</option><option value="1">第一位作者</option>
                                 <option value="2">第二位作者</option><option value="3">第三位作者</option>
-                                <option value="4">第四位作者</option><option value="5">第五位作者</option>
+                                <option value="4">第四位作者</option>option value="5">第五位作者</option>
                                 <option value="6">第六位作者</option><option value="7">第七位作者</option>
-                                <option value="8">第八位作者</option><option value="9">第九位作者</option>
+                                <option value="8">第八位作者</option><option value="7">第九位作者</option>
                             </select>
                         </td>
                         <td colspan="2" class="form-inline">
@@ -242,7 +226,7 @@
                                        type="text" required readonly />
                                 <input ng-model="currAuthor.authorname" class="form-control" style="background-color: #ffffb5;width: 150px"
                                        type="text" required readonly />
-                                <a href type="button" data-toggle="modal" data-target=".selectAuthor">
+                                <a href type="button" data-toggle="modal" data-target=".selectMyAuthor">
                                     <span class="glyphicon glyphicon-user"></span>
                                 </a>
                             </div>
@@ -262,28 +246,10 @@
             </div>
         </div>
     </form>
-    <!--获取用户的Modal-->
-    <!--<div class="modal fade selectUser" id="selectUser" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="gridSystemModalLabel">人员查询</h4>
-                </div>
-                <div class="modal-body">
-                <select-sth trans-fun="transUser(person)" query-fun="queryUserInfoByNameOrID(users)" my-data="userList" error="errorMsg">
-                </select-sth>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>--><!--modal结束-->
+
 
     <!--获取作者的Modal-->
-    <div class="modal fade selectAuthor" id="selectAuthor" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal fade selectMyAuthor" id="selectMyAuthor" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

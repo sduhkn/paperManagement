@@ -1,5 +1,5 @@
 <!-- 我发表的论文右侧 -->
-<div ng-controller="stu_showPaperInfoController">
+<div ng-controller="showMyPaperController">
     <div>
         <!--如果有发表文章内容-->
         <div class="container">
@@ -8,7 +8,7 @@
                 <div class="col-xs-offset-1 col-xs-5">
                     成果形式：
                     <select ng-model="search.isconference" class="form-control">
-                        <option value="">选择要搜索的类型</option>
+                        <option value="">会议和期刊</option>
                         <option value="1">会议</option>
                         <option value="2">期刊</option>
                     </select>

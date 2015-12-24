@@ -29,39 +29,6 @@ angular.module('myApp')
 
                  },*/
             })
-            .state('stu.showMyPaper', {
-                url: '/showMyPaper',
-                views: {
-                    'stuRight': {
-                        templateUrl: "./public/stu/showMyPaper.html",
-                    }
-                },
-                access: {requiredLogin: true}
-            })
-            .state('stu.editPaper', {
-                url: '/editPaper/:paperid',
-                views: {
-                    'stuRight': {
-                        templateUrl: "./public/stu/editPaper.html",
-                    }
-                },
-            })
-            .state('stu.showPaper', {
-                url: '/showPaper/:paperid',
-                views: {
-                    'stuRight': {
-                        templateUrl: "./public/stu/showPaper.html",
-                    }
-                },
-            })
-            .state('stu.showAllPaper', {
-                url: '/showAllPaper',
-                views: {
-                    'stuRight': {
-                        templateUrl: "./public/stu/showAllPaper.html",
-                    }
-                }
-            })
             .state('stu.myInfo', {
                 url: '/myInfo',
                 views: {
@@ -78,11 +45,44 @@ angular.module('myApp')
                     }
                 }
             })
+            .state('stu.showMyPaper', {
+                url: '/showMyPaper',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/paper/showMyPaper.html",
+                    }
+                },
+            })
+            .state('stu.editPaper', {
+                url: '/editPaper/:paperid',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/paper/editPaper.html",
+                    }
+                },
+            })
+            .state('stu.showPaper', {
+                url: '/showPaper/:paperid',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/paper/showPaper.html",
+                    }
+                },
+            })
+            .state('stu.showAllPaper', {
+                url: '/showAllPaper',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/paper/showAllPaper.html",
+                    }
+                },
+            })
+
             .state('stu.addPaper', {
                 url: '/addPaper',
                 views: {
                     'stuRight': {
-                        templateUrl: "./public/stu/addPaper.html",
+                        templateUrl: "./public/paper/addPaper.html",
                     }
                 }
             })

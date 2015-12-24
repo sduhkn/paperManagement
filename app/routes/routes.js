@@ -12,5 +12,5 @@ module.exports = function(app){
     require('../../public/stu/app/stuRoutes')(app);
     require('../../myModules/UserManagement/userManagement.route')(app);
     require('../../myModules/codeInfo/codeInfo.route')(app);
-    require('./paper.route')(app);
+    require('../../public/paper/app/paper.route')(app);
 }

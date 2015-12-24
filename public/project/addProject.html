@@ -1,34 +1,48 @@
-<div ng-controller="editPaperController">
-    <form role="form" name="addPaperForm" ng-init="firstPage = true" >
-        <div class="container">
-            <div class="col-xs-10" ng-show="firstPage">
-                <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
-                    <thead class="paperHeaderStyle">
+<div ng-controller="addProjectController">
+    <form  role="form" name="addProjectForm">
+    <div class="container">
+        <div class="col-xs-10">
+            <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
+                <thead class="paperHeaderStyle">
                     <tr>
-                        <td colspan="2">论文信息修改</td>
+                        <td colspan="2">项目信息添加</td>
                     </tr>
-                    </thead>
+                </thead>
 
-                    <tbody class="paperContentStyle">
+                <tbody class="paperContentStyle">
                     <tr>
-                        <td style="text-align: center;" width="30%"><span style="color: red">*</span>论文标题：</td>
+                        <td style="text-align: center;" width="30%"><span style="color: red">*</span>项目标题：</td>
                         <td width="70%">
-                            <input ng-model="paper.title" class="form-control" style="width: 50%"  maxlength="50" type="text" required />
+                            <input ng-model="project.projectname" class="form-control" style="width: 50%"  maxlength="50" type="text" required />
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>收录情况：</td>
-                        <td>
-                            <select style="width: 50%;border-radius: 4px"
-                                    ng-model="paper.included" ng-options="code.codeid as code.content for code in included" required>
-                            </select>
-
+                        <td style="text-align: center;"><span style="color: red">*</span>归属作者信息：</td>
+                        <td class="form-inline">
+                            <div>
+                                <input ng-model="paper.chargeAuthorInfo.authorname" class="form-control"
+                                       style="background-color: #ffffb5;width: 150px" type="text" required readonly />
+                                <input ng-model="paper.chargeAuthorInfo.authorid" class="form-control"
+                                       style="background-color: #ffffb5;width: 150px" type="text" required readonly />
+                            </div>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;">选择CCF级别(不是则不选)：</td>
+                        <td style="text-align: center;">项目英文标注名称：</td>
                         <td>
-                            <select ng-model="paper.ccflevel" style="width: 20%;border-radius: 4px">
+                            <input ng-model="project.projectlabel" class="form-control" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目财务编号：</td>
+                        <td>
+                            <input style="width: 50%;border-radius: 4px" ng-model="project.projectidfin" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">项目类型：</td>
+                        <td>
+                            <select ng-model="project.type" style="width: 20%;border-radius: 4px">
                                 <option value="" selected>选择ccf级别</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -37,22 +51,17 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>影响因子：</td>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目立项日期--项目结题日期：</td>
                         <td >
-                            <input ng-model="paper.factor" type="number" class="myInput" style="width: 20%;text-align: center" >
+                            <input ng-model="project.estdate" type="date" class="myInput" style="width: 20%;text-align: center" >
+                            --
+                            <input ng-model="project.knotdate " type="date" class="myInput" style="width: 20%;text-align: center" >
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>第一单位是否为山大：</td>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目经费：</td>
                         <td>
-                            <div>
-                                <label class="radio-inline">
-                                    <input style="margin-top: 0" type="radio" ng-model="paper.isfistSDU" name="isfistSDU" value="1" required/>是
-                                </label>
-                                <label class="radio-inline">
-                                    <input style="margin-top: 0" type="radio" ng-model="paper.isfistSDU" name="isfistSDU" value="0"/> 否
-                                </label>
-                            </div>
+                            <input ng-model="project.funding" type="number" style="width: 50%;border-radius: 4px">
                         </td>
                     </tr>
                     <tr>
@@ -75,9 +84,10 @@
                             </div>
                         </td>
                     </tr>
-                    <tr style="text-align: center;">
+                    <tr>
                         <!--选择不同的类型 会议 or 期刊-->
-                        <td colspan="2">
+                        <td style="text-align: center;"><span style="color: red">*</span>期刊或者会议：</td>
+                        <td>
                             <label class="radio-inline">
                                 <input type="radio" style="margin-top: 0" ng-model="paper.isconference" name="isConference" value="1">会议
                             </label>
@@ -86,9 +96,9 @@
                             </label>
                         </td>
                     </tr>
-                    </tbody>
-                    <!--如果 不是 会议则显示下列-->
-                    <tbody ng-show="paper.isconference == 2" class="paperContentStyle sample-show-hide">
+                </tbody>
+                <!--如果 不是 会议则显示下列-->
+                <tbody ng-show="paper.isconference == 2" class="paperContentStyle sample-show-hide">
                     <tr>
                         <td style="text-align: center;">期刊专用：</td>
                         <td>
@@ -98,9 +108,9 @@
                             </div>
                         </td>
                     </tr>
-                    </tbody>
-                    <!--公共显示-->
-                    <tbody class="paperContentStyle">
+                </tbody>
+                <!--公共显示-->
+                <tbody class="paperContentStyle">
                     <tr>
                         <td style="text-align: center;">起始页--结束页：</td>
                         <td>
@@ -150,7 +160,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;">备注：</td>
+                        <td style="text-align: center;vertical-align: middle">备注：</td>
                         <td>
                             <textarea ng-model="paper.comment" class="form-control" rows="3" maxlength="100"></textarea>
                         </td>
@@ -164,82 +174,14 @@
                         </td>
 
                     </tr>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
+    </div>
     </form>
-
-
-
-    <!--下步页面-->
-    <form role="form" name="authorForm">
-        <div class="container">
-            <div name="nextPage" ng-show="!firstPage" class="col-xs-10">
-                <table class="table table-bordered" >
-                    <thead class="paperHeaderStyle">
-                    <tr>
-                        <td width="10%">序号</td>
-                        <td width="20%">作者位次</td>
-                        <td width="25%">作者姓名</td>
-                        <td width="25%">作者编号</td>
-                        <td width="10%">操作</td>
-                    </tr>
-                    </thead>
-                    <tbody class="paperContentStyle" style="text-align: center">
-                    <tr ng-repeat="author in authors">
-                        <td>{{ $index+1 }}</td>
-                        <td>
-                            <div ng-show="author.station != '0' ">第{{ author.station }}位作者</div>
-                            <div ng-show="author.station == '0' ">通讯作者</div>
-                        </td>
-                        <td>{{ author.authorname }}</td>
-                        <td>{{ author.authorid }}</td>
-                        <td><a class="btn btn-danger btn-sm" ng-click="delAuthor($index)">删除</a></td>
-                    </tr>
-                    </tbody>
-                    <tbody class="paperContentStyle" style="text-align: center">
-                    <tr>
-                        <td colspan="2" class="form-inline">
-                            <span style="color: red">*</span>选择作者位次：
-                            <select ng-model="currAuthor.station" required>
-                                <option value="0">通讯作者</option><option value="1">第一位作者</option>
-                                <option value="2">第二位作者</option><option value="3">第三位作者</option>
-                                <option value="4">第四位作者</option>option value="5">第五位作者</option>
-                                <option value="6">第六位作者</option><option value="7">第七位作者</option>
-                                <option value="8">第八位作者</option><option value="7">第九位作者</option>
-                            </select>
-                        </td>
-                        <td colspan="2" class="form-inline">
-                            <div>
-                                <input ng-model="currAuthor.authorid" class="form-control" style="background-color: #ffffb5;width: 150px"
-                                       type="text" required readonly />
-                                <input ng-model="currAuthor.authorname" class="form-control" style="background-color: #ffffb5;width: 150px"
-                                       type="text" required readonly />
-                                <a href type="button" data-toggle="modal" data-target=".selectMyAuthor">
-                                    <span class="glyphicon glyphicon-user"></span>
-                                </a>
-                            </div>
-                        </td>
-                        <td><input type="button" ng-disabled="authorForm.$invalid" ng-click="addAuthor(currAuthor)"
-                                   class="btn btn-primary" value="添加"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="5">
-                            <a class="btn btn-sm btn-primary" type="button" ng-click=" firstPage = !firstPage ">返回上一步</a>
-                            <a class="btn btn-sm btn-primary" type="button" ng-click="addPaper(paper,authors)">提交</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </form>
-
 
     <!--获取作者的Modal-->
-    <div class="modal fade selectMyAuthor" id="selectMyAuthor" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal fade selectAuthor" id="selectAuthor" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
