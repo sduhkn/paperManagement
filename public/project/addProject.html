@@ -1,5 +1,5 @@
 <div ng-controller="addProjectController">
-    <form  role="form" name="addProjectForm">
+    <form role="form" name="addProjectForm">
     <div class="container">
         <div class="col-xs-10">
             <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
@@ -11,32 +11,35 @@
 
                 <tbody class="paperContentStyle">
                     <tr>
-                        <td style="text-align: center;" width="30%"><span style="color: red">*</span>项目标题：</td>
+                        <td style="text-align: center;width:30%"><span style="color: red">*</span>项目标题：</td>
                         <td width="70%">
-                            <input ng-model="project.projectname" class="form-control" style="width: 50%"  maxlength="50" type="text" required />
+                            <input ng-model="project.projectname" class="form-control" style="width: 60%"  maxlength="50" type="text" required />
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>归属作者信息：</td>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目负责人：</td>
                         <td class="form-inline">
                             <div>
-                                <input ng-model="paper.chargeAuthorInfo.authorname" class="form-control"
+                                <input ng-model="project.projectcharge" class="form-control"
                                        style="background-color: #ffffb5;width: 150px" type="text" required readonly />
-                                <input ng-model="paper.chargeAuthorInfo.authorid" class="form-control"
+                                <input ng-model="chargePerson.id" class="form-control"
                                        style="background-color: #ffffb5;width: 150px" type="text" required readonly />
+                                <a href type="button" data-toggle="modal" data-target=".selectProjectCharge">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </a>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;">项目英文标注名称：</td>
                         <td>
-                            <input ng-model="project.projectlabel" class="form-control" type="text">
+                            <input ng-model="project.projectlabel" class="form-control" type="text" style="width: 60%">
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;"><span style="color: red">*</span>项目财务编号：</td>
                         <td>
-                            <input style="width: 50%;border-radius: 4px" ng-model="project.projectidfin" required>
+                            <input ng-model="project.projectidfin" class="form-control" style="width: 60%" required>
                         </td>
                     </tr>
                     <tr>
@@ -51,128 +54,117 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>项目立项日期--项目结题日期：</td>
-                        <td >
-                            <input ng-model="project.estdate" type="date" class="myInput" style="width: 20%;text-align: center" >
-                            --
-                            <input ng-model="project.knotdate " type="date" class="myInput" style="width: 20%;text-align: center" >
+                        <td style="text-align: center;"><span style="color: red">*</span>项目立项日期：</td>
+                        <td>
+                            <div>
+                                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                                     data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="13" ng-model="project.estdata" type="text" required readonly />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="addProject_input1" value="" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目结题日期：</td>
+                        <td>
+                            <div>
+                                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                                     data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" size="13" ng-model="project.knotdate" type="text" required readonly />
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="addProject_input2" value="" />
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;"><span style="color: red">*</span>项目经费：</td>
                         <td>
-                            <input ng-model="project.funding" type="number" style="width: 50%;border-radius: 4px">
+                            <input ng-model="project.funding" type="number"
+                                   style="width: 20%;border-radius: 4px;text-align: center">
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>录用期刊或者会议名称：</td>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目需要论文数量：</td>
                         <td>
-                            <input type="text" class="form-control" style="width: 60%" ng-model="paper.publish">
+                            <input ng-model="project.papernum" type="number"
+                                   style="width: 20%;border-radius: 4px;text-align: center">
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><span style="color: red">*</span>发表时间：</td>
+                        <td style="text-align: center;vertical-align: middle"><span style="color: red">*</span>项目需要论文说明：</td>
                         <td><!--时间控件-->
-                            <div>
-                                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
-                                     data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" ng-model="paper.pubdate" type="text" required readonly />
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                                </div>
-                                <input type="hidden" id="dtp_input2" value="" />
-                            </div>
+                            <textarea ng-model="project.papercomment" class="form-control" rows="3" maxlength="150">
+                            </textarea>
                         </td>
                     </tr>
                     <tr>
-                        <!--选择不同的类型 会议 or 期刊-->
-                        <td style="text-align: center;"><span style="color: red">*</span>期刊或者会议：</td>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目需要专利数量：</td>
                         <td>
-                            <label class="radio-inline">
-                                <input type="radio" style="margin-top: 0" ng-model="paper.isconference" name="isConference" value="1">会议
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" style="margin-top: 0" ng-model="paper.isconference" name="isConference" value="2" >期刊
-                            </label>
+                            <input ng-model="project.patentnum" type="number"
+                                   style="width: 20%;border-radius: 4px;text-align: center">
                         </td>
                     </tr>
-                </tbody>
-                <!--如果 不是 会议则显示下列-->
-                <tbody ng-show="paper.isconference == 2" class="paperContentStyle sample-show-hide">
                     <tr>
-                        <td style="text-align: center;">期刊专用：</td>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目需要软件著作权数量：</td>
                         <td>
-                            <div class="form-inline">
-                                第<input ng-model="paper.column" style="text-align: center;width: 15%" type="text" class="form-control" />卷，
-                                第<input ng-model="paper.issue" style="text-align: center;width: 15%" type="text" class="form-control" />期
-                            </div>
+                            <input ng-model="project.copyrightnum" type="number"
+                                   style="width: 20%;border-radius: 4px;text-align: center">
                         </td>
                     </tr>
-                </tbody>
-                <!--公共显示-->
-                <tbody class="paperContentStyle">
                     <tr>
-                        <td style="text-align: center;">起始页--结束页：</td>
+                        <td style="text-align: center;vertical-align: middle"><span style="color: red">*</span>项目验收需要的其他条件：</td>
                         <td>
-                            <div class="form-inline">
-                                <input ng-model="paper.spage" style="text-align: center;width: 15%" type="number" class="myInput" />
-                                --
-                                <input ng-model="paper.tpage" style="text-align: center;width: 15%" type="number" class="myInput" />
-                            </div>
+                            <textarea ng-model="project.others" class="form-control" rows="3" maxlength="150"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;">字数：</td>
-                        <td class="form-inline">
-                            <input type="number" ng-model="paper.wordcount" class="myInput" style="width: 15%;text-align: center">
-                            千字
+                        <td style="text-align: center;"><span style="color: red">*</span>项目已经标注论文数量：</td>
+                        <td>
+                            <input ng-model="project.lpapernum" type="number"
+                                   style="width: 20%;border-radius: 4px;text-align: center">
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;">费用：</td>
-                        <td class="form-inline">
-                            <select style="width: 20%;border-radius: 4px"
-                                    ng-model="paper.currency" ng-options="code.codeid as code.content for code in currency">
+                        <td style="text-align: center;"><span style="color: red">*</span>项目已标注专利数量：</td>
+                        <td>
+                            <input ng-model="project.lpatentnum" type="number"
+                                   style="width: 20%;border-radius: 4px;text-align: center">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目已标注软件著作权数量：</td>
+                        <td>
+                            <input ng-model="project.lcopyrightnum" type="number"
+                                   style="width: 20%;border-radius: 4px;text-align: center">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>项目是否结束：</td>
+                        <td>
+                            <select ng-model="project.isend" style="width: 10%;border-radius: 4px;text-align: center">
+                                <option value="1">是</option>
+                                <option value="2" selected>否</option>
                             </select>
-                            <input class="myInput" style="width: 30%;text-align: center" type="number" ng-model="paper.fee" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">版面费支付方式：</td>
-                        <td class="form-inline">
-                            <select style="width: 40%;border-radius: 4px"
-                                    ng-model="paper.modeofpayment" ng-options="code.codeid as code.content for code in modeofpayment">
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">版面费付款日期：</td>
-                        <td><!--时间控件-->
-                            <div>
-                                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
-                                     data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                    <input class="form-control" size="16" ng-model="paper.paymentDate" type="text" readonly />
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                                </div>
-                                <input type="hidden" id="dtp_input3" value="" />
-                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;vertical-align: middle">备注：</td>
                         <td>
-                            <textarea ng-model="paper.comment" class="form-control" rows="3" maxlength="100"></textarea>
+                            <textarea ng-model="project.comment" class="form-control" rows="3" maxlength="150"></textarea>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center">
                             <a href onclick="javascript :history.back(-1);" class="btn btn-sm btn-primary">返回上一页</a>
-                            <input ng-disabled="addPaperForm.$invalid" class="btn btn-sm btn-primary" type="button"
+                            <input ng-disabled="addProjectForm.$invalid" class="btn btn-sm btn-primary" type="button"
                                    ng-click="nextPage()" value="下一步">
                             <input type="button" class="btn btn-default" ng-click="getVar()" value="获取变量"/>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
@@ -181,7 +173,7 @@
     </form>
 
     <!--获取作者的Modal-->
-    <div class="modal fade selectAuthor" id="selectAuthor" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal fade selectProjectCharge" id="selectProjectCharge" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -189,7 +181,7 @@
                     <h4 class="modal-title">作者查询</h4>
                 </div>
                 <div class="modal-body">
-                    <select-sth trans-fun="transAuthor(person)" query-fun="queryUserInfoByNameOrID(users)" my-data="userList" error="errorMsg">
+                    <select-sth trans-fun="transProjectCharge(person)" query-fun="queryUserInfoByNameOrID(users)" my-data="userList" error="errorMsg">
                     </select-sth>
                 </div>
                 <div class="modal-footer">

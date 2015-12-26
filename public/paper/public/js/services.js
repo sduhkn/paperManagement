@@ -57,14 +57,6 @@ angular.module('myApp.services')
                 paper: paper,authors:authors
             })
         }
-        /*条件查询用户信息*/
-        var queryUserInfoByNameOrID = function(users) {
-            return $http.get('/user/queryUserInfoByNameOrID', {
-                params: {
-                    users: JSON.stringify(users)
-                }
-            });
-        }
 
         var getCon_JouInfo = function(){
             return $http.get('/paper/getCon_JouInfo');
@@ -76,8 +68,6 @@ angular.module('myApp.services')
 
             getAllPaperInfo: getAllPaper,
             addPaper: addPaper,
-            queryUserInfoByNameOrID: queryUserInfoByNameOrID,
-
             deletePaper:deletePaper,
 
             getIncluded: getIncluded,

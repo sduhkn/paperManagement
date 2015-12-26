@@ -95,7 +95,7 @@ angular.module('myApp.controllers')
             });
 
     })
-    .controller('editPaperController', function ($scope, $state, $stateParams, paperService) {
+    .controller('editPaperController', function ($scope, $state, $stateParams, paperService,userService) {
         $scope.authors = [];
         $scope.editYourself = true;
         $scope.transCon_JouInfo = function(conInfo){
@@ -173,7 +173,7 @@ angular.module('myApp.controllers')
                 if(!users.id){
                     users.id = '';
                 }
-                paperService.queryUserInfoByNameOrID(users)
+                userService.queryUserInfoByNameOrID(users)
                     .success(function(data){
                         if(data.userList.length != 0){
                             $scope.userList = data.userList;
@@ -208,7 +208,7 @@ angular.module('myApp.controllers')
             }
         };
     })
-    .controller("addPaperController", function($scope,$cookies,$state,paperService){
+    .controller("addPaperController", function($scope,$cookies,$state,paperService, userService){
         var myContains = function(a, obj) {
             for(var i = 0; i < a.length; i++) {
                 if(a[i].station === obj.station){
@@ -300,7 +300,7 @@ angular.module('myApp.controllers')
                 if(!users.id){
                     users.id = '';
                 }
-                paperService.queryUserInfoByNameOrID(users)
+                userService.queryUserInfoByNameOrID(users)
                     .success(function(data){
                         if(data.userList.length != 0){
                             $scope.userList = data.userList;
@@ -313,14 +313,9 @@ angular.module('myApp.controllers')
             }
             $scope.users = {};//清空用户输入
         };
-
-        /*将查询出来的用户添加到页面内*/
-        /*$scope.transUser = function(person) {
-            $scope.paper.chargeAuthorInfo.authorName = person.name;
-            $scope.paper.chargeAuthorInfo.authorID = person.id;
-        }*/
-
+        $scope.currAuthor = {};
         $scope.transAuthor = function(person) {
+
             $scope.currAuthor.authorid = person.id;
             $scope.currAuthor.authorname = person.name;
         }

@@ -77,7 +77,6 @@ angular.module('myApp')
                     }
                 },
             })
-
             .state('stu.addPaper', {
                 url: '/addPaper',
                 views: {
@@ -85,6 +84,14 @@ angular.module('myApp')
                         templateUrl: "./public/paper/addPaper.html",
                     }
                 }
+            })
+            .state('stu.showMyProject', {
+                url: '/showMyProject',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/project/addProject.html",
+                    }
+                },
             })
     });
 /*angular.module("myApp")
