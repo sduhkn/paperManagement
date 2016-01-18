@@ -15,9 +15,21 @@ angular.module('myApp.controllers')
             }).error(function(){
                 $scope.errMsg = "服务器出错";
             });
-        $scope.editPaper = function (paper,included) {
-            $window.sessionStorage.paper = JSON.stringify(paper);
-        };
+
+        $scope.getReference = function(paper){
+            $scope.reference = paper;
+            paperService.getAuthorByPaperID(paper.paperid)
+                .success(function(data){
+                    $scope.reference.authors = data.authors;
+                }).error(function(){console.log('getAuthor error')})
+            /*var client = new ZeroClipboard();
+            client.on( 'ready', function(readyEvent) {
+                client.on('copy', function (event) {
+                    var clipboard = event.clipboardData;
+                    clipboard.setData(attrs.clipCopyMimeType || 'text/plain', $scope.copy);
+                });
+            });*/
+        }
         $scope.deletePaper = function (paperid) {
             if (confirm("确定要删除这篇论文吗？")) {
                 paperService.deletePaper(paperid)
@@ -29,6 +41,27 @@ angular.module('myApp.controllers')
                         alert("删除失败");
                     });
             }
+        }
+        $scope.queryMyPaper = function() {
+            var date = new Date();
+            var currentDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+            var queryInfo = {
+                title: $scope.queryTitle || '',
+                publish: $scope.queryPublish || '',
+                startDate: $scope.queryStartDate || '',
+                endDate: $scope.queryEndDate || currentDate,
+            };
+            paperService.queryMyPaper(queryInfo)
+                .success(function(data){
+                    if(data.paperInfo.length != 0){
+                        $scope.paperInfo = data.paperInfo;
+                    }else {
+                        $scope.errMsg = "查询结果为空";
+                    }
+                })
+                .error(function() {
+                    $scope.errMsg = "服务器出错";
+                });
         }
     })
     .controller('stu_showAllPaperInfoController', function ($scope, paperService) {
@@ -184,10 +217,8 @@ angular.module('myApp.controllers')
                         $scope.errorMsg = "服务器出错";
                     });
             }
-            $scope.users = {};//清空用户输入
         };
-
-
+        $scope.currAuthor = {};
         $scope.transAuthor = function(person) {
             $scope.currAuthor.authorid = person.id;
             $scope.currAuthor.authorname = person.name;
@@ -311,13 +342,12 @@ angular.module('myApp.controllers')
                         $scope.errorMsg = "服务器出错";
                     });
             }
-            $scope.users = {};//清空用户输入
         };
         $scope.currAuthor = {};
         $scope.transAuthor = function(person) {
-
             $scope.currAuthor.authorid = person.id;
             $scope.currAuthor.authorname = person.name;
+
         }
 
         $scope.nextPage = function() {

@@ -13,4 +13,5 @@ module.exports = function(app){
     require('../../myModules/UserManagement/app/userManagement.route')(app);
     require('../../myModules/codeInfo/codeInfo.route')(app);
     require('../../public/paper/app/paper.route')(app);
+    require('../../public/project/app/project.route')(app);
 }

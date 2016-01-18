@@ -14,24 +14,47 @@
                     </select>
                 </div>
                 <div class="col-xs-5">
-                    论文名称：<input type="text" class="form-control" placeholder="输入搜索内容：" ng-model="search.title">
+                    论文名称：<input type="text" class="form-control" placeholder="输入搜索内容：" ng-model="queryTitle">
                     <!--                      <span class="input-group-btn">
                                             <button class="btn btn-default" type="button">Go!</button>
                                           </span>-->
                 </div>
                 <!-- /input-group -->
-            </div><!--搜索栏结束-->
+            </div>
 
             <div class="row form-inline">
                 <div class="col-xs-offset-1 col-xs-5">
-                    出版社名称：<input type="text" class="form-control" placeholder="输入搜索内容："
-                                 ng-model="search.publish">
+                    出版社名称：<input type="text" name="publish" class="form-control" placeholder="输入搜索内容："
+                                 ng-model="queryPublish">
                 </div>
                 <div class="col-xs-5">
                     出版日期：<input type="text" class="form-control" placeholder="输入搜索内容："
-                                ng-model="search.pubdate">
+                                ng-model="query.pubdate">
                 </div>
             </div>
+
+            <div class="row form-inline">
+                <div class="col-xs-offset-1 col-xs-5" class="form-inline">
+                    起始日期：
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                         data-link-field="startDate" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" ng-model="queryStartDate" type="text" readonly />
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                    <input type="hidden" id="startDate1" value="" />
+                </div>
+                <div class="col-xs-5" class="form-inline">
+                    结束日期：
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                         data-link-field="endDate" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" ng-model="queryEndDate" type="text" readonly />
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+                    <input type="hidden" id="endDate" value="" />
+                </div>
+            </div><!--搜索栏结束-->
 
             <!-- show paper info -->
             <div class="col-xs-10">
@@ -39,6 +62,7 @@
                     <tbody>
                         <tr>
                             <td colspan='7'>
+                                <a ng-click="queryMyPaper()" class="btn btn-sm btn-primary">查询</a>
                                 <a ui-sref="stu.addPaper" class="btn btn-sm btn-primary">添加</a>
                                 <a class="btn btn-sm btn-primary">导出</a>
                             </td>
@@ -47,13 +71,14 @@
 
                     <tbody  class="paperHeaderStyle">
                         <tr>
-                            <td width="3%">序号</td>
+                            <td width="5%">序号</td>
                             <td width="8%">类型</td>
-                            <td width="27%">论文名称</td>
-                            <td width="10%">通讯作者</td>
-                            <td width="30%">出版社或刊物名称</td>
-                            <td width="12%">出版日期</td>
-                            <td width="15%">操作</td>
+                            <td width="30%">论文名称</td>
+                            <td width="12%">通讯作者</td>
+                            <td width="25%">出版社或刊物名称</td>
+                            <td width="10">出版日期</td>
+                            <!--<td width="12%">出版日期</td>-->
+                            <td width="10%">操作</td>
                         </tr>
                     </tbody>
 
@@ -67,13 +92,13 @@
                             <td><a href="#/stu/showPaper/{{paper.paperid}}" >{{ paper.title }}</a></td>
                             <td>{{ paper.cauthor }}</td>
                             <td>
-                                {{ paper.publish }},{{paper.column}}({{paper.issue}}):{{paper.spage}}-{{paper.tpage}},
-                                {{paper.pubdate | date:'MMM.yyyy'}}
+                                {{ paper.publish }}<!--,{{paper.column}}({{paper.issue}}):{{paper.spage}}-{{paper.tpage}},
+                                {{paper.pubdate | date:'MMM.yyyy'}}-->
                             </td>
                             <td>{{ paper.pubdate | date:'yyyy-MM-dd' }}</td>
                             <td>
-                                <a href="#/stu/editPaper/{{paper.paperid}}" >编辑</a>
-                                <a href ng-click="deletePaper(paper.paperid)">删除</a>
+                                <a href ng-click="getReference(paper)" data-toggle="modal" data-target=".getReference">引用</a>
+                                <!--<a href ng-click="deletePaper(paper.paperid)">删除</a>-->
                             </td>
                         </tr>
                     </tbody>
@@ -97,7 +122,61 @@
 
         <my-pagination conf="paginationConf" load-data=""></my-pagination>
     </div>
+    <!--获取作者的Modal-->
+    <div class="modal fade getReference" id="getReference" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">引用</h4>
+                </div>
+                <div class="modal-body" id="paperReference">
+                    <div onmouseup="selectText()">
+                        <span ng-repeat="author in reference.authors">
+                        {{ author.authorname }}<span ng-if="author.station == '0' " style="color: red">*</span>,
+                        </span>
+                        {{ reference.title }},{{ reference.publish }},{{reference.column}}({{reference.issue}}):{{reference.spage}}-{{reference.tpage}},
+                        {{reference.pubdate | date:'MMM.yyyy'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--modal结束-->
 </div>
-
-
+<script type="text/javascript">
+    /*选择div里面的内容，方便复制*/
+    function selectText() {
+        var text = document.getElementById("paperReference");
+        if (document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            /*if(selection.setBaseAndExtent){
+             selection.setBaseAndExtent(text, 0, text, 1);
+             }*/
+        } else {
+            alert("none");
+        }
+    }
+</script>
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
 

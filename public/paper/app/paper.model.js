@@ -3,6 +3,7 @@
  */
 var moment = require('moment');
 var client = require('../../../config/DB/DBConnect');
+var moment = require("moment");
 
 
 function Paper(paper) {
@@ -70,7 +71,7 @@ Paper.prototype.getPaperInfoByID = function getPaperInfoByID(callback) {
 }
 
 Paper.prototype.getAuthorByPaperID = function(callback) {
-    var sql = "SELECT * FROM paper_author WHERE paperid =" + this.paperid;
+    var sql = "SELECT * FROM paper_author WHERE paperid =" + this.paperid + " order by station";
     client.getDbCon(sql, function(err, result) {
         if(err) { throw err; }
         else {
@@ -82,6 +83,28 @@ Paper.prototype.getAuthorByPaperID = function(callback) {
 Paper.prototype.deletePaper = function(callback) {
     var sql = 'delete from paper_info where paperid = ' + this.paperid;
     client.getDbCon(sql, function(err, result) {
+        if(err) { throw err; }
+        else {
+            callback(err, result);
+        }
+    })
+}
+
+Paper.prototype.queryMyPaper = function(queryInfo,callback) {
+    var sql = "SELECT * FROM paper_info  WHERE paper_info.paperid IN ("+
+        "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + this.paperid + ") ";
+    if(this.title){
+        sql += "and title like '%"+this.title+"%' ";
+    }
+    if(this.publish){
+        sql +=  "and publish like '%"+this.publish+"%' ";
+    }
+    if(queryInfo.startDate){
+        sql += "and pubDate between '"+ queryInfo.startDate + "' and '"+queryInfo.endDate+"' "
+    }
+    sql += "ORDER BY pubDate DESC";
+    console.log(sql);
+    client.getDbCon(sql,function(err, result){
         if(err) { throw err; }
         else {
             callback(err, result);

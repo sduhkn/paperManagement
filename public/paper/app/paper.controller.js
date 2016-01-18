@@ -4,20 +4,32 @@
  */
 var Paper = require('./paper.model');
 var client = require('../../../config/DB/DBConnect');
+var wait = require('wait.for');
 
+/*function circlePaper(paperInfo){
+    var authors = [];
+    for(var i=0;i<paperInfo.length;i++){
+        var paperResult = new Paper(paperInfo[i]);
+        paperResult.getAuthorByPaperID(function(err,authorInfo){
+            if(err){ return res.sendStatus(500); }
+            authors.push(authorInfo);
+        })
+    }
+}*/
 exports.getMyPaperInfo = function (req, res) {
     console.log("req.session.user:"+req.session.user.id);
     console.log(req.user);
 
     var sql = "SELECT * FROM paper_info  WHERE paper_info.paperid IN ("+
-        "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + req.session.user.id + ")";
-    client.getDbCon(sql, function (err, result) {
-        if(err){ res.sendStatus(500); }
+        "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + req.session.user.id + ") ORDER BY pubDate DESC";
+    client.getDbCon(sql, function (err, paperInfo) {
+        if(err){ return res.sendStatus(500); }
         else {
             return res.send({
-                paperInfo: result,
+                paperInfo: paperInfo,
             });
         }
+
     });
 }
 
@@ -51,6 +63,24 @@ exports.getPaperAuthorByID = function(req, res) {
         }
     })
 }
+exports.getAuthorByPaperID = function(req, res){
+    var paperInfo = {
+        paperid: req.query.paperid
+    }
+    var paper = new Paper(paperInfo);
+    paper.getAuthorByPaperID(function(err, authors){
+        if(err){ return res.sendStatus(500);}
+        else {
+            if(authors.length != 0){
+                return res.send({
+                    authors: authors
+                });
+            }else{
+                return res.sendStatus(401);
+            }
+        }
+    });
+}
 exports.deletePaper = function(req, res) {
     console.log(req.params.paperid);
     var paperInfo = {
@@ -60,7 +90,6 @@ exports.deletePaper = function(req, res) {
     paper.deletePaper(function(err,result){
         if(err){ return res.sendStatus(500);}
         else {
-console.log(result);
             if(result.affectedRows != 0){
                 return res.sendStatus(200);
             }
@@ -69,28 +98,28 @@ console.log(result);
 }
 
 /*用户 添加或更新 论文信息,和作者信息*/
+var saveAuthor = function(paper,authors){
+    for(var i=0;i<authors.length;i++){
+        wait.forMethod(paper,"saveAuthor",authors[i]);
+    }
+
+}
 
 exports.addPaper = function(req, res) {
     var paper = new Paper(req.body.paper);
     var authors = req.body.authors;
+    console.log(authors);
     paper.save(function(err,result){
         if(err){
             console.log('paper添加失败');
             res.sendStatus(402);
         }else {
             console.log('paper添加成功');
-            for(var i=0;i<authors.length;i++){
-                paper.saveAuthor(authors[i],function(err, result){
-                    if(err){
-                        console.log('author添加失败');
-                        return res.sendStatus(402);
-                    }
-                })
-            }
+            wait.launchFiber(saveAuthor,paper,authors);
             return res.sendStatus(200);
-
         }
     })
+
 }
 
 exports.getAllPaperInfo = function (req, res) {
@@ -134,6 +163,25 @@ exports.getCon_JouInfo = function(req, res){
             }else{
                 res.sendStatus(400);
             }
+        }
+    })
+}
+
+exports.queryMyPaper = function(req, res){
+    var paperInfo = {
+        paperid: req.session.user.id,
+        publish: req.query.publish,
+        title: req.query.title,
+    }
+    var queryInfo = {
+        startDate: req.query.startDate || '',
+        endDate: req.query.endDate || '',
+    }
+    var paper = new Paper(paperInfo);
+    paper.queryMyPaper(queryInfo, function(err ,result){
+        if(err){ res.sendStatus(500); console.log("服务器错误");}
+        else{
+            res.send({ paperInfo: result });
         }
     })
 }

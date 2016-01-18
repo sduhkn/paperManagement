@@ -44,9 +44,9 @@
                     <tr>
                         <td style="text-align: center;"><span style="color: red">*</span>录用期刊或者会议名称：</td>
                         <td class="form-inline">
-                            <input ng-show="editYourself" type="text" class="form-control" style="width: 60%" ng-model="paper.publish">
+                            <input ng-show="editYourself" type="text" class="form-control" style="width: 50%" ng-model="paper.publish">
                             <select ng-show="!editYourself" ng-model="conInfo"
-                                    style="width: 60%;border-radius: 4px"
+                                    style="width: 50%;border-radius: 4px"
                                     ng-options="conInfo.cjname for conInfo in con_jouInfos"
                                     ng-change="transCon_JouInfo(conInfo)">
                                 <option value="">选择会议或期刊信息</option>

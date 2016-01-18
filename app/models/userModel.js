@@ -3,7 +3,7 @@
  */
 var mysql = require("mysql");
 var conf = require('../../config/DB/DBsettings');
-var pool = mysql.createPool(conf.mysql);
+var pool = mysql.createPool(conf.localhost_mysql);
 var crypto = require('crypto');
 
 console.log("DB connect successful");

@@ -31,13 +31,21 @@ angular.module('myApp.services')
         var getMyPaper = function() {
             return $http.get('/paper/showMyPaper');
         }
-
+        /*根据paperid获取paper信息和author信息*/
         var getPaperAuthorByID = function(paperid){
             return $http.get('/paper/getPaperAuthorByID',{
                 params: {
                     paperid : paperid
                 }
             });
+        }
+        /*根据paperid获取author信息*/
+        var getAuthorByPaperID = function(paperid){
+            return $http.get('/paper/getAuthorByPaperID',{
+                params: {
+                    paperid : paperid
+                }
+            })
         }
 
         var getAllPaper = function (currentPage, pageSize) {
@@ -62,10 +70,19 @@ angular.module('myApp.services')
             return $http.get('/paper/getCon_JouInfo');
         }
 
+        var queryMyPaper = function(queryInfo){
+            return $http.get('/paper/queryMyPaper',{
+                params:{
+                    title: queryInfo.title, publish : queryInfo.publish,
+                    startDate: queryInfo.startDate, endDate: queryInfo.endDate
+                }
+            });
+        }
+
         return {
             getMyPaper: getMyPaper,
             getPaperAuthorByID: getPaperAuthorByID,
-
+            getAuthorByPaperID:getAuthorByPaperID,
             getAllPaperInfo: getAllPaper,
             addPaper: addPaper,
             deletePaper:deletePaper,
@@ -74,5 +91,8 @@ angular.module('myApp.services')
             getCurrency: getCurrency,
             getModeOfPayment: getModeOfPayment,
             getCon_JouInfo: getCon_JouInfo,
+
+            /*查询函数*/
+            queryMyPaper: queryMyPaper,
         }
     });

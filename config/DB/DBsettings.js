@@ -8,5 +8,12 @@ module.exports = {
         password: 'dareway.DAREWAY',
         database:'db_sde', // 数据库名称
         port: 3306
+    },
+    localhost_mysql: {
+        host: 'localhost',
+        user: 'root',
+        password: '123456',
+        database:'db_sde', // 数据库名称
+        port: 3306
     }
 };

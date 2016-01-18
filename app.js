@@ -15,7 +15,7 @@ var app = express();
 //var login = require('./public/login/app/loginRoutes');
 
 // view engine setup
-app.set('views', path.join(__dirname, 'public/views'));
+app.set('views', path.join(__dirname, 'public/views'));//设置view的根目录
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
 
@@ -25,7 +25,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname,'')));
+app.use(express.static(path.join(__dirname,'')));//设置静态目录
 app.use(session({
     secret: "111",//"111"加密信息
     resave: false,
