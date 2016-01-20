@@ -33,7 +33,14 @@ User.prototype.save = function save(callback) {
     });
 }*/
 User.prototype.queryUserInfoByNameOrID = function queryUserInfoByNameOrID(callback) {
-    var querySQL = "select * from all_persons where name like '%"+this.name+"%' and id like '%"+this.id+"%' ";
+    var querySQL = "select * from all_persons where 1=1 ";
+    if(this.name){
+        querySQL += "and name like '%"+this.name+"%'";
+    }
+    if(this.id){
+        querySQL += "and id like '%"+this.id+"%' ";
+    }
+    console.log(querySQL);
     client.getDbCon(querySQL, function(err, result) {
         if(err){ throw err }
         else{

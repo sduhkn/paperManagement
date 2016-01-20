@@ -35,13 +35,13 @@ exports.getDbConParams = function(sql,params,callback) {
             con.query(sql, params, function(err ,result) {
                 if(err) {
                     return con.rollback(function(){
-                        console.log("commit error!");
+                        console.log("commit error1!");
                     });
                 }
                 con.commit(function(err) {
                     if(err) {
                         return con.rollback(function(){
-                            console.log("commit error!");
+                            console.log("commit error2!");
                         });
                     }
                     callback(err, result);
@@ -69,17 +69,17 @@ exports.getDbConParams = function(sql,params,callback) {
 exports.getDbCon = function getDbCon(sql, callback){
     pool.getConnection(function(err, con){
         con.beginTransaction(function(err) {
-            if (err) { getDbCon(sql,callback); }
+            if (err) { throw err; }
             con.query(sql, function(err ,result) {
                 if(err) {
                     return con.rollback(function(){
-                        console.log("commit error!");
+                        console.log("commit error1!");
                     });
                 }
                 con.commit(function(err) {
                     if(err) {
                         return con.rollback(function(){
-                            console.log("commit error!");
+                            console.log("commit error2!");
                         });
                     }
                     callback(err, result);
