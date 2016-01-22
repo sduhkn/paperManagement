@@ -1,0 +1,95 @@
+<!-- 我发表的论文右侧 -->
+<div ng-controller="showMyProjectController">
+    <div>
+        <!--如果有发表文章内容-->
+        <div class="container">
+            <!-- 搜索栏 -->
+            <!-- show project info -->
+            <div class="col-xs-10">
+                <table class="table table-bordered table-hover" style="text-align: center;border: 2px solid #c8c9e8;">
+                    <tbody>
+                    <tr>
+                        <td colspan='8'>
+                            <a ng-click="" class="btn btn-sm btn-primary">查询</a>
+                            <a ui-sref="stu.addProject" class="btn btn-sm btn-primary">添加</a>
+                            <a class="btn btn-sm btn-primary">导出</a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tbody  class="paperHeaderStyle">
+                    <tr>
+                        <td width="5%">序号</td>
+                        <td width="20%">项目名称</td>
+                        <td width="15%">项目类型</td>
+                        <td width="10%">负责人</td>
+                        <td width="10%">立项日期</td>
+                        <td width="10%">结题日期</td>
+                        <td width="10%">需要论文数量</td>
+                        <td width="10%">已标注论文数量</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="paperContentStyle">
+                    <tr ng-repeat="project in projectInfo | filter:search">
+                        <td>{{ $index + 1 }}</td>
+                        <td>
+                            <a href="#/stu/project/{{project.projectid}}" >{{ project.projectname }}</a>
+                        </td>
+                        <td>
+                            <p ng-repeat="type in projectType">
+                                <span ng-show="type.codeid == project.projecttype">{{ type.content }}</span>
+                            </p>
+                        </td>
+                        <td>{{ project.projectchargename }}</td>
+                        <td>
+                            {{ project.estdate | date:'yyyy-MM-dd'  }}
+                        </td>
+                        <td>{{ project.knotdate  | date:'yyyy-MM-dd' }}</td>
+                        <td>
+                            {{ project.papernum }}
+                        </td>
+                        <td>
+                            {{ project.lpapernum  }}
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div><!-- /.container -->
+
+        <!--如果没有项目-->
+        <div ng-show="!projectInfo && errMsg" class="row">
+            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                <h2>{{ errMsg }}</h2>
+            </div>
+        </div>
+        <!--加载中-->
+        <div ng-show="!projectInfo && !errMsg" class="row">
+            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                <h2>加载中...</h2>
+            </div>
+        </div>
+
+        <my-pagination conf="paginationConf" load-data=""></my-pagination>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
+

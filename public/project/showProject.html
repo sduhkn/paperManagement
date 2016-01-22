@@ -1,0 +1,82 @@
+<div ng-controller="showProjectController">
+    <div class="container">
+        <div class="col-xs-10">
+            <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
+                <thead class="paperHeaderStyle">
+                    <tr>
+                        <td colspan="4">项目名称：{{ project.projectname }}</td>
+                    </tr>
+                </thead>
+                <tbody class="paperContentStyle">
+                    <tr>
+                        <td style="width: 15%;text-align: right">项目英文标注名称：</td>
+                        <td style="width: 35%">
+                            {{ project.projectlabel }}
+                        </td>
+                        <td style="width: 15%;text-align: right">项目财务编号：</td>
+                        <td style="width: 35%">{{ project.projectidfin }}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right">项目类型：</td>
+                        <td>
+                            <p ng-repeat="type in projectType">
+                                <span ng-show="type.codeid == project.projecttype">{{ type.content }}</span>
+                            </p>
+                        </td>
+                        <td style="text-align: right">项目负责人：</td>
+                        <td>{{ project.projectchargename  }}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right">立项日期：</td>
+                        <td>{{ project.estdate | date:'yyyy-MM-dd' }}</td>
+                        <td style="text-align: right">结题日期：</td>
+                        <td>{{ project.knotdate | date:'yyyy-MM-dd' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">项目经费：</td>
+                        <td>{{ project.funding  }}</td>
+                        <td style="text-align: right">项目需要论文数量：</td>
+                        <td>{{ project.papernum  }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">项目需要论文说明：</td>
+                        <td>{{ project.papercomment   }}</td>
+                        <td style="text-align: right">项目验收需要的其他条件 ：</td>
+                        <td>{{ project.others }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">项目已经标注论文数量：</td>
+                        <td>{{ project.lpapernum  }} </td>
+                        <td style="text-align: right">项目已标注专利数量：</td>
+                        <td>{{ project.lpatentnum  }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">项目已标注软件著作权数量：</td>
+                        <td>{{ project.lcopyrightnum  }} </td>
+                        <td style="text-align: right">项目是否结束：</td>
+                        <td>
+                            <p ng-show="project.isend == '1' ">是</p>
+                            <p ng-show="project.isend == '2' ">否</p>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="width: 15%;text-align: right">备注：</td>
+                        <td colspan="3">{{ project.comment }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center">
+                            <a href onclick="javascript :history.back(-1);" class="btn btn-sm btn-primary">返回上一页</a>
+                            <a href="#/stu/editProject/{{project.projectid}}" class="btn btn-sm btn-primary">修改论文信息</a>
+                            <a class="btn btn-sm btn-primary">添加项目论文备注</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

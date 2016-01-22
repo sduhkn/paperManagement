@@ -15,7 +15,7 @@ a:hover{
 
 .paperHeaderStyle{
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.0;
     font-weight: 500;
     color: #1B809E;
@@ -23,6 +23,7 @@ a:hover{
 }
 .paperContentStyle {
     font-size: 14px;
+    vertical-align: middle;
 }
 .paperContentStyle input,.paperContentStyle select {
     height: 26px;

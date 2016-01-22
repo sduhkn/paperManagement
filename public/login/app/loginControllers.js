@@ -22,10 +22,10 @@ exports.login = function(req, res){
                     user: result[0],
                 });
             } else {
-                return res.send(401);
+                return res.sendStatus(401);
             }
         }else{
-            return res.send(401);
+            return res.sendStatus(401);
         }
     });
 }

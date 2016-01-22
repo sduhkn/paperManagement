@@ -14,3 +14,14 @@ exports.queryUserInfoByNameOrID = function(req, res) {
         }
     })
 }
+
+exports.getAllUser = function(req, res){
+    var user = new User();
+    user.getAllUser(function(err, result){
+        if(err){
+            return res.sendStatus(500);//·þÎñÆ÷³ö´í
+        }else {
+            return res.json({userInfo: result});
+        }
+    })
+}

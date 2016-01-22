@@ -3,11 +3,38 @@
  * angular project controller
  */
 angular.module('myApp.controllers')
-    .controller('addProjectController', function ($rootScope, $scope, $cookies, userService) {
-        /*»ñÈ¡ËùÓĞÈËÔ±µÄĞÅÏ¢  ¹©ÈËÔ±Ñ¡Ôñ*/
-        $scope.chargePerson = {};
+    .controller('showMyProjectController',function($scope,$cookies,projectService){
+        var projectchargeid = JSON.parse($cookies.user).id;
+        projectService.getProjectType()
+            .success(function(data){
+                $scope.projectType = data.codeInfo;
+            }).error(function(){ alert('è·å–é¡¹ç›®ç±»å‹å¤±è´¥');});
+        projectService.getMyProject(projectchargeid)
+            .success(function(data){
+                if(data.projectInfo.length!=0){
+                    $scope.projectInfo = data.projectInfo;
+                }else{
+                    $scope.errorMsg = "ç”¨æˆ·æœªæœ‰é¡¹ç›®ä¿¡æ¯";
+                }
+            }).error(function(){
+                $scope.errorMsg = "æœåŠ¡å™¨å‡ºé”™";
+            });
+    })
+    .controller('showProjectController',function($scope, $stateParams, projectService){
+        projectService.getProjectType()
+            .success(function(data){
+                $scope.projectType = data.codeInfo;
+            }).error(function(){ alert('è·å–é¡¹ç›®ç±»å‹å¤±è´¥');});
+        projectService.getProjectByID($stateParams.projectid)
+            .success(function(data){
+                $scope.project = data.projectInfo;
+            })
+    })
+    .controller('addProjectController', function ($state, $scope, $cookies, userService, projectService) {
+        /*è·å–æ‰€æœ‰äººå‘˜çš„ä¿¡æ¯  ä¾›äººå‘˜é€‰æ‹©*/
         $scope.project = {
-            projectcharge: JSON.parse($cookies.user).name,
+            projectchargename: JSON.parse($cookies.user).name,
+            projectchargeid: JSON.parse($cookies.user).id,
         };
         $scope.queryUserInfoByNameOrID = function(users) {
             if(users.name || users.id){
@@ -22,16 +49,26 @@ angular.module('myApp.controllers')
                         if(data.userList.length != 0){
                             $scope.userList = data.userList;
                         }else{
-                            $scope.errorMsg = "ÎŞÓÃ»§ĞÅÏ¢";
+                            $scope.errorMsg = "æ— ç”¨æˆ·ä¿¡æ¯";
                         }
                     }).error(function(){
-                        $scope.errorMsg = "·şÎñÆ÷³ö´í";
+                        $scope.errorMsg = "æœåŠ¡å™¨å‡ºé”™";
                     });
             }
-            $scope.users = {};//Çå¿ÕÓÃ»§ÊäÈë
+            $scope.users = {};//æ¸…ç©ºç”¨æˆ·è¾“å…¥
         };
         $scope.transProjectCharge = function(person) {
-            $scope.chargePerson.id = person.id;
-            $scope.project.projectcharge = person.name;
+            $scope.project.projectchargeid = person.id;
+            $scope.project.projectchargename = person.name;
         };
+
+        $scope.addProject = function(project){
+            projectService.addProject(project)
+                .success(function(){
+                    alert('æ·»åŠ æˆåŠŸ');
+                    $state.go('stu.showMyProject');
+                }).error(function(){
+                    alert('æœåŠ¡å™¨å‡ºé”™ï¼Œæ·»åŠ å¤±è´¥');
+                });
+        }
     })

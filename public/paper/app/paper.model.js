@@ -1,7 +1,6 @@
 /**
  * Created by Administrator on 2015/11/2.
  */
-var moment = require('moment');
 var client = require('../../../config/DB/DBConnect');
 var moment = require("moment");
 

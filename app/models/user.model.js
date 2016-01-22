@@ -42,7 +42,7 @@ User.prototype.queryUserInfoByNameOrID = function queryUserInfoByNameOrID(callba
     }
     console.log(querySQL);
     client.getDbCon(querySQL, function(err, result) {
-        if(err){ throw err }
+        if(err){ console.log(err); }
         else{
             callback(err, result);
         }
@@ -52,9 +52,19 @@ User.prototype.queryUserInfoByNameOrID = function queryUserInfoByNameOrID(callba
 User.prototype.getPaperIDFromPaper_author = function getPaperIDFromPaper_author(callback) {
     var sql = "select distinct(paperid) from paper_author where authorid = ?";
     client.getDbConParams(sql, this.id, function(err, result){
-        if(err) { throw err; }
+        if(err) { console.log(err); }
         else {
             callback(err, result);
         }
     })
+}
+
+User.prototype.getAllUser = function(callback){
+    var sql = "select id,name from all_persons"
+    client.getDbCon(sql,function(err,result){
+        if(err) { console.log(err); }
+        else {
+            callback(err, result);
+        }
+    });
 }

@@ -3,8 +3,29 @@
  */
 angular.module('myApp.services')
     .factory('projectService',function($http){
-
-        return {
-
+        this.getProjectType = function(){
+            return $http.get('/codeInfo/getCodeInfo',{
+                params:{
+                    code:'projecttype'
+                }
+            });
+        };
+        this.addProject = function(project){
+            return $http.post('/addProject',{
+                project: project
+            })
         }
-    })
+
+        this.getMyProject = function(projectcharge){
+            return $http.get('/myProject',{
+                    params:{
+                        projectcharge:projectcharge
+                    }
+                });
+        }
+
+        this.getProjectByID = function(projectid){
+            return $http.get('/project/'+projectid);
+        }
+        return this;
+    });

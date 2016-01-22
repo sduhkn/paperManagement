@@ -22,13 +22,6 @@ angular.module('myApp.controllers')
                 .success(function(data){
                     $scope.reference.authors = data.authors;
                 }).error(function(){console.log('getAuthor error')})
-            /*var client = new ZeroClipboard();
-            client.on( 'ready', function(readyEvent) {
-                client.on('copy', function (event) {
-                    var clipboard = event.clipboardData;
-                    clipboard.setData(attrs.clipCopyMimeType || 'text/plain', $scope.copy);
-                });
-            });*/
         }
         $scope.deletePaper = function (paperid) {
             if (confirm("确定要删除这篇论文吗？")) {

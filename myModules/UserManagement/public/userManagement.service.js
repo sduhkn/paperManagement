@@ -4,15 +4,15 @@
 angular.module('myApp.services')
     .factory('userService',function($http){
         /*条件查询用户信息*/
-        var queryUserInfoByNameOrID = function(users) {
+        this.queryUserInfoByNameOrID = function(users) {
             return $http.get('/user/queryUserInfoByNameOrID', {
                 params: {
                     users: JSON.stringify(users)
                 }
             });
+        };
+        this.getAllUser = function(){
+            return $http.get('/allUser');
         }
-
-        return {
-            queryUserInfoByNameOrID: queryUserInfoByNameOrID,
-        }
+        return this;
     })

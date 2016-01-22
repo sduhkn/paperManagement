@@ -2,40 +2,64 @@
  * Created by Administrator on 2015/12/23.
  */
 var client = require('../../../config/DB/DBConnect');
+var moment = require('moment');
+
 function Project(project){
+    this.projectid = project.projectid || moment(new Date()).format('YYYYMMDDHHmmss');
     this.projectname = project.projectname || '';
-    this.projectlabel = project.projectlabel || '';//ÏîÄ¿Ó¢ÎÄ±ê×¢Ãû³Æ
-    this.projectidfin = project.projectidfin || '';//ÏîÄ¿²ÆÎñ±àºÅ
+    this.projectlabel = project.projectlabel || '';//é¡¹ç›®è‹±æ–‡æ ‡æ³¨åç§°
+    this.projectidfin = project.projectidfin || '';//é¡¹ç›®è´¢åŠ¡ç¼–å·
     this.projecttype = project.projecttype || '';
     this.estdate = project.estdate || '0000-00-00';
     this.knotdate = project.knotdate || '0000-00-00';
     this.funding = project.funding || 0 ;
-    this.projectcharge = project.projectcharge || '';
-    this.papernum = project.papernum || 0 ;//ÏîÄ¿ĞèÒªÂÛÎÄÊıÁ¿
-    this.papercomment = project.papercomment || '';//ÏîÄ¿ĞèÒªÂÛÎÄËµÃ÷
+    this.projectchargeid = project.projectchargeid || '';
+    this.projectchargename = project.projectchargename || '';
+    this.papernum = project.papernum || 0 ;//é¡¹ç›®éœ€è¦è®ºæ–‡æ•°é‡
+    this.papercomment = project.papercomment || '';//é¡¹ç›®éœ€è¦è®ºæ–‡è¯´æ˜
     this.patentnum = project.patentnum || 0;
     this.copyrightnum = project.copyrightnum || 0;
-    this.others = project.others || '' ; //ÏîÄ¿ÑéÊÕĞèÒªµÄÆäËûÌõ¼ş
-    this.lpapernum = project.lpapernum || 0;//ÏîÄ¿ÒÑ¾­±ê×¢ÂÛÎÄÊıÁ¿
-    this.lpatentnum = project.lpatentnum || 0;//ÏîÄ¿ÒÑ±ê×¢×¨ÀûÊıÁ¿
-    this.lcopyrightnum = project.lcopyrightnum || 0;//ÏîÄ¿ÒÑ±ê×¢Èí¼şÖø×÷È¨ÊıÁ¿
-    this.isend = project.isend || '2';//ÏîÄ¿ÊÇ·ñ½áÊø
-    this.comments  = project.comments ;//ÏîÄ¿±¸×¢
+    this.others = project.others || '' ; //é¡¹ç›®éªŒæ”¶éœ€è¦çš„å…¶ä»–æ¡ä»¶
+    this.lpapernum = project.lpapernum || 0;//é¡¹ç›®å·²ç»æ ‡æ³¨è®ºæ–‡æ•°é‡
+    this.lpatentnum = project.lpatentnum || 0;//é¡¹ç›®å·²æ ‡æ³¨ä¸“åˆ©æ•°é‡
+    this.lcopyrightnum = project.lcopyrightnum || 0;//é¡¹ç›®å·²æ ‡æ³¨è½¯ä»¶è‘—ä½œæƒæ•°é‡
+    this.isend = project.isend || '2';//é¡¹ç›®æ˜¯å¦ç»“æŸ
+    this.comment  = project.comment ;//é¡¹ç›®å¤‡æ³¨
 }
 
 module.exports = Project;
 
 Project.prototype.save = function save(callback) {
-    var sql = "replace into project_info values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    var sql = "replace into project_info values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     var params = [
-        this.projectname,this.projectlabel,this.projectidfin,this.projecttype,this.estdate,this.knotdate,this.funding,
-        this.projectcharge,this.papernum, this.papercomment,this.patentnum,this.copyrightnum,this.others,this.lpapernum,
-        this.lpatentnum, this.lcopyrightnum, this.isend, this.comments];
+        this.projectid,this.projectname,this.projectlabel,this.projectidfin,this.projecttype,this.estdate,this.knotdate,
+        this.funding, this.projectchargeid,this.projectchargename,this.papernum, this.papercomment,this.patentnum,
+        this.copyrightnum, this.others,this.lpapernum, this.lpatentnum, this.lcopyrightnum, this.isend, this.comment];
     client.getDbConParams(sql, params, function(err, result){
-        if(err){ throw  err }
+        if(err){ console.log(err); }
         else {
             console.log("Paper.prototype.save result:"+result);
             callback(err, result);
         }
     });
+}
+
+Project.prototype.getProjectByID = function getProject(callback) {
+    var sql = "select * from project_info where projectid =" + this.projectid;
+    client.getDbCon(sql, function(err, result){
+        if(err) { console.log(err); }
+        else{
+            callback(err, result);
+        }
+    })
+}
+
+Project.prototype.getMyProject = function(callback) {
+    var sql = "select * from project_info where projectchargeid =" + this.projectchargeid;
+    client.getDbCon(sql, function(err, result){
+        if(err) { console.log(err); }
+        else{
+            callback(err, result);
+        }
+    })
 }

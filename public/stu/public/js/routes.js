@@ -16,18 +16,6 @@ angular.module('myApp')
                         template: '<p>welcome to the home</p>',
                     }
                 },
-                /*resolve: {
-                 auth: ["$q","authenticationService",function($q, $state, authenticationService){
-                 var userInfo = authenticationService.getUserInfo();
-                 if(userInfo){
-                 alert(123);
-                 return $q.when(userInfo);
-                 }else{
-                 return $q.reject({ authenticated: false });
-                 }
-                 }]
-
-                 },*/
             })
             .state('stu.myInfo', {
                 url: '/myInfo',
@@ -45,6 +33,7 @@ angular.module('myApp')
                     }
                 }
             })
+            //paper 路由
             .state('stu.showMyPaper', {
                 url: '/showMyPaper',
                 views: {
@@ -85,12 +74,44 @@ angular.module('myApp')
                     }
                 }
             })
+            /*project 路由*/
             .state('stu.showMyProject', {
                 url: '/showMyProject',
                 views: {
                     'stuRight': {
-                        templateUrl: "./public/project/addProject.html",
+                        templateUrl: "./public/project/showMyProject.html",
                     }
+                },
+            })
+            .state('stu.showProject', {
+                url: '/project/:projectid',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/project/showProject.html",
+                    }
+                },
+            })
+            .state('stu.addProject', {
+                url: '/addProject',
+                views: {
+                    'stuRight': {
+                        resolve: {
+                            getProjectType: function($q,projectService){
+                                var deferred = $q.defer();
+                                projectService.getProjectType()
+                                    .success(function(data){
+                                        deferred.resolve(data.codeInfo);
+                                    }).error(function(){
+                                        alert("获取数据失败，服务器出错");
+                                    });
+                                return deferred.promise;
+                            }
+                        },
+                        templateUrl: "./public/project/addProject.html",
+                        controller: function($scope,getProjectType){
+                            $scope.projectType = getProjectType;
+                        }
+                    },
                 },
             })
     });
