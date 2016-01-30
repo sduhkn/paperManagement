@@ -19,7 +19,7 @@ exports.login = function(req, res){
                 var token = jwt.sign(user, 'YOUR_SECRET_STRING',{ expiresIn: 60*60 });
                 return res.send({
                     token: token,
-                    user: result[0],
+                    user: result[0]
                 });
             } else {
                 return res.sendStatus(401);

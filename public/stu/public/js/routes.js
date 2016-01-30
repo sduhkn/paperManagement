@@ -91,6 +91,30 @@ angular.module('myApp')
                     }
                 },
             })
+            .state('stu.editProject', {
+                url: '/editProject/:projectid',
+                views: {
+                    'stuRight': {
+                        resolve: {
+                            getProjectType: function($q,projectService){
+                                var deferred = $q.defer();
+                                projectService.getProjectType()
+                                    .success(function(data){
+                                        deferred.resolve(data.codeInfo);
+                                    }).error(function(){
+                                        alert("获取数据失败，服务器出错");
+                                    });
+                                return deferred.promise;
+                            }
+                        },
+                        templateUrl: "./public/project/editProject.html",
+                        controller: function($scope,getProjectType){
+                            $scope.projectType = getProjectType;
+                        }
+
+                    }
+                },
+            })
             .state('stu.addProject', {
                 url: '/addProject',
                 views: {
@@ -112,6 +136,14 @@ angular.module('myApp')
                             $scope.projectType = getProjectType;
                         }
                     },
+                },
+            })
+            .state('stu.editProjectPaper', {
+                url: '/editProjectPaper/:projectid',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/project/editProjectPaper.html",
+                    }
                 },
             })
     });

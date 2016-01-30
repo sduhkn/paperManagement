@@ -1,0 +1,176 @@
+<div ng-controller="editProjectPaperController">
+    <div class="container">
+        <form role="form" name="paperForm">
+            <div class="container">
+                <div name="nextPage" class="col-xs-10">
+                    <table class="table table-bordered">
+                        <thead class="paperHeaderStyle">
+                        <tr>
+                            <td colspan="4">项目名称：{{ project.projectname }}</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">序号</td>
+                            <td width="30%">论文名称</td>
+                            <td width="30%">出版社或刊物名称</td>
+                            <td width="20%">操作</td>
+                        </tr>
+                        </thead>
+                        <tbody class="paperContentStyle" style="text-align: center">
+                        <tr ng-repeat="paper in papers">
+                            <td width="20%">{{ $index+1 }}</td>
+                            <td width="30%">{{ paper.title }}</td>
+                            <td width="30%">{{ paper.publish }}</td>
+                            <td width="20%"><a class="btn btn-danger btn-sm" ng-click="delPaper($index)">删除</a></td>
+                        </tr>
+                        </tbody>
+                        <tbody class="paperContentStyle" style="text-align: center">
+                        <tr>
+                            <td colspan="4">
+                                <a class="btn btn-sm btn-primary" type="button"
+                                   onClick="javascript :history.back(-1);">返回</a>
+                                <a class="btn btn-sm btn-primary" type="button"
+                                   ng-click="editProjectPaper(papers)">保存</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </form>
+
+        <div class="row form-inline">
+            <div class="col-xs-offset-1 col-xs-5">
+                成果形式：
+                <select ng-model="search.isconference" class="form-control">
+                    <option value="">会议和期刊</option>
+                    <option value="1">会议</option>
+                    <option value="2">期刊</option>
+                </select>
+            </div>
+            <div class="col-xs-5">
+                论文名称：<input type="text" class="form-control" placeholder="输入搜索内容：" ng-model="queryTitle">
+                <!--                      <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                      </span>-->
+            </div>
+            <!-- /input-group -->
+        </div>
+
+        <div class="row form-inline">
+            <div class="col-xs-offset-1 col-xs-5">
+                出版社名称：<input type="text" name="publish" class="form-control" placeholder="输入搜索内容："
+                             ng-model="queryPublish">
+            </div>
+            <div class="col-xs-5">
+                出版日期：
+                <input type="text" class="form-control" placeholder="输入搜索内容："
+                       ng-model="query.pubdate">
+            </div>
+        </div>
+
+        <div class="row form-inline">
+            <div class="col-xs-offset-1 col-xs-5" class="form-inline">
+                起始日期：
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                     data-link-field="startDate" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" ng-model="queryStartDate" type="text" readonly/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="startDate1" value=""/>
+            </div>
+            <div class="col-xs-5" class="form-inline">
+                结束日期：
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd"
+                     data-link-field="endDate" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" ng-model="queryEndDate" type="text" readonly/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="endDate" value=""/>
+            </div>
+        </div>
+        <!--搜索栏结束-->
+
+        <!-- show paper info -->
+        <div class="col-xs-10">
+            <table class="table table-bordered table-hover" style="text-align: center;border: 2px solid #c8c9e8;">
+                <tbody>
+                <tr>
+                    <td colspan='8'>
+                        <a ng-click="queryAllPaper()" class="btn btn-sm btn-primary">查询</a>
+                    </td>
+                </tr>
+                </tbody>
+
+                <tbody class="paperHeaderStyle">
+                <tr>
+                    <td width="5%">序号</td>
+                    <td width="8%">类型</td>
+                    <td width="25%">论文名称</td>
+                    <td width="10%">通讯作者</td>
+                    <td width="10%">第一作者</td>
+                    <td width="22%">出版社或刊物名称</td>
+                    <td width="10">出版日期</td>
+                    <!--<td width="12%">出版日期</td>-->
+                    <td width="10%">操作</td>
+                </tr>
+                </tbody>
+
+                <tbody class="paperContentStyle">
+                <tr ng-repeat="paper in paperInfo | filter:search">
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <p ng-show="paper.isconference == '1' ">会议</p>
+
+                        <p ng-show="paper.isconference == '2' ">期刊</p>
+                    </td>
+                    <td><a href="#/stu/showPaper/{{paper.paperid}}">{{ paper.title }}</a></td>
+                    <td>{{ paper.cauthor }}</td>
+                    <td>{{ paper.fauthor }}</td>
+                    <td>
+                        {{ paper.publish }}<!--,{{paper.column}}({{paper.issue}}):{{paper.spage}}-{{paper.tpage}},
+                                {{paper.pubdate | date:'MMM.yyyy'}}-->
+                    </td>
+                    <td>{{ paper.pubdate | date:'yyyy-MM-dd' }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" ng-click="addPaper(paper)">添加</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <!--如果没有发文章-->
+    <div ng-show="!paperInfo && errMsg" class="row">
+        <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+            <h2>{{ errMsg }}</h2>
+        </div>
+    </div>
+    <!--&lt;!&ndash;加载中&ndash;&gt;-->
+    <!--<div ng-show="!paperInfo && !errMsg" class="row">-->
+        <!--<div class="col-xs-offset-3 col-xs-11 text-center text-info">-->
+            <!--<h2>加载中...</h2>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.zh-CN.js"
+        charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>

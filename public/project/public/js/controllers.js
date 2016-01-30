@@ -3,30 +3,34 @@
  * angular project controller
  */
 angular.module('myApp.controllers')
-    .controller('showMyProjectController',function($scope,$cookies,projectService){
+    .controller('showMyProjectController', function ($scope, $cookies, projectService) {
         var projectchargeid = JSON.parse($cookies.user).id;
         projectService.getProjectType()
-            .success(function(data){
+            .success(function (data) {
                 $scope.projectType = data.codeInfo;
-            }).error(function(){ alert('获取项目类型失败');});
+            }).error(function () {
+                alert('获取项目类型失败');
+            });
         projectService.getMyProject(projectchargeid)
-            .success(function(data){
-                if(data.projectInfo.length!=0){
+            .success(function (data) {
+                if (data.projectInfo.length != 0) {
                     $scope.projectInfo = data.projectInfo;
-                }else{
+                } else {
                     $scope.errorMsg = "用户未有项目信息";
                 }
-            }).error(function(){
+            }).error(function () {
                 $scope.errorMsg = "服务器出错";
             });
     })
-    .controller('showProjectController',function($scope, $stateParams, projectService){
+    .controller('showProjectController', function ($scope, $stateParams, projectService) {
         projectService.getProjectType()
-            .success(function(data){
+            .success(function (data) {
                 $scope.projectType = data.codeInfo;
-            }).error(function(){ alert('获取项目类型失败');});
+            }).error(function () {
+                alert('获取项目类型失败');
+            });
         projectService.getProjectByID($stateParams.projectid)
-            .success(function(data){
+            .success(function (data) {
                 $scope.project = data.projectInfo;
             })
     })
@@ -36,39 +40,153 @@ angular.module('myApp.controllers')
             projectchargename: JSON.parse($cookies.user).name,
             projectchargeid: JSON.parse($cookies.user).id,
         };
-        $scope.queryUserInfoByNameOrID = function(users) {
-            if(users.name || users.id){
-                if(!users.name){
+        $scope.queryUserInfoByNameOrID = function (users) {
+            if (users.name || users.id) {
+                if (!users.name) {
                     users.name = '';
                 }
-                if(!users.id){
+                if (!users.id) {
                     users.id = '';
                 }
                 userService.queryUserInfoByNameOrID(users)
-                    .success(function(data){
-                        if(data.userList.length != 0){
+                    .success(function (data) {
+                        if (data.userList.length != 0) {
                             $scope.userList = data.userList;
-                        }else{
+                        } else {
                             $scope.errorMsg = "无用户信息";
                         }
-                    }).error(function(){
+                    }).error(function () {
                         $scope.errorMsg = "服务器出错";
                     });
             }
             $scope.users = {};//清空用户输入
         };
-        $scope.transProjectCharge = function(person) {
+        $scope.transProjectCharge = function (person) {
             $scope.project.projectchargeid = person.id;
             $scope.project.projectchargename = person.name;
         };
 
-        $scope.addProject = function(project){
+        $scope.addProject = function (project) {
             projectService.addProject(project)
-                .success(function(){
+                .success(function () {
                     alert('添加成功');
                     $state.go('stu.showMyProject');
-                }).error(function(){
+                }).error(function () {
                     alert('服务器出错，添加失败');
+                });
+        }
+    })
+    .controller('editProjectController', function ($state, $stateParams, $scope, $cookies, userService, projectService) {
+        /*获取所有人员的信息  供人员选择*/
+        $scope.project = {
+            projectchargename: JSON.parse($cookies.user).name,
+            projectchargeid: JSON.parse($cookies.user).id,
+        };
+        projectService.getProjectByID($stateParams.projectid)
+            .success(function (data) {
+                $scope.project = data.projectInfo;
+                $scope.project.estdate = data.projectInfo.estdate.substring(0, 10);
+                $scope.project.knotdate = data.projectInfo.knotdate.substring(0, 10);
+            })
+        $scope.queryUserInfoByNameOrID = function (users) {
+            if (users.name || users.id) {
+                if (!users.name) {
+                    users.name = '';
+                }
+                if (!users.id) {
+                    users.id = '';
+                }
+                userService.queryUserInfoByNameOrID(users)
+                    .success(function (data) {
+                        if (data.userList.length != 0) {
+                            $scope.userList = data.userList;
+                        } else {
+                            $scope.errorMsg = "无用户信息";
+                        }
+                    }).error(function () {
+                        $scope.errorMsg = "服务器出错";
+                    });
+            }
+            $scope.users = {};//清空用户输入
+        };
+        $scope.transProjectCharge = function (person) {
+            $scope.project.projectchargeid = person.id;
+            $scope.project.projectchargename = person.name;
+        };
+
+        $scope.editProject = function (project) {
+            projectService.editProject(project)
+                .success(function () {
+                    alert('修改成功');
+                    $state.go('stu.showMyProject');
+                }).error(function () {
+                    alert('服务器出错，修改失败');
+                });
+        }
+    })
+    .controller('editProjectPaperController', function ($state, $stateParams, $scope, $cookies,
+                                                        userService, projectService, paperService) {
+        $scope.project = {
+            projectchargename: JSON.parse($cookies.user).name,
+            projectchargeid: JSON.parse($cookies.user).id,
+        };
+        projectService.getPaperByID($stateParams.projectid)
+            .success(function (data) {
+                $scope.papers = data.papers;
+            })
+            .error(function () {
+                alert('标注论文加载失败');
+            });
+        $scope.papers = {};
+        var myContains = function (a, obj) {
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].paperid === obj.paperid) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        $scope.editProjectPaper = function (papers) {
+            projectService.editProjectPaper($stateParams.projectid, papers)
+                .success(function () {
+                    alert('修改成功');
+                    $state.go('stu.showMyProject');
+                }).error(function () {
+                    alert('服务器出错，修改失败');
+                });
+        }
+        $scope.delPaper = function (idx) {
+            $scope.papers.splice(idx, 1);
+        };
+
+        $scope.addPaper = function (paper) {
+            if (!myContains($scope.papers, paper)) {
+                $scope.papers.push(paper);
+            } else {
+                alert("论文已添加！");
+            }
+        };
+        $scope.queryAllPaper = function () {
+            var date = new Date();
+            var currentDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            var queryInfo = {
+                title: $scope.queryTitle || '',
+                publish: $scope.queryPublish || '',
+                startDate: $scope.queryStartDate || '',
+                endDate: $scope.queryEndDate || currentDate,
+            };
+            $scope.paperInfo={};
+            paperService.queryAllPaper(queryInfo)
+                .success(function (data) {
+                    if (data.paperInfo.length != 0) {
+                        $scope.paperInfo = data.paperInfo;
+                        console.log($scope.paperInfo);
+                    } else {
+                        $scope.errMsg = "查询结果为空";
+                    }
+                })
+                .error(function () {
+                    $scope.errMsg = "服务器出错";
                 });
         }
     })
