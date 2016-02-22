@@ -44,14 +44,15 @@ angular.module('myApp.controllers')
                 title: $scope.queryTitle || '',
                 publish: $scope.queryPublish || '',
                 startDate: $scope.queryStartDate || '',
-                endDate: $scope.queryEndDate || currentDate,
+                endDate: $scope.queryEndDate || currentDate
             };
             paperService.queryMyPaper(queryInfo)
                 .success(function (data) {
                     if (data.paperInfo.length != 0) {
                         $scope.paperInfo = data.paperInfo;
                     } else {
-                        $scope.errMsg = "查询结果为空";
+                        $scope.paperInfo = null;
+                        $scope.msg = "查询结果为空";
                     }
                 })
                 .error(function () {
@@ -64,7 +65,7 @@ angular.module('myApp.controllers')
             currentPage: 1,
             totalPage: 1, //总页数
             itemsPerPage: 10, //每页项数
-            pagerSize: 5,//显示的页码个数
+            pagerSize: 5//显示的页码个数
         };
         $scope.load = function () {
             paperService.getAllPaperInfo($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
@@ -188,22 +189,24 @@ angular.module('myApp.controllers')
         $scope.preProcess();
 
         $scope.addPaper = function (paper, authors) {
-            paper.isccf = paper.ccflevel ? '1' : '2';
-            for (var i = 0; i < authors.length; i++) {
-                if (authors[i].station == '0') {
-                    paper.cauthor = authors[i].authorname;
+            if (confirm("确定要修改这篇论文吗？")) {
+                paper.isccf = paper.ccflevel ? '1' : '2';
+                for (var i = 0; i < authors.length; i++) {
+                    if (authors[i].station == '0') {
+                        paper.cauthor = authors[i].authorname;
+                    }
+                    if (authors[i].station == '1') {
+                        paper.fauthor = authors[i].authorname;
+                    }
                 }
-                if (authors[i].station == '1') {
-                    paper.fauthor = authors[i].authorname;
-                }
+                paperService.addPaper(paper, authors)
+                    .success(function (data, status) {
+                        alert("添加成功");
+                        $state.go('stu.showMyPaper');
+                    }).error(function () {
+                        alert('添加失败');
+                    });
             }
-            paperService.addPaper(paper, authors)
-                .success(function (data, status) {
-                    alert("添加成功");
-                    $state.go('stu.showMyPaper');
-                }).error(function () {
-                    alert('添加失败');
-                });
         };
 
         /*获取所有人员的信息  供人员选择*/
@@ -264,12 +267,12 @@ angular.module('myApp.controllers')
             isconference: '1',
             isccf: '2',
             chargeAuthorInfo: {
-                authorname: JSON.parse($cookies.user).name,
-                authorid: JSON.parse($cookies.user).id,
+                authorname: angular.fromJson($cookies.user).name,
+                authorid: angular.fromJson($cookies.user).id
             },
             isfistSDU: '1',//第一位是否为山大
             currency: '1',//币种
-            modeofpayment: '1',//支付方式
+            modeofpayment: '1'//支付方式
         };
         $scope.transCon_JouInfo = function (conInfo) {
             $scope.paper.publish = conInfo.cjname || '';
@@ -310,23 +313,25 @@ angular.module('myApp.controllers')
         }
         $scope.preProcess();
         $scope.addPaper = function (paper, authors) {
-            paper.isccf = paper.ccflevel ? '1' : '2';
-            /*paper.chargeAuthor = paper.chargeAuthorInfo.authorName;*/
-            for (var i = 0; i < authors.length; i++) {
-                if (authors[i].station == '0') {
-                    paper.cauthor = authors[i].authorname;
+            if (confirm("确定要添加论文？")) {
+                paper.isccf = paper.ccflevel ? '1' : '2';
+                /*paper.chargeAuthor = paper.chargeAuthorInfo.authorName;*/
+                for (var i = 0; i < authors.length; i++) {
+                    if (authors[i].station == '0') {
+                        paper.cauthor = authors[i].authorname;
+                    }
+                    if (authors[i].station == '1') {
+                        paper.fauthor = authors[i].authorname;
+                    }
                 }
-                if (authors[i].station == '1') {
-                    paper.fauthor = authors[i].authorname;
-                }
+                paperService.addPaper(paper, authors)
+                    .success(function (data, status) {
+                        alert("添加成功");
+                        $state.go('stu.showMyPaper');
+                    }).error(function () {
+                        alert('添加失败');
+                    });
             }
-            paperService.addPaper(paper, authors)
-                .success(function (data, status) {
-                    alert("添加成功");
-                    $state.go('stu.showMyPaper');
-                }).error(function () {
-                    alert('添加失败');
-                });
         };
 
         $scope.getVar = function () {
@@ -364,7 +369,6 @@ angular.module('myApp.controllers')
         $scope.transAuthor = function (person) {
             $scope.currAuthor.authorid = person.id;
             $scope.currAuthor.authorname = person.name;
-
         }
 
         $scope.nextPage = function () {

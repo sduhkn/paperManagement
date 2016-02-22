@@ -108,20 +108,27 @@
             </div>
         </div><!-- /.container -->
 
-        <!--如果没有发文章-->
-        <div ng-show="!paperInfo && errMsg" class="row">
-            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
-                <h2>{{ errMsg }}</h2>
+        <div ng-show="!paperInfo">
+            <!--如果没有发文章-->
+            <div ng-show="errMsg" class="row">
+                <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                    <h2>{{ errMsg }}</h2>
+                </div>
             </div>
-        </div>
-        <!--加载中-->
-        <div ng-show="!paperInfo && !errMsg" class="row">
-            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
-                <h2>加载中...</h2>
+            <!--如果没有发文章-->
+            <div ng-show="!errMsg && msg" class="row">
+                <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                    <h2>{{ msg }}</h2>
+                </div>
+            </div>
+            <!--加载中-->
+            <div ng-show="!errMsg && !msg" class="row">
+                <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                    <h2>加载中...</h2>
+                </div>
             </div>
         </div>
 
-        <my-pagination conf="paginationConf" load-data=""></my-pagination>
     </div>
     <!--获取作者的Modal-->
     <div class="modal fade getReference" id="getReference" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">

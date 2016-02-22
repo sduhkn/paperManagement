@@ -4,25 +4,17 @@
  */
 angular.module('myApp.controllers',['myApp.directives'])
     .controller('loginController',function($scope, $state, $window, authenticationService){
-        $scope.list=[{id:100,age:30,name:"张三"}]
-        $scope.add=function(){
-            var obj={id:101,age:30,name:"李四"};
-            $scope.list.push(obj);
-        } 
-        $scope.del=function(idx){
-            $scope.list.splice(idx,1);
-        }
         var user = {
-            sid: "",
+            id: "",
             password: ""
         };
         $scope.clickLogin = function(user){
             var promise = authenticationService.login(user);
             promise
-                .then(function(data){
+                .then(function success(data){
                     $window.sessionStorage.token = data.token;
                     $state.go('stu');
-                },function(err){
+                },function error(err){
                     delete $window.sessionStorage.token;
                     $scope.errMsg = "用户名密码错误";
                 });

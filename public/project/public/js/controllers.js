@@ -4,7 +4,7 @@
  */
 angular.module('myApp.controllers')
     .controller('showMyProjectController', function ($scope, $cookies, projectService) {
-        var projectchargeid = JSON.parse($cookies.user).id;
+        var projectchargeid = angular.fromJson($cookies.user).id;
         projectService.getProjectType()
             .success(function (data) {
                 $scope.projectType = data.codeInfo;
@@ -37,8 +37,8 @@ angular.module('myApp.controllers')
     .controller('addProjectController', function ($state, $scope, $cookies, userService, projectService) {
         /*获取所有人员的信息  供人员选择*/
         $scope.project = {
-            projectchargename: JSON.parse($cookies.user).name,
-            projectchargeid: JSON.parse($cookies.user).id,
+            projectchargename: angular.fromJson($cookies.user).name,
+            projectchargeid: angular.fromJson($cookies.user).id
         };
         $scope.queryUserInfoByNameOrID = function (users) {
             if (users.name || users.id) {
@@ -67,20 +67,22 @@ angular.module('myApp.controllers')
         };
 
         $scope.addProject = function (project) {
-            projectService.addProject(project)
-                .success(function () {
-                    alert('添加成功');
-                    $state.go('stu.showMyProject');
-                }).error(function () {
-                    alert('服务器出错，添加失败');
-                });
+            if (confirm("确定要添加项目么？")) {
+                projectService.addProject(project)
+                    .success(function () {
+                        alert('添加成功');
+                        $state.go('stu.showMyProject');
+                    }).error(function () {
+                        alert('服务器出错，添加失败');
+                    });
+            }
         }
     })
     .controller('editProjectController', function ($state, $stateParams, $scope, $cookies, userService, projectService) {
         /*获取所有人员的信息  供人员选择*/
         $scope.project = {
-            projectchargename: JSON.parse($cookies.user).name,
-            projectchargeid: JSON.parse($cookies.user).id,
+            projectchargename: angular.fromJson($cookies.user).name,
+            projectchargeid: angular.fromJson($cookies.user).id
         };
         projectService.getProjectByID($stateParams.projectid)
             .success(function (data) {
@@ -115,21 +117,24 @@ angular.module('myApp.controllers')
         };
 
         $scope.editProject = function (project) {
-            projectService.editProject(project)
-                .success(function () {
-                    alert('修改成功');
-                    $state.go('stu.showMyProject');
-                }).error(function () {
-                    alert('服务器出错，修改失败');
-                });
+            if (confirm("确定要修改项目吗？")) {
+                projectService.editProject(project)
+                    .success(function () {
+                        alert('修改成功');
+                        $state.go('stu.showMyProject');
+                    }).error(function () {
+                        alert('服务器出错，修改失败');
+                    });
+            }
         }
     })
     .controller('editProjectPaperController', function ($state, $stateParams, $scope, $cookies,
                                                         userService, projectService, paperService) {
         $scope.project = {
-            projectchargename: JSON.parse($cookies.user).name,
-            projectchargeid: JSON.parse($cookies.user).id,
+            projectchargename: angular.fromJson($cookies.user).name,
+            projectchargeid: angular.fromJson($cookies.user).id
         };
+        $scope.papers = {};
         projectService.getPaperByID($stateParams.projectid)
             .success(function (data) {
                 $scope.papers = data.papers;
@@ -137,7 +142,7 @@ angular.module('myApp.controllers')
             .error(function () {
                 alert('标注论文加载失败');
             });
-        $scope.papers = {};
+
         var myContains = function (a, obj) {
             for (var i = 0; i < a.length; i++) {
                 if (a[i].paperid === obj.paperid) {
@@ -147,13 +152,15 @@ angular.module('myApp.controllers')
             return false;
         }
         $scope.editProjectPaper = function (papers) {
-            projectService.editProjectPaper($stateParams.projectid, papers)
-                .success(function () {
-                    alert('修改成功');
-                    $state.go('stu.showMyProject');
-                }).error(function () {
-                    alert('服务器出错，修改失败');
-                });
+            if (confirm("确定要修改项目标注么吗？")) {
+                projectService.editProjectPaper($stateParams.projectid, papers)
+                    .success(function () {
+                        alert('修改成功');
+                        $state.go('stu.showMyProject');
+                    }).error(function () {
+                        alert('服务器出错，修改失败');
+                    });
+            }
         }
         $scope.delPaper = function (idx) {
             $scope.papers.splice(idx, 1);
@@ -167,15 +174,15 @@ angular.module('myApp.controllers')
             }
         };
         $scope.queryAllPaper = function () {
+            $scope.paperInfo={};
             var date = new Date();
             var currentDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
             var queryInfo = {
                 title: $scope.queryTitle || '',
                 publish: $scope.queryPublish || '',
                 startDate: $scope.queryStartDate || '',
-                endDate: $scope.queryEndDate || currentDate,
+                endDate: $scope.queryEndDate || currentDate
             };
-            $scope.paperInfo={};
             paperService.queryAllPaper(queryInfo)
                 .success(function (data) {
                     if (data.paperInfo.length != 0) {

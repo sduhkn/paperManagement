@@ -22,7 +22,6 @@ exports.getProject = function (req, res) {
 
 exports.addProject = function (req, res) {
     var project = new Project(req.body.project);
-    console.log(req.body.project);
     project.save(function (err, result) {
         if (err) {
             res.sendStatus(500);

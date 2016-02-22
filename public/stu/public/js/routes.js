@@ -15,7 +15,7 @@ angular.module('myApp')
                     'stuRight@stu': {
                         template: '<p>welcome to the home</p>',
                     }
-                },
+                }
             })
             .state('stu.myInfo', {
                 url: '/myInfo',
@@ -40,7 +40,7 @@ angular.module('myApp')
                     'stuRight': {
                         templateUrl: "./public/paper/showMyPaper.html",
                     }
-                },
+                }
             })
             .state('stu.editPaper', {
                 url: '/editPaper/:paperid',
@@ -48,7 +48,7 @@ angular.module('myApp')
                     'stuRight': {
                         templateUrl: "./public/paper/editPaper.html",
                     }
-                },
+                }
             })
             .state('stu.showPaper', {
                 url: '/showPaper/:paperid',
@@ -56,7 +56,7 @@ angular.module('myApp')
                     'stuRight': {
                         templateUrl: "./public/paper/showPaper.html",
                     }
-                },
+                }
             })
             .state('stu.showAllPaper', {
                 url: '/showAllPaper',
@@ -64,7 +64,7 @@ angular.module('myApp')
                     'stuRight': {
                         templateUrl: "./public/paper/showAllPaper.html",
                     }
-                },
+                }
             })
             .state('stu.addPaper', {
                 url: '/addPaper',
@@ -81,7 +81,7 @@ angular.module('myApp')
                     'stuRight': {
                         templateUrl: "./public/project/showMyProject.html",
                     }
-                },
+                }
             })
             .state('stu.showProject', {
                 url: '/project/:projectid',
@@ -89,7 +89,7 @@ angular.module('myApp')
                     'stuRight': {
                         templateUrl: "./public/project/showProject.html",
                     }
-                },
+                }
             })
             .state('stu.editProject', {
                 url: '/editProject/:projectid',
@@ -111,9 +111,8 @@ angular.module('myApp')
                         controller: function($scope,getProjectType){
                             $scope.projectType = getProjectType;
                         }
-
                     }
-                },
+                }
             })
             .state('stu.addProject', {
                 url: '/addProject',
@@ -135,8 +134,8 @@ angular.module('myApp')
                         controller: function($scope,getProjectType){
                             $scope.projectType = getProjectType;
                         }
-                    },
-                },
+                    }
+                }
             })
             .state('stu.editProjectPaper', {
                 url: '/editProjectPaper/:projectid',
@@ -144,7 +143,7 @@ angular.module('myApp')
                     'stuRight': {
                         templateUrl: "./public/project/editProjectPaper.html",
                     }
-                },
+                }
             })
     });
 /*angular.module("myApp")

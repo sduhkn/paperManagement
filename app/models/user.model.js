@@ -17,7 +17,7 @@ function User(user) {
     this.graduationdate = user.graduationdate;
     this.tid = user.tid;//导师编号
     this.gschool = user.gschool;
-    this.level = user.level;//用户的级别
+    this.levels = user.levels;//用户的级别
 }
 
 module.exports = User;
@@ -60,11 +60,22 @@ User.prototype.getPaperIDFromPaper_author = function getPaperIDFromPaper_author(
 }
 
 User.prototype.getAllUser = function(callback){
-    var sql = "select id,name from all_persons"
+    var sql = "select id,name from all_persons";
     client.getDbCon(sql,function(err,result){
         if(err) { console.log(err); }
         else {
             callback(err, result);
         }
     });
+}
+
+User.prototype.checkLogin = function(callback){
+    var sql = "select * from all_persons where id = " + this.id;
+    client.getDbCon(sql, function(err, result){
+        if(err) { console.log(err); }
+        else {
+            callback(err, result);
+        }
+    })
+
 }

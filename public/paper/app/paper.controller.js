@@ -28,12 +28,12 @@ exports.getMyPaperInfo = function (req, res) {
         }
         else {
             return res.send({
-                paperInfo: paperInfo,
+                paperInfo: paperInfo
             });
         }
 
     });
-}
+};
 
 /*根据论文展示作者信息*/
 exports.getPaperAuthorByID = function (req, res) {
@@ -68,7 +68,7 @@ exports.getPaperAuthorByID = function (req, res) {
             }
         }
     })
-}
+};
 exports.getAuthorByPaperID = function (req, res) {
     var paperInfo = {
         paperid: req.query.paperid
@@ -88,7 +88,7 @@ exports.getAuthorByPaperID = function (req, res) {
             }
         }
     });
-}
+};
 exports.deletePaper = function (req, res) {
     console.log(req.params.paperid);
     var paperInfo = {
@@ -105,7 +105,7 @@ exports.deletePaper = function (req, res) {
             }
         }
     });
-}
+};
 
 /*用户 添加或更新 论文信息,和作者信息*/
 var saveAuthor = function (paper, authors) {
@@ -113,7 +113,7 @@ var saveAuthor = function (paper, authors) {
         wait.forMethod(paper, "saveAuthor", authors[i]);
     }
 
-}
+};
 
 exports.addPaper = function (req, res) {
     var paper = new Paper(req.body.paper);
@@ -130,7 +130,7 @@ exports.addPaper = function (req, res) {
         }
     })
 
-}
+};
 
 exports.getAllPaperInfo = function (req, res) {
     var currentPage = req.query.currentPage;
@@ -161,7 +161,7 @@ exports.getAllPaperInfo = function (req, res) {
         }
 
     });
-}
+};
 /*获取期刊和会议的信息 供用户选择*/
 exports.getCon_JouInfo = function (req, res) {
     var sql = "select * from con_jou_info";
@@ -178,18 +178,19 @@ exports.getCon_JouInfo = function (req, res) {
             }
         }
     })
-}
+};
 
 exports.queryMyPaper = function (req, res) {
+    console.log(req.session.user.id);
     var paperInfo = {
-        userid: req.session.user.id,
         publish: req.query.publish,
-        title: req.query.title,
-    }
+        title: req.query.title
+    };
     var queryInfo = {
+        userid: req.session.user.id,//当做查询里面的用户id
         startDate: req.query.startDate || '',
-        endDate: req.query.endDate || '',
-    }
+        endDate: req.query.endDate || ''
+    };
     var paper = new Paper(paperInfo);
     paper.queryMyPaper(queryInfo, function (err, result) {
         if (err) {
@@ -199,8 +200,8 @@ exports.queryMyPaper = function (req, res) {
         else {
             res.send({paperInfo: result});
         }
-    })
-}
+    });
+};
 exports.queryAllPaper = function (req, res) {
     var paperInfo = {
         paperid: req.session.user.id,

@@ -101,7 +101,7 @@ Paper.prototype.deletePaper = function (callback) {
 
 Paper.prototype.queryMyPaper = function (queryInfo, callback) {
     var sql = "SELECT * FROM paper_info  WHERE paper_info.paperid IN (" +
-        "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + this.userid + ") ";
+        "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + queryInfo.userid + ") ";
     if (this.title) {
         sql += "and title like '%" + this.title + "%' ";
     }
@@ -121,7 +121,7 @@ Paper.prototype.queryMyPaper = function (queryInfo, callback) {
             callback(err, result);
         }
     })
-}
+};
 Paper.prototype.queryAllPaper = function (queryInfo, callback) {
     var sql = "SELECT * FROM paper_info WHERE paper_info.paperid IN (" +
         "SELECT DISTINCT(paperid) FROM paper_author) ";
@@ -144,4 +144,4 @@ Paper.prototype.queryAllPaper = function (queryInfo, callback) {
             callback(err, result);
         }
     })
-}
+};

@@ -4,8 +4,10 @@
  */
 angular.module('myApp.controllers')
     .controller('stuController', function ($rootScope, $scope, $cookies, $state) {
-        $scope.user = JSON.parse($cookies.user).name;
+        var user = angular.fromJson($cookies.user);
+        $scope.user = user.name;
         $scope.$state = $state;
+        $scope.levels = user.levels;
     })
     .controller('stu_showPaperInfoController', function ($scope, $state, $window, stuService) {
         /*showMyPaper.html controller*/
@@ -14,7 +16,7 @@ angular.module('myApp.controllers')
             totalItems: 8000,
             totalPage:1,
             itemsPerPage: 15,
-            pagesLength: 8,
+            pagesLength: 8
         };
         stuService.getMyPaper()
             .success(function (data) {

@@ -5,12 +5,22 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+//var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var ejs = require('ejs');
 var app = express();
+/*记录log日志*/
+var log = require('./public/js/logHelper');
+log.use(app);
+/*var log4js = require("log4js");
+log4js.configure('./config/log4js.json',{});
+
+var logger = log4js.getLogger("dateNormal");//里面的参数对应logjs.json中的 category的属性
+logger.setLevel("INFO");
+
+app.use(log4js.connectLogger(logger,{ level: "auto" }));*/
 
 //var login = require('./public/login/app/loginRoutes');
 
@@ -21,7 +31,8 @@ app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
