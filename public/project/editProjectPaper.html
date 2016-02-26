@@ -6,7 +6,7 @@
                     <table class="table table-bordered">
                         <thead class="paperHeaderStyle">
                         <tr>
-                            <td colspan="4">项目名称：{{ project.projectname }}</td>
+                            <td colspan="4">为【{{ projectname }}项目】添加论文标注</td>
                         </tr>
                         <tr>
                             <td width="20%">序号</td>
@@ -139,27 +139,18 @@
                     </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
         <!-- /.container -->
 
         <!--如果没有发文章-->
         <div ng-show="!paperInfo && errMsg" class="row">
-            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+            <div class="col-xs-offset-3 col-xs-5 text-center text-info">
                 <h2>{{ errMsg }}</h2>
             </div>
         </div>
-        <!--加载中-->
-        <div ng-show="!paperInfo && !errMsg" class="row">
-            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
-                <h2>加载中...</h2>
-            </div>
+
         </div>
-        </div>
-
-
-
 </div>
 
 <script type="text/javascript" src="/public/js/bootstrap-plugin/bootstrap-datetimepicker.js" charset="UTF-8"></script>

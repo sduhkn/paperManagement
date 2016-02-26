@@ -53,11 +53,11 @@ exports.editProjectPaper = function (req, res) {
     var project = new Project(projectInfo);
     project.savePaper(function (err, result) {
         if (err) {
-            res.sendStatus(500);
+            return res.sendStatus(500);
         }
     });
     return res.sendStatus(200);
-}
+};
 
 exports.getMyProject = function (req, res) {
     var projectInfo = {
@@ -79,13 +79,14 @@ exports.getMyProject = function (req, res) {
 exports.getPaperByID = function (req, res) {
     var projectInfo = {
         projectid: req.params.projectid
-    }
+    };
     var project = new Project(projectInfo);
     project.getPaperByID(function (err, papers) {
         if (err) {
             return res.sendStatus(500);
         }
         else {
+            console.log(papers);
             return res.send({papers: papers});
         }
     });

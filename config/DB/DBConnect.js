@@ -28,10 +28,12 @@ function connectDB() {
     });
 }
 connectDB();*/
+
+exports.pool = pool;
 exports.getDbConParams = function(sql,params,callback) {
     pool.getConnection(function(err, con){
         con.beginTransaction(function(err) {
-            if (err) { console.log(err); }
+            if (err) { console.log(err); return callback(err, null);}
             con.query(sql, params, function(err ,result) {
                 if(err) {
                     return con.rollback(function(){
@@ -69,7 +71,7 @@ exports.getDbConParams = function(sql,params,callback) {
 exports.getDbCon = function getDbCon(sql, callback){
     pool.getConnection(function(err, con){
         con.beginTransaction(function(err) {
-            if (err) { console.log(err); }
+            if (err) { console.log(err); return callback(err, null);}
             con.query(sql, function(err ,result) {
                 if(err) {
                     return con.rollback(function(){

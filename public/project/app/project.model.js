@@ -3,6 +3,7 @@
  */
 var client = require('../../../config/DB/DBConnect');
 var moment = require('moment');
+var pool = client.pool;
 
 function Project(project) {
     this.projectid = project.projectid || moment(new Date()).format('YYYYMMDDHHmmss');
@@ -30,6 +31,7 @@ function Project(project) {
 
 module.exports = Project;
 
+/*保存项目信息*/
 Project.prototype.save = function save(callback) {
     var sql = "replace into project_info values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     var params = [
@@ -45,34 +47,58 @@ Project.prototype.save = function save(callback) {
             callback(err, result);
         }
     });
-}
+};
+/*保存项目中的标注paper信息*/
 Project.prototype.savePaper = function savePaper(callback) {
-    var sql = "delete from pp_label where projectid=?";
-    for (var i = 0; i < this.papers.length; i++) {
-        var params = [this.projectid];
-        client.getDbConParams(sql, params, function (err, result) {
-            if (err) {
-                throw err;
-            }
-            else {
-                callback(err, result);
-            }
-        })
-    }
-    var sql = "replace into pp_label values(?,?)";
-    for (var i = 0; i < this.papers.length; i++) {
-        var params = [this.papers[i].paperid, this.projectid];
-        console.log(params);
-        client.getDbConParams(sql, params, function (err, result) {
-            if (err) {
-                throw err;
-            }
-            else {
-                callback(err, result);
-            }
-        })
-    }
-}
+    /*pool.getConnection(function(err, con){
+        var sql_delete = "delete from pp_label where projectid="+this.projectid;
+        con.beginTransaction(function(err) {
+            if (err) { console.log(err); return;}
+            con.query(sql_delete, function(err ,result) {
+                if(err) {
+                    return con.rollback(function(){
+                        console.log("commit error1 \n"+ err);
+                    });
+                }
+                con.commit(function(err) {
+                    if(err) {
+                        return con.rollback(function(){
+                            console.log("commit error2!"+err);
+                        });
+                    }
+                    callback(err, result);
+                })
+            });
+        });
+        con.release();
+    });*/
+    var projectid = this.projectid, papers = this.papers;
+    var sql_delete = "delete from pp_label where projectid=" + projectid;
+    var sql = "replace into pp_label(paperid, projectid) values(?,?)";
+
+    client.getDbCon(sql_delete, function (err, result) {
+        if (err) {
+            console.log(err);
+            return callback(err, null);
+        }
+        for (var i = 0; i < papers.length; i++) {
+            var params2 = [papers[i].paperid, projectid];
+            console.log(params2);
+            client.getDbConParams(sql, params2, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    return callback(err, null);
+                }
+                else {
+                    return callback(err, result);
+                }
+            })
+        }
+
+    });
+
+};
+/*根据projectid获取project的信息*/
 Project.prototype.getProjectByID = function getProject(callback) {
     var sql = "select * from project_info where projectid =" + this.projectid;
     client.getDbCon(sql, function (err, result) {
@@ -83,10 +109,10 @@ Project.prototype.getProjectByID = function getProject(callback) {
             callback(err, result);
         }
     })
-}
-
+};
+/*根据项目负责人的id获取项目信息*/
 Project.prototype.getMyProject = function (callback) {
-    var sql = "select * from project_info where projectchargeid =" + this.projectchargeid;
+    var sql = "select * from project_info where projectchargeid =" + this.projectchargeid + " order by estdate DESC";
     client.getDbCon(sql, function (err, result) {
         if (err) {
             console.log(err);
@@ -95,16 +121,17 @@ Project.prototype.getMyProject = function (callback) {
             callback(err, result);
         }
     })
-}
-
+};
+/*根据projectid获取对应project标注的paper信息*/
 Project.prototype.getPaperByID = function (callback) {
     var sql = "SELECT * from paper_info where paperid in (SELECT paperid FROM pp_label WHERE projectid =" + this.projectid + ")";
     client.getDbCon(sql, function (err, result) {
         if (err) {
-            throw err;
+            console.log(err);
+            return callback(err, null);
         }
         else {
             callback(err, result);
         }
     })
-}
+};

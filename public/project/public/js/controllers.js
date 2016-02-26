@@ -78,7 +78,8 @@ angular.module('myApp.controllers')
             }
         }
     })
-    .controller('editProjectController', function ($state, $stateParams, $scope, $cookies, userService, projectService) {
+    .controller('editProjectController', function ($state, $stateParams, $scope, $cookies,
+                                                   userService, projectService) {
         /*获取所有人员的信息  供人员选择*/
         $scope.project = {
             projectchargename: angular.fromJson($cookies.user).name,
@@ -89,7 +90,7 @@ angular.module('myApp.controllers')
                 $scope.project = data.projectInfo;
                 $scope.project.estdate = data.projectInfo.estdate.substring(0, 10);
                 $scope.project.knotdate = data.projectInfo.knotdate.substring(0, 10);
-            })
+            });
         $scope.queryUserInfoByNameOrID = function (users) {
             if (users.name || users.id) {
                 if (!users.name) {
@@ -130,10 +131,10 @@ angular.module('myApp.controllers')
     })
     .controller('editProjectPaperController', function ($state, $stateParams, $scope, $cookies,
                                                         userService, projectService, paperService) {
-        $scope.project = {
-            projectchargename: angular.fromJson($cookies.user).name,
-            projectchargeid: angular.fromJson($cookies.user).id
-        };
+        projectService.getProjectByID($stateParams.projectid)
+            .success(function (data) {
+                $scope.projectname = data.projectInfo.projectname;
+            });
         $scope.papers = {};
         projectService.getPaperByID($stateParams.projectid)
             .success(function (data) {
@@ -150,7 +151,7 @@ angular.module('myApp.controllers')
                 }
             }
             return false;
-        }
+        };
         $scope.editProjectPaper = function (papers) {
             if (confirm("确定要修改项目标注么吗？")) {
                 projectService.editProjectPaper($stateParams.projectid, papers)
@@ -161,7 +162,7 @@ angular.module('myApp.controllers')
                         alert('服务器出错，修改失败');
                     });
             }
-        }
+        };
         $scope.delPaper = function (idx) {
             $scope.papers.splice(idx, 1);
         };
@@ -196,4 +197,4 @@ angular.module('myApp.controllers')
                     $scope.errMsg = "服务器出错";
                 });
         }
-    })
+    });

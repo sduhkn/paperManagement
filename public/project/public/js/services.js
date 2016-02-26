@@ -14,31 +14,31 @@ angular.module('myApp.services')
             return $http.post('/addProject', {
                 project: project
             })
-        }
+        };
         this.editProject = function (project) {
             return $http.post('/editProject/:projectid', {
                 project: project
             })
-        }
+        };
         this.editProjectPaper = function (projectid, papers) {
             return $http.post('/editProjectPaper/' + projectid, {
                 papers: papers
             })
-        }
+        };
         this.getMyProject = function (projectcharge) {
             return $http.get('/myProject', {
                 params: {
                     projectcharge: projectcharge
                 }
             });
-        }
+        };
 
         this.getProjectByID = function (projectid) {
             return $http.get('/project/' + projectid);
-        }
+        };
 
         this.getPaperByID = function (projectid) {
             return $http.get('/getPaperByID/' + projectid);
-        }
+        };
         return this;
     });
