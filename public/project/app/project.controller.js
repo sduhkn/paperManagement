@@ -13,7 +13,7 @@ exports.getProject = function (req, res) {
     var project = new Project(projectInfo);
     project.getProjectByID(function (err, result) {
         if (err) {
-            res.sendStatus(500);
+            return res.sendStatus(500);
         } else {
             res.send({projectInfo: result[0]})
         }
@@ -24,7 +24,7 @@ exports.addProject = function (req, res) {
     var project = new Project(req.body.project);
     project.save(function (err, result) {
         if (err) {
-            res.sendStatus(500);
+            return res.sendStatus(500);
         } else {
             if (result.affectedRows != 0) {
                 return res.sendStatus(200);
@@ -36,7 +36,7 @@ exports.editProject = function (req, res) {
     var project = new Project(req.body.project);
     project.save(function (err, result) {
         if (err) {
-            res.sendStatus(500);
+            return res.sendStatus(500);
         } else {
             if (result.affectedRows != 0) {
                 return res.sendStatus(200);
@@ -52,11 +52,11 @@ exports.editProjectPaper = function (req, res) {
     }
     var project = new Project(projectInfo);
     project.savePaper(function (err, result) {
-        if (err) {
+        if (err)
             return res.sendStatus(500);
-        }
     });
     return res.sendStatus(200);
+
 };
 
 exports.getMyProject = function (req, res) {
@@ -67,7 +67,7 @@ exports.getMyProject = function (req, res) {
     var project = new Project(projectInfo);
     project.getMyProject(function (err, projectInfo) {
         if (err) {
-            res.sendStatus(500);
+            return res.sendStatus(500);
         }
         else {
             res.send({
@@ -76,17 +76,16 @@ exports.getMyProject = function (req, res) {
         }
     });
 }
-exports.getPaperByID = function (req, res) {
+exports.getPaperByProjectId = function (req, res) {
     var projectInfo = {
         projectid: req.params.projectid
     };
     var project = new Project(projectInfo);
-    project.getPaperByID(function (err, papers) {
+    project.getPaperByProjectId(function (err, papers) {
         if (err) {
             return res.sendStatus(500);
         }
         else {
-            console.log(papers);
             return res.send({papers: papers});
         }
     });

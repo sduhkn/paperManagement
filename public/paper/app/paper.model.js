@@ -101,7 +101,7 @@ Paper.prototype.deletePaper = function (callback) {
 
 Paper.prototype.queryMyPaper = function (queryInfo, callback) {
     var sql = "SELECT * FROM paper_info  WHERE paper_info.paperid IN (" +
-        "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + queryInfo.userid + ") ";
+        "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + queryInfo.userId + ") ";
     if (this.title) {
         sql += "and title like '%" + this.title + "%' ";
     }
@@ -123,8 +123,7 @@ Paper.prototype.queryMyPaper = function (queryInfo, callback) {
     })
 };
 Paper.prototype.queryAllPaper = function (queryInfo, callback) {
-    var sql = "SELECT * FROM paper_info WHERE paper_info.paperid IN (" +
-        "SELECT DISTINCT(paperid) FROM paper_author) ";
+    var sql = "SELECT * FROM paper_info WHERE 1=1 ";
     if (this.title) {
         sql += "and title like '%" + this.title + "%' ";
     }
@@ -134,7 +133,7 @@ Paper.prototype.queryAllPaper = function (queryInfo, callback) {
     if (queryInfo.startDate) {
         sql += "and pubDate between '" + queryInfo.startDate + "' and '" + queryInfo.endDate + "' "
     }
-    sql += "ORDER BY pubDate DESC";
+    sql += "ORDER BY pubDate DESC LIMIT 15";
     console.log(sql);
     client.getDbCon(sql, function (err, result) {
         if (err) {

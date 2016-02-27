@@ -51,7 +51,7 @@ if(objConfig.appenders){
 // 目录创建完毕，才加载配置，不然会出异常
 log4js.configure(objConfig);
 
-var logDebug = log4js.getLogger('logDebug');
+var logDebug = log4js.getLogger('logDebug');//对应着category属性
 var logInfo = log4js.getLogger('logInfo');
 var logWarn = log4js.getLogger('logWarn');
 var logErr = log4js.getLogger('logErr');

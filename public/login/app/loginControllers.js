@@ -6,7 +6,7 @@ var userModel = require('../../../app/models/userModel');
 var User = require('../../../app/models/user.model');
 var crypto = require('crypto');//密码加密专用
 var jwt = require('jsonwebtoken');//token加密专用
-var logger = require('../../js/logHelper').helper;
+var logger = require('../../util/logHelper').helper;
 
 exports.login = function(req, res){
     var userInfo = {

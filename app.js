@@ -12,7 +12,7 @@ var session = require('express-session');
 var ejs = require('ejs');
 var app = express();
 /*记录log日志*/
-var log = require('./public/js/logHelper');
+var log = require('./public/util/logHelper');
 log.use(app);
 /*var log4js = require("log4js");
 log4js.configure('./config/log4js.json',{});

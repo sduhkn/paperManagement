@@ -9,5 +9,5 @@ module.exports = function (app) {
     app.post('/editProject/:projectid', projectCtrl.editProject);
     app.post('/editProjectPaper/:projectid', projectCtrl.editProjectPaper);
     app.get('/myProject', projectCtrl.getMyProject);
-    app.get('/getPaperByID/:projectid',projectCtrl.getPaperByID);
+    app.get('/getPaperByProjectId/:projectid',projectCtrl.getPaperByProjectId);
 }

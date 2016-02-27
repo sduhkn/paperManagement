@@ -131,19 +131,7 @@ angular.module('myApp.controllers')
     })
     .controller('editProjectPaperController', function ($state, $stateParams, $scope, $cookies,
                                                         userService, projectService, paperService) {
-        projectService.getProjectByID($stateParams.projectid)
-            .success(function (data) {
-                $scope.projectname = data.projectInfo.projectname;
-            });
         $scope.papers = {};
-        projectService.getPaperByID($stateParams.projectid)
-            .success(function (data) {
-                $scope.papers = data.papers;
-            })
-            .error(function () {
-                alert('标注论文加载失败');
-            });
-
         var myContains = function (a, obj) {
             for (var i = 0; i < a.length; i++) {
                 if (a[i].paperid === obj.paperid) {
@@ -152,6 +140,16 @@ angular.module('myApp.controllers')
             }
             return false;
         };
+        projectService.getProjectByID($stateParams.projectid)
+            .success(function (data) {
+                $scope.projectname = data.projectInfo.projectname;
+            }).error(function(){alert('获取project失败')});
+        projectService.getPaperByProjectId($stateParams.projectid)
+            .success(function(data){
+                $scope.papers = data.papers;
+            }).error(function(){alert('标注论文加载失败');});
+
+
         $scope.editProjectPaper = function (papers) {
             if (confirm("确定要修改项目标注么吗？")) {
                 projectService.editProjectPaper($stateParams.projectid, papers)

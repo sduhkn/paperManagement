@@ -179,7 +179,7 @@ exports.getCon_JouInfo = function (req, res) {
         }
     })
 };
-
+/*根据用户的id查询他所有的论文*/
 exports.queryMyPaper = function (req, res) {
     console.log(req.session.user.id);
     var paperInfo = {
@@ -187,7 +187,7 @@ exports.queryMyPaper = function (req, res) {
         title: req.query.title
     };
     var queryInfo = {
-        userid: req.session.user.id,//当做查询里面的用户id
+        userId: req.session.user.id,//当做查询里面的用户id
         startDate: req.query.startDate || '',
         endDate: req.query.endDate || ''
     };
@@ -202,15 +202,15 @@ exports.queryMyPaper = function (req, res) {
         }
     });
 };
+/*查询所有的论文信息*/
 exports.queryAllPaper = function (req, res) {
     var paperInfo = {
-        paperid: req.session.user.id,
         publish: req.query.publish,
-        title: req.query.title,
+        title: req.query.title
     }
     var queryInfo = {
         startDate: req.query.startDate || '',
-        endDate: req.query.endDate || '',
+        endDate: req.query.endDate || ''
     }
     var paper = new Paper(paperInfo);
     paper.queryAllPaper(queryInfo, function (err, result) {

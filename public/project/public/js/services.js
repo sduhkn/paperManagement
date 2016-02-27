@@ -37,8 +37,8 @@ angular.module('myApp.services')
             return $http.get('/project/' + projectid);
         };
 
-        this.getPaperByID = function (projectid) {
-            return $http.get('/getPaperByID/' + projectid);
+        this.getPaperByProjectId = function (projectid) {
+            return $http.get('/getPaperByProjectId/' + projectid);
         };
         return this;
     });
