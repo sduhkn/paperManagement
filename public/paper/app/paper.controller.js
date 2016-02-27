@@ -18,7 +18,7 @@ var wait = require('wait.for');
  }*/
 exports.getMyPaperInfo = function (req, res) {
     console.log("req.session.user:" + req.session.user.id);
-    console.log(req.user);
+    //console.log(req.user);
 
     var sql = "SELECT * FROM paper_info  WHERE paper_info.paperid IN (" +
         "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + req.session.user.id + ") ORDER BY pubDate DESC";
@@ -35,7 +35,7 @@ exports.getMyPaperInfo = function (req, res) {
     });
 };
 
-/*¸ù¾ÝÂÛÎÄÕ¹Ê¾×÷ÕßÐÅÏ¢*/
+
 exports.getPaperAuthorByID = function (req, res) {
     var paperInfo = {
         paperid: req.query.paperid
@@ -107,7 +107,7 @@ exports.deletePaper = function (req, res) {
     });
 };
 
-/*ÓÃ»§ Ìí¼Ó»ò¸üÐÂ ÂÛÎÄÐÅÏ¢,ºÍ×÷ÕßÐÅÏ¢*/
+
 var saveAuthor = function (paper, authors) {
     for (var i = 0; i < authors.length; i++) {
         wait.forMethod(paper, "saveAuthor", authors[i]);
@@ -121,10 +121,10 @@ exports.addPaper = function (req, res) {
     console.log(authors);
     paper.save(function (err, result) {
         if (err) {
-            console.log('paperÌí¼ÓÊ§°Ü');
-            res.sendStatus(402);
+            console.log('æœåŠ¡å™¨å‡ºé”™');
+            res.sendStatus(500);
         } else {
-            console.log('paperÌí¼Ó³É¹¦');
+            console.log('paperæ·»åŠ æˆåŠŸ');
             wait.launchFiber(saveAuthor, paper, authors);
             return res.sendStatus(200);
         }
@@ -162,13 +162,13 @@ exports.getAllPaperInfo = function (req, res) {
 
     });
 };
-/*»ñÈ¡ÆÚ¿¯ºÍ»áÒéµÄÐÅÏ¢ ¹©ÓÃ»§Ñ¡Ôñ*/
+
 exports.getCon_JouInfo = function (req, res) {
     var sql = "select * from con_jou_info";
     client.getDbCon(sql, function (err, result) {
         if (err) {
             res.sendStatus(500);
-            console.log("·þÎñÆ÷´íÎó");
+            console.log("æœåŠ¡å™¨å‡ºé”™");
         }
         else {
             if (result.length != 0) {
@@ -179,7 +179,7 @@ exports.getCon_JouInfo = function (req, res) {
         }
     })
 };
-/*¸ù¾ÝÓÃ»§µÄid²éÑ¯ËûËùÓÐµÄÂÛÎÄ*/
+
 exports.queryMyPaper = function (req, res) {
     console.log(req.session.user.id);
     var paperInfo = {
@@ -187,7 +187,7 @@ exports.queryMyPaper = function (req, res) {
         title: req.query.title
     };
     var queryInfo = {
-        userId: req.session.user.id,//µ±×ö²éÑ¯ÀïÃæµÄÓÃ»§id
+        userId: req.session.user.id,
         startDate: req.query.startDate || '',
         endDate: req.query.endDate || ''
     };
@@ -195,14 +195,14 @@ exports.queryMyPaper = function (req, res) {
     paper.queryMyPaper(queryInfo, function (err, result) {
         if (err) {
             res.sendStatus(500);
-            console.log("·þÎñÆ÷´íÎó");
+            console.log("æœåŠ¡å™¨å‡ºé”™");
         }
         else {
             res.send({paperInfo: result});
         }
     });
 };
-/*²éÑ¯ËùÓÐµÄÂÛÎÄÐÅÏ¢*/
+
 exports.queryAllPaper = function (req, res) {
     var paperInfo = {
         publish: req.query.publish,
@@ -216,7 +216,7 @@ exports.queryAllPaper = function (req, res) {
     paper.queryAllPaper(queryInfo, function (err, result) {
         if (err) {
             res.sendStatus(500);
-            console.log("·þÎñÆ÷´íÎó");
+            console.log("æœåŠ¡å™¨å‡ºé”™");
         }
         else {
             res.send({paperInfo: result});

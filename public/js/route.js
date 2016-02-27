@@ -11,7 +11,7 @@ angular.module('myApp',['ui.router','myApp.controllers'
                 templateUrl: "./public/login/login.html",
             });
         $urlRouterProvider.otherwise("/home");
-        $httpProvider.interceptors.push('TokenInterceptor');
+        //$httpProvider.interceptors.push('TokenInterceptor');
     })
     .run(function($rootScope, $state, $window,$templateCache){
         $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {

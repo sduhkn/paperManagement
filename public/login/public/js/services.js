@@ -20,7 +20,7 @@ angular.module('myApp.services', [])
         return {
             login: login,
         }
-    }).factory('TokenInterceptor', function ($q, $window) {
+    })/*.factory('TokenInterceptor', function ($q, $window) {
     return {
         request: function (config) {
             config.headers = config.headers || {};
@@ -34,4 +34,4 @@ angular.module('myApp.services', [])
             return response || $q.when(response);
         }
     };
-});
+});*/
