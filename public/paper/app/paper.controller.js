@@ -35,7 +35,7 @@ exports.getMyPaperInfo = function (req, res) {
     });
 };
 
-/*¸ù¾İÂÛÎÄÕ¹Ê¾×÷ÕßĞÅÏ¢*/
+/*æ ¹æ®è®ºæ–‡å±•ç¤ºä½œè€…ä¿¡æ¯*/
 exports.getPaperAuthorByID = function (req, res) {
     var paperInfo = {
         paperid: req.query.paperid
@@ -107,7 +107,7 @@ exports.deletePaper = function (req, res) {
     });
 };
 
-/*ÓÃ»§ Ìí¼Ó»ò¸üĞÂ ÂÛÎÄĞÅÏ¢,ºÍ×÷ÕßĞÅÏ¢*/
+/*ç”¨æˆ· æ·»åŠ æˆ–æ›´æ–° è®ºæ–‡ä¿¡æ¯,å’Œä½œè€…ä¿¡æ¯*/
 var saveAuthor = function (paper, authors) {
     for (var i = 0; i < authors.length; i++) {
         wait.forMethod(paper, "saveAuthor", authors[i]);
@@ -121,10 +121,10 @@ exports.addPaper = function (req, res) {
     console.log(authors);
     paper.save(function (err, result) {
         if (err) {
-            console.log('paperÌí¼ÓÊ§°Ü');
+            console.log('paperæ·»åŠ å¤±è´¥');
             res.sendStatus(402);
         } else {
-            console.log('paperÌí¼Ó³É¹¦');
+            console.log('paperæ·»åŠ æˆåŠŸ');
             wait.launchFiber(saveAuthor, paper, authors);
             return res.sendStatus(200);
         }
@@ -162,13 +162,13 @@ exports.getAllPaperInfo = function (req, res) {
 
     });
 };
-/*»ñÈ¡ÆÚ¿¯ºÍ»áÒéµÄĞÅÏ¢ ¹©ÓÃ»§Ñ¡Ôñ*/
+/*è·å–æœŸåˆŠå’Œä¼šè®®çš„ä¿¡æ¯ ä¾›ç”¨æˆ·é€‰æ‹©*/
 exports.getCon_JouInfo = function (req, res) {
     var sql = "select * from con_jou_info";
     client.getDbCon(sql, function (err, result) {
         if (err) {
             res.sendStatus(500);
-            console.log("·şÎñÆ÷´íÎó");
+            console.log("æœåŠ¡å™¨é”™è¯¯");
         }
         else {
             if (result.length != 0) {
@@ -179,7 +179,7 @@ exports.getCon_JouInfo = function (req, res) {
         }
     })
 };
-/*¸ù¾İÓÃ»§µÄid²éÑ¯ËûËùÓĞµÄÂÛÎÄ*/
+/*æ ¹æ®ç”¨æˆ·çš„idæŸ¥è¯¢ä»–æ‰€æœ‰çš„è®ºæ–‡*/
 exports.queryMyPaper = function (req, res) {
     console.log(req.session.user.id);
     var paperInfo = {
@@ -187,7 +187,7 @@ exports.queryMyPaper = function (req, res) {
         title: req.query.title
     };
     var queryInfo = {
-        userId: req.session.user.id,//µ±×ö²éÑ¯ÀïÃæµÄÓÃ»§id
+        userId: req.session.user.id,//å½“åšæŸ¥è¯¢é‡Œé¢çš„ç”¨æˆ·id
         startDate: req.query.startDate || '',
         endDate: req.query.endDate || ''
     };
@@ -195,14 +195,14 @@ exports.queryMyPaper = function (req, res) {
     paper.queryMyPaper(queryInfo, function (err, result) {
         if (err) {
             res.sendStatus(500);
-            console.log("·şÎñÆ÷´íÎó");
+            console.log("æœåŠ¡å™¨é”™è¯¯");
         }
         else {
             res.send({paperInfo: result});
         }
     });
 };
-/*²éÑ¯ËùÓĞµÄÂÛÎÄĞÅÏ¢*/
+/*æŸ¥è¯¢æ‰€æœ‰çš„è®ºæ–‡ä¿¡æ¯*/
 exports.queryAllPaper = function (req, res) {
     var paperInfo = {
         publish: req.query.publish,
@@ -216,7 +216,7 @@ exports.queryAllPaper = function (req, res) {
     paper.queryAllPaper(queryInfo, function (err, result) {
         if (err) {
             res.sendStatus(500);
-            console.log("·şÎñÆ÷´íÎó");
+            console.log("æœåŠ¡å™¨é”™è¯¯");
         }
         else {
             res.send({paperInfo: result});
