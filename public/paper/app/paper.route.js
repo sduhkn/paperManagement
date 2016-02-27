@@ -6,14 +6,14 @@ var expressJWT = require('express-jwt');
 
 module.exports = function (app) {
     app.get('/paper/getPaperAuthorByID', paperCtrl.getPaperAuthorByID);
-    /*¸ù¾İÂÛÎÄÕ¹Ê¾×÷ÕßĞÅÏ¢*/
+    /*æ ¹æ®è®ºæ–‡å±•ç¤ºä½œè€…ä¿¡æ¯*/
     app.get('/paper/getAuthorByPaperID', paperCtrl.getAuthorByPaperID)
     app.delete('/paper/deletePaper/:paperid', paperCtrl.deletePaper);
     app.get('/paper/showMyPaper', expressJWT({secret: app.get('jwtSecret')}), paperCtrl.getMyPaperInfo);
     app.get('/paper/showAllPaper', paperCtrl.getAllPaperInfo);
 
     app.post('/paper/addPaper', paperCtrl.addPaper);
-    /*ÓÃ»§Ìí¼ÓÂÛÎÄĞÅÏ¢*/
+    /*ç”¨æˆ·æ·»åŠ è®ºæ–‡ä¿¡æ¯*/
 
     app.get('/paper/getCon_JouInfo', paperCtrl.getCon_JouInfo);
 
