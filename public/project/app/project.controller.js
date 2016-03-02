@@ -61,7 +61,7 @@ exports.editProjectPaper = function (req, res) {
 
 exports.getMyProject = function (req, res) {
     var projectInfo = {
-        projectchargeid: req.query.projectcharge
+        projectchargeid: req.session.user.id,
     };
 
     var project = new Project(projectInfo);

@@ -8,12 +8,19 @@ var stuCtrl = require('./stuControllers');
 var expressJWT = require('express-jwt');
 
 
-module.exports = function(app){
-    app.get('/stu',function(req, res){
+module.exports = function (app) {
+    app.get('/stu', function (req, res) {
         res.redirect('/#stu');
     });
-    app.get('/stu/stuOwnInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.getStuOwnInfo);
-    app.post('/stu/updateStuInfo',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.updateStuInfo);
-    app.post('/stu/changePwd',expressJWT({secret: app.get('jwtSecret')}),stuCtrl.changePassword);
+    app.get('/stu/stuOwnInfo',
+        //expressJWT({secret: app.get('jwtSecret')}),
+        stuCtrl.getStuOwnInfo);
+    app.post('/stu/updateStuInfo',
+        //expressJWT({secret: app.get('jwtSecret')}),
+        stuCtrl.updateStuInfo);
+    app.post('/stu/changePwd',
+        //expressJWT({secret: app.get('jwtSecret')}),
+        stuCtrl.changePassword);
+    app.get('/stu/getTeaInfo', stuCtrl.getTeaInfo);
 
 }

@@ -3,7 +3,7 @@
  */
 angular.module('myApp.services')
     .factory('userService',function($http){
-        /*条件查询用户信息*/
+        /*鏉′欢鏌ヨ鐢ㄦ埛淇℃伅*/
         this.queryUserInfoByNameOrID = function(users) {
             return $http.get('/user/queryUserInfoByNameOrID', {
                 params: {

@@ -4,31 +4,32 @@
  */
 angular.module('myApp.controllers')
     .controller('showMyProjectController', function ($scope, $cookies, projectService) {
-        var projectchargeid = angular.fromJson($cookies.user).id;
+        //var projectchargeid = angular.fromJson($cookies.user).id;
         projectService.getProjectType()
             .success(function (data) {
                 $scope.projectType = data.codeInfo;
             }).error(function () {
-                alert('获取项目类型失败');
-            });
-        projectService.getMyProject(projectchargeid)
+            alert('获取项目类型失败');
+        });
+        projectService.getMyProject()
             .success(function (data) {
                 if (data.projectInfo.length != 0) {
                     $scope.projectInfo = data.projectInfo;
                 } else {
                     $scope.errorMsg = "用户未有项目信息";
+                    console.log($scope.errorMsg);
                 }
             }).error(function () {
-                $scope.errorMsg = "服务器出错";
-            });
+            $scope.errorMsg = "服务器出错";
+        });
     })
     .controller('showProjectController', function ($scope, $stateParams, projectService) {
         projectService.getProjectType()
             .success(function (data) {
                 $scope.projectType = data.codeInfo;
             }).error(function () {
-                alert('获取项目类型失败');
-            });
+            alert('获取项目类型失败');
+        });
         projectService.getProjectByID($stateParams.projectid)
             .success(function (data) {
                 $scope.project = data.projectInfo;
@@ -56,8 +57,8 @@ angular.module('myApp.controllers')
                             $scope.errorMsg = "无用户信息";
                         }
                     }).error(function () {
-                        $scope.errorMsg = "服务器出错";
-                    });
+                    $scope.errorMsg = "服务器出错";
+                });
             }
             $scope.users = {};//清空用户输入
         };
@@ -73,8 +74,8 @@ angular.module('myApp.controllers')
                         alert('添加成功');
                         $state.go('stu.showMyProject');
                     }).error(function () {
-                        alert('服务器出错，添加失败');
-                    });
+                    alert('服务器出错，添加失败');
+                });
             }
         }
     })
@@ -107,8 +108,8 @@ angular.module('myApp.controllers')
                             $scope.errorMsg = "无用户信息";
                         }
                     }).error(function () {
-                        $scope.errorMsg = "服务器出错";
-                    });
+                    $scope.errorMsg = "服务器出错";
+                });
             }
             $scope.users = {};//清空用户输入
         };
@@ -124,8 +125,8 @@ angular.module('myApp.controllers')
                         alert('修改成功');
                         $state.go('stu.showMyProject');
                     }).error(function () {
-                        alert('服务器出错，修改失败');
-                    });
+                    alert('服务器出错，修改失败');
+                });
             }
         }
     })
@@ -143,11 +144,15 @@ angular.module('myApp.controllers')
         projectService.getProjectByID($stateParams.projectid)
             .success(function (data) {
                 $scope.projectname = data.projectInfo.projectname;
-            }).error(function(){alert('获取project失败')});
+            }).error(function () {
+            alert('获取project失败')
+        });
         projectService.getPaperByProjectId($stateParams.projectid)
-            .success(function(data){
+            .success(function (data) {
                 $scope.papers = data.papers;
-            }).error(function(){alert('标注论文加载失败');});
+            }).error(function () {
+            alert('标注论文加载失败');
+        });
 
 
         $scope.editProjectPaper = function (papers) {
@@ -157,8 +162,8 @@ angular.module('myApp.controllers')
                         alert('修改成功');
                         $state.go('stu.showMyProject');
                     }).error(function () {
-                        alert('服务器出错，修改失败');
-                    });
+                    alert('服务器出错，修改失败');
+                });
             }
         };
         $scope.delPaper = function (idx) {
@@ -173,7 +178,7 @@ angular.module('myApp.controllers')
             }
         };
         $scope.queryAllPaper = function () {
-            $scope.paperInfo={};
+            $scope.paperInfo = {};
             var date = new Date();
             var currentDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
             var queryInfo = {
@@ -188,11 +193,11 @@ angular.module('myApp.controllers')
                         $scope.paperInfo = data.paperInfo;
                         console.log($scope.paperInfo);
                     } else {
-                        $scope.errMsg = "查询结果为空";
+                        $scope.errorMsg = "查询结果为空";
                     }
                 })
                 .error(function () {
-                    $scope.errMsg = "服务器出错";
+                    $scope.errorMsg = "服务器出错";
                 });
         }
     });

@@ -4,38 +4,76 @@
 var userModel = require('../../../app/models/userModel');
 var User = require('../../../app/models/user.model');
 var crypto = require('crypto');
-var client = require('../../../config/DB/DBConnect');
+//var client = require('../../../config/DB/DBConnect');
 
 exports.getStuOwnInfo = function (req, res) {
-    userModel.showStuOwnInfoQueryByID(res, req.user.id, function (err, result, result1,result2) {
+    var userInfo = {
+        id: req.session.user.id
+    }
+    var user = new User(userInfo);
+    user.showStuOwnInfoQueryByID(function (err, result) {
         if (result.length != 0) {
             return res.send({
-                stu: result[0],
-                stype: result1,
-                teaInfo:result2
+                stu: result[0]
             });
         }
         else
-            return res.sendStatus(401);
+            return res.send(401);
+    })
+    ;
+}
+exports.getTeaInfo = function (req, res) {
+    var userInfo = {
+        id: req.session.user.id
+    }
+    var user = new User(userInfo);
+    user.getTeaInfo(function (err, result) {
+        if (result.length != 0) {
+            return res.send({
+                teaInfo: result
+            });
+        }
+        else
+            return res.send(401);
     })
     ;
 }
 exports.updateStuInfo = function (req, res) {
-    userModel.updateStuInfo(req, res, req.user.id, function (err) {
+    var userInfo = req.body.stu;
+    var user = new User(userInfo);
+    user.id = req.session.user.id;
+    user.name = req.body.stu.sname;
+    user.updateStuInfo(function (err) {
         if (err) {
-            return res.send({msg: "未知错误"});
+            return res.send(401);
         }
         else
-            return res.send({msg: "修改成功"});
+            return res.send(200);
     })
 }
 exports.changePassword = function (req, res) {
-    userModel.comparePassword(req, res, req.user.id, function (err, result) {
-        if (result[0].password != crypto.createHash('sha1').update(req.body.pwd.old).digest("base64")) {
+    var userInfo = {
+        id: req.session.user.id,
+        oldPassword: req.body.pwd.old,
+        newPassword: req.body.pwd.new1,
+        levels: req.session.user.levels
+    }
+    var user = new User(userInfo);
+    var tableName;
+    var idName;
+    if (user.levels == 1) {
+        tableName = "student_info";
+        idName = "sid";
+    } else {
+        tableName = "teacher_info"
+        idName = "tid";
+    }
+    user.comparePassword(function (err, result) {
+        if (result[0].pwd != crypto.createHash('sha1').update(req.body.pwd.old).digest("base64")) {
             return res.send({msg: "原密码不正确"});
         }
         else {
-            userModel.changePassword(req, res, req.user.id, function (err) {
+            user.changePassword(tableName, idName, function (err) {
                 if (err) {
                     return res.send({msg: "未知错误"});
                 }

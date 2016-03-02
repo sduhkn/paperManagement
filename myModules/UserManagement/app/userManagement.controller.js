@@ -8,7 +8,7 @@ exports.queryUserInfoByNameOrID = function(req, res) {
 
     user.queryUserInfoByNameOrID(function(err, result){
         if(err){
-            return res.sendStatus(500);//·şÎñÆ÷³ö´í
+            return res.sendStatus(500);//æœåŠ¡å™¨å‡ºé”™
         }else {
             return res.json({userList: result});
         }
@@ -19,7 +19,7 @@ exports.getAllUser = function(req, res){
     var user = new User();
     user.getAllUser(function(err, result){
         if(err){
-            return res.sendStatus(500);//·şÎñÆ÷³ö´í
+            return res.sendStatus(500);//æœåŠ¡å™¨å‡ºé”™
         }else {
             return res.json({userInfo: result});
         }

@@ -61,13 +61,13 @@
         </div><!-- /.container -->
 
         <!--如果没有项目-->
-        <div ng-show="!projectInfo && errMsg" class="row">
+        <div ng-show="!projectInfo && errorMsg" class="row">
             <div class="col-xs-offset-3 col-xs-11 text-center text-info">
-                <h2>{{ errMsg }}</h2>
+                <h2>{{ errorMsg }}</h2>
             </div>
         </div>
         <!--加载中-->
-        <div ng-show="!projectInfo && !errMsg" class="row">
+        <div ng-show="!projectInfo && !errorMsg" class="row">
             <div class="col-xs-offset-3 col-xs-11 text-center text-info">
                 <h2>加载中...</h2>
             </div>

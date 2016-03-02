@@ -11,7 +11,7 @@ angular.module('myApp.directives').directive('selectSth',[function(){
             error: '=error',
             myData: '=myData',
             queryFun: '&queryFun',
-            transFun: '&transFun' //Õâ±ßÊÇ¸ö¿Ó °ó¶¨º¯ÊıÊ± ÓÃ &
+            transFun: '&transFun' //è¿™è¾¹æ˜¯ä¸ªå‘ ç»‘å®šå‡½æ•°æ—¶ ç”¨ &
         },
     }
 }]);

@@ -14,21 +14,21 @@ angular.module('myApp.controllers')
         $scope.paginationConf = {
             currentPage: 1,
             totalItems: 8000,
-            totalPage:1,
+            totalPage: 1,
             itemsPerPage: 15,
             pagesLength: 8
         };
         stuService.getMyPaper()
             .success(function (data) {
-                if(data.paperInfo.length != 0){
+                if (data.paperInfo.length != 0) {
                     $scope.paperInfo = data.paperInfo;
-                }else {
+                } else {
                     $scope.errMsg = "该用户未发表文章";
                 }
-            }).error(function(){
-                $scope.errMsg = "服务器出错";
-            });
-        $scope.editPaper = function (paper,included) {
+            }).error(function () {
+            $scope.errMsg = "服务器出错";
+        });
+        $scope.editPaper = function (paper, included) {
             $window.sessionStorage.paper = JSON.stringify(paper);
         };
         $scope.deletePaper = function (paperid) {
@@ -46,13 +46,37 @@ angular.module('myApp.controllers')
     })
 
     .controller('stuOwnInfoController', function (stuService, $scope) {
+        stuService.getStype()
+            .success(function (data) {
+                $scope.stype = data.codeInfo;
+                //for (var i = 0; i < $scope.stype.length; i++) {
+                //if ($scope.stu.stype == $scope.stype[i].codeid) {
+                //    $scope.stu.stype = $scope.stype[i].content;
+                //}
+                //}
+                //console.log($scope.stype);
+            }).error(function () {
+            console.log("stype 获取失败");
+        });
+        stuService.getTeaInfo()
+            .success(function (data) {
+                $scope.teaInfo = data.teaInfo;
+                //for (var i = 0; i < $scope.stype.length; i++) {
+                //if ($scope.stu.stype == $scope.stype[i].codeid) {
+                //    $scope.stu.stype = $scope.stype[i].content;
+                //}
+                //}
+                //console.log($scope.stype);
+            }).error(function () {
+            console.log("teaInfo 获取失败");
+        });
         stuService.getStuOwnInfo()
-            .success(function (data, status) {
+            .success(function (data) {
                 $scope.stu = data.stu;
                 $scope.stu.enrolldate = new Date(data.stu.enrolldate);
                 $scope.stu.graduationdate = new Date(data.stu.graduationdate);
-                $scope.stype = data.stype;
-                $scope.teaInfo = data.teaInfo;
+                //$scope.stype = data.stype;
+                //$scope.teaInfo = data.teaInfo;
             })
             .error(function (data, status) {
                 alert("error: " + status);
@@ -60,10 +84,10 @@ angular.module('myApp.controllers')
         $scope.updateStuInfo = function () {
             stuService.updateStuInfo($scope.stu)
                 .success(function (data, status) {
-                    alert(data.msg);
+                    alert("修改成功");
                 })
                 .error(function (data, status) {
-                    alert(data.msg);
+                    alert("未知错误");
                 });
         }
     })

@@ -20,7 +20,7 @@ exports.getMyPaperInfo = function (req, res) {
     console.log("req.session.user:" + req.session.user.id);
     //console.log(req.user);
 
-    var sql = "SELECT * FROM paper_info  WHERE paper_info.paperid IN (" +
+    var sql = "SELECT * FROM paper_info WHERE paper_info.paperid IN (" +
         "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + req.session.user.id + ") ORDER BY pubDate DESC";
     client.getDbCon(sql, function (err, paperInfo) {
         if (err) {

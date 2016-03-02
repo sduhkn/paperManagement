@@ -19,7 +19,7 @@ function connectDB() {
     });
     conn.on('error', function (err) {
         console.log('db error', err);
-        // Èç¹ûÊÇÁ¬½Ó¶Ï¿ª£¬×Ô¶¯ÖØĞÂÁ¬½Ó
+        // å¦‚æœæ˜¯è¿æ¥æ–­å¼€ï¼Œè‡ªåŠ¨é‡æ–°è¿æ¥
         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
             setTimeout(connectDB , 2000);
         } else {

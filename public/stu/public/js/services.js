@@ -21,9 +21,22 @@ angular.module('myApp.services')
             });
         }
 
+        var getStype = function () {
+            return $http.get('/codeInfo/getCodeInfo', {
+                params: {
+                    code: 'stype'
+                }
+            })
+        }
+
+        var getTeaInfo = function () {
+            return $http.get('/stu/getTeaInfo')
+        }
         return {
-            getStuOwnInfo: stuOwnInfo(),
-            updateStuInfo:updateStuInfo,
+            getStuOwnInfo: stuOwnInfo,
+            updateStuInfo: updateStuInfo,
             changePassword: changePassword,
+            getStype: getStype,
+            getTeaInfo:getTeaInfo,
         }
     });

@@ -13,8 +13,8 @@ angular.module('myApp.controllers')
                     $scope.errMsg = "该用户未发表文章";
                 }
             }).error(function () {
-                $scope.errMsg = "服务器出错";
-            });
+            $scope.errMsg = "服务器出错";
+        });
 
         $scope.getReference = function (paper) {
             $scope.reference = paper;
@@ -22,8 +22,8 @@ angular.module('myApp.controllers')
                 .success(function (data) {
                     $scope.reference.authors = data.authors;
                 }).error(function () {
-                    console.log('getAuthor error')
-                })
+                console.log('getAuthor error')
+            })
         }
         $scope.deletePaper = function (paperid) {
             if (confirm("确定要删除这篇论文吗？")) {
@@ -92,8 +92,8 @@ angular.module('myApp.controllers')
                         }
                     }
                 }).error(function () {
-                    console.log("included 获取失败")
-                });
+                console.log("included 获取失败")
+            });
             paperService.getCurrency()
                 .success(function (data) {
                     $scope.currency = data.codeInfo;
@@ -103,8 +103,8 @@ angular.module('myApp.controllers')
                         }
                     }
                 }).error(function () {
-                    console.log("currency 获取失败")
-                });
+                console.log("currency 获取失败")
+            });
             paperService.getModeOfPayment()
                 .success(function (data) {
                     $scope.modeofpayment = data.codeInfo;
@@ -114,8 +114,8 @@ angular.module('myApp.controllers')
                         }
                     }
                 }).error(function () {
-                    console.log("modeofpayment 获取失败")
-                });
+                console.log("modeofpayment 获取失败")
+            });
         }
 
         paperService.getPaperAuthorByID($stateParams.paperid)
@@ -126,131 +126,139 @@ angular.module('myApp.controllers')
                 $scope.paper.pubdate = data.paperInfo.pubdate.substring(0, 10);
                 $scope.paper.paymentDate = data.paperInfo.paymentDate.substring(0, 10);
             }).error(function () {
-                alert("出错了");
-            });
+            alert("出错了");
+        });
 
     })
     .controller('editPaperController', function ($scope, $state, $stateParams, paperService, userService) {
-        $scope.authors = [];
-        $scope.editYourself = true;
-        $scope.transCon_JouInfo = function (conInfo) {
-            $scope.paper.publish = conInfo.cjname || '';
-            $scope.paper.pubabb = conInfo.abbname || '';
-            $scope.paper.included = conInfo.included || '2';
-            $scope.paper.factor = conInfo.factor || 0;
-            $scope.paper.isccf = conInfo.isccf || '';
-            $scope.paper.ccflevel = conInfo.ccflevel || '';
-            $scope.paper.isconference = conInfo.isconference;
-        }
-        var myContains = function (a, obj) {
-            for (var i = 0; i < a.length; i++) {
-                if (a[i].station === obj.station) {
-                    return true;
-                }
+            $scope.authors = [];
+            $scope.editYourself = true;
+            $scope.transCon_JouInfo = function (conInfo) {
+                $scope.paper.publish = conInfo.cjname || '';
+                $scope.paper.pubabb = conInfo.abbname || '';
+                $scope.paper.included = conInfo.included || '2';
+                $scope.paper.factor = conInfo.factor || 0;
+                $scope.paper.isccf = conInfo.isccf || '';
+                $scope.paper.ccflevel = conInfo.ccflevel || '';
+                $scope.paper.isconference = conInfo.isconference;
             }
-            return false;
-        }
-        /*加载页面前预处理*/
-        $scope.preProcess = function () {
-            paperService.getPaperAuthorByID($stateParams.paperid)
-                .success(function (data) {
-                    $scope.paper = data.paperInfo;
-                    $scope.authors = data.authors;
-                    $scope.paper.pubdate = data.paperInfo.pubdate.substring(0, 10);
-                    $scope.paper.paymentDate = data.paperInfo.paymentDate.substring(0, 10);
-                }).error(function () {
+            var myContains = function (a, obj) {
+                for (var i = 0; i < a.length; i++) {
+                    if (a[i].station === obj.station) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            /*加载页面前预处理*/
+            $scope.preProcess = function () {
+                paperService.getPaperAuthorByID($stateParams.paperid)
+                    .success(function (data) {
+                        $scope.paper = data.paperInfo;
+                        $scope.authors = data.authors;
+                        $scope.paper.pubdate = data.paperInfo.pubdate.substring(0, 10);
+                        $scope.paper.paymentDate = data.paperInfo.paymentDate.substring(0, 10);
+                    }).error(function () {
                     alert("出错了");
                 });
-            paperService.getCon_JouInfo()
-                .success(function (data) {
-                    $scope.con_jouInfos = data.con_jouInfo;
-                }).error(function () {
+                paperService.getCon_JouInfo()
+                    .success(function (data) {
+                        $scope.con_jouInfos = data.con_jouInfo;
+                    }).error(function () {
                     console.log("con_jouInfo 获取失败")
                 });
-            paperService.getIncluded()
-                .success(function (data) {
-                    $scope.included = data.codeInfo;
-                }).error(function () {
+                paperService.getIncluded()
+                    .success(function (data) {
+                        $scope.included = data.codeInfo;
+                    }).error(function () {
                     console.log("included 获取失败")
                 });
-            paperService.getCurrency()
-                .success(function (data) {
-                    $scope.currency = data.codeInfo;
-                }).error(function () {
+                paperService.getCurrency()
+                    .success(function (data) {
+                        $scope.currency = data.codeInfo;
+                    }).error(function () {
                     console.log("currency 获取失败")
                 });
-            paperService.getModeOfPayment()
-                .success(function (data) {
-                    $scope.modeofpayment = data.codeInfo;
-                }).error(function () {
+                paperService.getModeOfPayment()
+                    .success(function (data) {
+                        $scope.modeofpayment = data.codeInfo;
+                    }).error(function () {
                     console.log("modeofpayment 获取失败")
                 });
-        };
-        $scope.preProcess();
+            };
+            $scope.preProcess();
 
-        $scope.addPaper = function (paper, authors) {
-            if (confirm("确定要修改这篇论文吗？")) {
-                paper.isccf = paper.ccflevel ? '1' : '2';
-                for (var i = 0; i < authors.length; i++) {
-                    if (authors[i].station == '0') {
-                        paper.cauthor = authors[i].authorname;
+            $scope.addPaper = function (paper, authors) {
+
+                if (confirm("确定要修改这篇论文吗？")) {
+                    paper.isccf = paper.ccflevel ? '1' : '2';
+                    for (var i = 0; i < authors.length; i++) {
+                        if (authors[i].station == '0') {
+                            paper.cauthor = authors[i].authorname;
+                        }
+                        if (authors[i].station == '1') {
+                            paper.fauthor = authors[i].authorname;
+                        }
                     }
-                    if (authors[i].station == '1') {
-                        paper.fauthor = authors[i].authorname;
-                    }
-                }
-                paperService.addPaper(paper, authors)
-                    .success(function (data, status) {
-                        alert("添加成功");
-                        $state.go('stu.showMyPaper');
-                    }).error(function () {
+                    paperService.addPaper(paper, authors)
+                        .success(function (data, status) {
+                            alert("添加成功");
+                            $state.go('stu.showMyPaper');
+                        }).error(function () {
                         alert('添加失败');
                     });
-            }
-        };
+                }
 
-        /*获取所有人员的信息  供人员选择*/
-        $scope.queryUserInfoByNameOrID = function (users) {
-            if (users.name || users.id) {
-                if (!users.name) {
-                    users.name = '';
-                }
-                if (!users.id) {
-                    users.id = '';
-                }
-                userService.queryUserInfoByNameOrID(users)
-                    .success(function (data) {
-                        if (data.userList.length != 0) {
-                            $scope.userList = data.userList;
-                        } else {
-                            $scope.errorMsg = "无用户信息";
-                        }
-                    }).error(function () {
+            };
+
+            /*获取所有人员的信息  供人员选择*/
+            $scope.queryUserInfoByNameOrID = function (users) {
+                if (users.name || users.id) {
+                    if (!users.name) {
+                        users.name = '';
+                    }
+                    if (!users.id) {
+                        users.id = '';
+                    }
+                    userService.queryUserInfoByNameOrID(users)
+                        .success(function (data) {
+                            if (data.userList.length != 0) {
+                                $scope.userList = data.userList;
+                            } else {
+                                $scope.errorMsg = "无用户信息";
+                            }
+                        }).error(function () {
                         $scope.errorMsg = "服务器出错";
                     });
-            }
-        };
-        $scope.currAuthor = {};
-        $scope.transAuthor = function (person) {
-            $scope.currAuthor.authorid = person.id;
-            $scope.currAuthor.authorname = person.name;
-        };
+                }
+            };
+            $scope.currAuthor = {};
+            $scope.transAuthor = function (person) {
+                $scope.currAuthor.authorid = person.id;
+                $scope.currAuthor.authorname = person.name;
+            };
 
-        $scope.nextPage = function () {
-            $scope.firstPage = !$scope.firstPage;
-        };
-        $scope.delAuthor = function (idx) {
-            $scope.authors.splice(idx, 1);
-        };
-        $scope.addAuthor = function (myAuthor) {
-            if (!myContains($scope.authors, myAuthor)) {
-                $scope.authors.push(myAuthor);
-                $scope.currAuthor = {};
-            } else {
-                alert("位置冲突");
+            $scope.nextPage = function () {
+                if ($scope.paper.issue.length > 2 || $scope.paper.column.length > 2)
+                    alert('期刊卷期不能多于两个字符');
+                else {
+                    $scope.firstPage = !$scope.firstPage;
+                }
             }
-        };
-    })
+            ;
+            $scope.delAuthor = function (idx) {
+                $scope.authors.splice(idx, 1);
+            };
+            $scope.addAuthor = function (myAuthor) {
+                if (!myContains($scope.authors, myAuthor)) {
+                    $scope.authors.push(myAuthor);
+                    $scope.currAuthor = {};
+                } else {
+                    alert("位置冲突");
+                }
+            };
+        }
+    )
     .controller("addPaperController", function ($scope, $cookies, $state, paperService, userService) {
         var myContains = function (a, obj) {
             for (var i = 0; i < a.length; i++) {
@@ -289,26 +297,26 @@ angular.module('myApp.controllers')
                 .success(function (data) {
                     $scope.con_jouInfos = data.con_jouInfo;
                 }).error(function () {
-                    console.log("con_jouInfo 获取失败")
-                });
+                console.log("con_jouInfo 获取失败")
+            });
             paperService.getIncluded()
                 .success(function (data) {
                     $scope.included = data.codeInfo;
                 }).error(function () {
-                    console.log("included 获取失败")
-                });
+                console.log("included 获取失败")
+            });
             paperService.getCurrency()
                 .success(function (data) {
                     $scope.currency = data.codeInfo;
                 }).error(function () {
-                    console.log("currency 获取失败")
-                });
+                console.log("currency 获取失败")
+            });
             paperService.getModeOfPayment()
                 .success(function (data) {
                     $scope.modeofpayment = data.codeInfo;
                 }).error(function () {
-                    console.log("modeofpayment 获取失败")
-                });
+                console.log("modeofpayment 获取失败")
+            });
 
         }
         $scope.preProcess();
@@ -329,8 +337,8 @@ angular.module('myApp.controllers')
                         alert("添加成功");
                         $state.go('stu.showMyPaper');
                     }).error(function () {
-                        alert('添加失败');
-                    });
+                    alert('添加失败');
+                });
             }
         };
 
@@ -361,8 +369,8 @@ angular.module('myApp.controllers')
                             $scope.errorMsg = "无用户信息";
                         }
                     }).error(function () {
-                        $scope.errorMsg = "服务器出错";
-                    });
+                    $scope.errorMsg = "服务器出错";
+                });
             }
         };
         $scope.currAuthor = {};
@@ -397,7 +405,11 @@ angular.module('myApp.controllers')
             } else {
                 $scope.authors = [];
             }
-            $scope.firstPage = !$scope.firstPage;
+            if ($scope.paper.issue.length > 2 || $scope.paper.column.length > 2)
+                alert('期刊卷期不能多于两个字符');
+            else {
+                $scope.firstPage = !$scope.firstPage;
+            }
         }
         $scope.delAuthor = function (idx) {
             $scope.authors.splice(idx, 1);

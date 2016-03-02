@@ -2,7 +2,7 @@
  * Created by Administrator on 2015/10/26.
  * express login controller
  */
-var userModel = require('../../../app/models/userModel');
+//var userModel = require('../../../app/models/userModel');
 var User = require('../../../app/models/user.model');
 var crypto = require('crypto');//密码加密专用
 var jwt = require('jsonwebtoken');//token加密专用
@@ -21,7 +21,7 @@ exports.login = function(req, res){
                     id: result[0].id,
                     levels:result[0].levels
                 };
-                res.cookie('user',JSON.stringify(user),{ maxAge: 10*60*1000 });
+                res.cookie('user',JSON.stringify(user),{ maxAge: 60*60*1000 });
                 req.session.user = user;
                 var token = jwt.sign(user, 'YOUR_SECRET_STRING',{ expiresIn: 60*60 });
                 logger.writeDebug(user.name + " come in !!")
