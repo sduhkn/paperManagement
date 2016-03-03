@@ -13,15 +13,17 @@ angular.module('myApp',['ui.router','myApp.controllers'
         $urlRouterProvider.otherwise("/home");
         //$httpProvider.interceptors.push('TokenInterceptor');
     })
-    .run(function($rootScope, $state, $window,$templateCache){
+    .run(function($rootScope, $state, $window,$cookies){
         $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
             if(toState.name == 'login') return;// 如果是进入登录界面则允许
             //redirect only if both isLogged is false and no token is set
-            if (!!$window.sessionStorage.token) {
-                return ;
-            }else{
-                event.preventDefault();// 取消默认跳转行为
-                $state.go('login');
+            if(fromState.name !== 'login'){
+                if (!!$window.sessionStorage.token && !!$cookies.user) {
+                    return ;
+                }else{
+                    event.preventDefault();// 取消默认跳转行为
+                    $state.go('login');
+                }
             }
         });
     });

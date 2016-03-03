@@ -3,7 +3,6 @@
  */
 var client = require('../../../config/DB/DBConnect');
 var moment = require('moment');
-var pool = client.pool;
 var logger = require('../../util/logHelper.js').helper;
 function Project(project) {
     this.projectid = project.projectid || moment(new Date()).format('YYYYMMDDHHmmss');
@@ -11,8 +10,8 @@ function Project(project) {
     this.projectlabel = project.projectlabel || '';//项目英文标注名称
     this.projectidfin = project.projectidfin || '';//项目财务编号
     this.projecttype = project.projecttype || '';
-    this.estdate = project.estdate || '0000-00-00';
-    this.knotdate = project.knotdate || '0000-00-00';
+    this.estdate = project.estdate || '0000-00-00';//开始日期
+    this.knotdate = project.knotdate || '0000-00-00';//结束日期
     this.funding = project.funding || 0;
     this.projectchargeid = project.projectchargeid || '';
     this.projectchargename = project.projectchargename || '';
@@ -24,7 +23,7 @@ function Project(project) {
     this.lpapernum = project.lpapernum || 0;//项目已经标注论文数量
     this.lpatentnum = project.lpatentnum || 0;//项目已标注专利数量
     this.lcopyrightnum = project.lcopyrightnum || 0;//项目已标注软件著作权数量
-    this.isend = project.isend || '2';//项目是否结束
+    this.isend = project.isend || '2';//项目是否结束 '1'表示项目结束 '2'表示项目未结束
     this.comment = project.comment;//项目备注
     this.papers = project.papers;//项目标注论文
 }
@@ -57,7 +56,14 @@ Project.prototype.savePaper = function savePaper(callback) {
     var projectid = this.projectid, papers = this.papers;
     var sql_delete = "delete from pp_label where projectid=" + projectid;
     var sql = "replace into pp_label(paperid, projectid) values(?,?)";
-    var sql_update = "UPDATE project_info SET lpapernum = "+ papers.length +" WHERE projectid = "+this.projectid;
+    if(papers.length >= this.papernum){
+        //判断项目是否结束
+        this.isend = "1"
+    }else{
+        this.isend = "2"
+    }
+    var sql_update = "UPDATE project_info SET lpapernum ="+ papers.length +",isend="+
+        this.isend +" WHERE projectid = "+this.projectid;
 
     client.getDbCon(sql_delete, function (err, result) {
         if (err) {
@@ -89,7 +95,7 @@ Project.prototype.getProjectByID = function getProject(callback) {
     client.getDbCon(sql, function (err, result) {
         if (err) {
             logger.writeErr(err);
-            return callback(err, result)
+            return callback(err, null)
         }
         else {
             return callback(err, result);
@@ -101,7 +107,8 @@ Project.prototype.getMyProject = function (callback) {
     var sql = "select * from project_info where projectchargeid =" + this.projectchargeid + " order by estdate DESC";
     client.getDbCon(sql, function (err, result) {
         if (err) {
-            console.log(err);
+            logger.writeErr(err);
+            return callback(err, null)
         }
         else {
             callback(err, result);
@@ -113,8 +120,8 @@ Project.prototype.getPaperByProjectId = function (callback) {
     var sql = "SELECT * from paper_info where paperid in (SELECT paperid FROM pp_label WHERE projectid =" + this.projectid + ")";
     client.getDbCon(sql, function (err, result) {
         if (err) {
-            console.log(err);
-            return callback(err, null);
+            logger.writeErr(err);
+            return callback(err, null)
         }
         else {
             callback(err, result);

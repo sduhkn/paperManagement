@@ -4,6 +4,17 @@
         <!--如果有发表文章内容-->
         <div class="container">
             <!-- 搜索栏 -->
+            <div class="row form-inline">
+                <div class="col-xs-offset-1 col-xs-5">
+                    项目是否结题：
+                    <select ng-model="search.isend" class="form-control">
+                        <option value="">全选</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+
             <!-- show project info -->
             <div class="col-xs-10">
                 <table class="table table-bordered table-hover" style="text-align: center;border: 2px solid #c8c9e8;">
@@ -12,7 +23,6 @@
                         <td colspan='8'>
                             <a ng-click="" class="btn btn-sm btn-primary">查询</a>
                             <a ui-sref="stu.addProject" class="btn btn-sm btn-primary">添加</a>
-                            <a class="btn btn-sm btn-primary">导出</a>
                         </td>
                     </tr>
                     </tbody>
@@ -34,7 +44,11 @@
                     <tr ng-repeat="project in projectInfo | filter:search">
                         <td>{{ $index + 1 }}</td>
                         <td>
-                            <a href="#/stu/project/{{project.projectid}}" >{{ project.projectname }}</a>
+                            <div>
+                                <a href="#/stu/project/{{project.projectid}}" >{{ project.projectname }}</a>
+                                <span ng-if="project.isend === '1' " style="color: red">(已完成)</span>
+                            </div>
+
                         </td>
                         <td>
                             <p ng-repeat="type in projectType">

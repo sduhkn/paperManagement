@@ -103,6 +103,7 @@ exports.deletePaper = function (req, res) {
             if (result.affectedRows != 0) {
                 return res.sendStatus(200);
             }
+            return res.sendStatus(400);
         }
     });
 };
@@ -112,9 +113,7 @@ var saveAuthor = function (paper, authors) {
     for (var i = 0; i < authors.length; i++) {
         wait.forMethod(paper, "saveAuthor", authors[i]);
     }
-
 };
-
 exports.addPaper = function (req, res) {
     var paper = new Paper(req.body.paper);
     var authors = req.body.authors;
@@ -129,7 +128,6 @@ exports.addPaper = function (req, res) {
             return res.sendStatus(200);
         }
     })
-
 };
 
 exports.getAllPaperInfo = function (req, res) {

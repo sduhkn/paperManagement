@@ -4,8 +4,8 @@
  */
 var Project = require('./project.model');
 var client = require('../../../config/DB/DBConnect');
-var wait = require('wait.for');
 
+/*根据projectid获取project信息*/
 exports.getProject = function (req, res) {
     var projectInfo = {
         projectid: req.params.projectid
@@ -15,10 +15,10 @@ exports.getProject = function (req, res) {
         if (err) {
             return res.sendStatus(500);
         } else {
-            res.send({projectInfo: result[0]})
+            return res.send({projectInfo: result[0]})
         }
     })
-}
+};
 
 exports.addProject = function (req, res) {
     var project = new Project(req.body.project);
@@ -31,7 +31,8 @@ exports.addProject = function (req, res) {
             }
         }
     });
-}
+};
+/*编辑project的信息*/
 exports.editProject = function (req, res) {
     var project = new Project(req.body.project);
     project.save(function (err, result) {
@@ -41,22 +42,32 @@ exports.editProject = function (req, res) {
             if (result.affectedRows != 0) {
                 return res.sendStatus(200);
             }
+            return res.sendStatus(400);
         }
     });
-}
-
+};
+/*
+* 为project添加paper标注
+* */
 exports.editProjectPaper = function (req, res) {
     var projectInfo = {
-        projectid: req.params.projectid,
-        papers: req.body.papers
+        projectid: req.params.projectid
     }
     var project = new Project(projectInfo);
-    project.savePaper(function (err, result) {
-        if (err)
+    project.getProjectByID(function(err,result){
+        if(err){
             return res.sendStatus(500);
-    });
-    return res.sendStatus(200);
-
+        }
+        var myProjectInfo = result[0];
+        myProjectInfo.papers =  req.body.papers;
+        var myProject = new Project(myProjectInfo);
+        myProject.savePaper(function (err, result1) {
+            if (err){
+                return res.sendStatus(500);
+            }
+        });
+        return res.sendStatus(200);
+    })
 };
 
 exports.getMyProject = function (req, res) {
@@ -75,7 +86,7 @@ exports.getMyProject = function (req, res) {
             });
         }
     });
-}
+};
 exports.getPaperByProjectId = function (req, res) {
     var projectInfo = {
         projectid: req.params.projectid
@@ -89,4 +100,4 @@ exports.getPaperByProjectId = function (req, res) {
             return res.send({papers: papers});
         }
     });
-}
+};

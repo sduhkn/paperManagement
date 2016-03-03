@@ -318,7 +318,7 @@ angular.module('myApp.controllers')
                 console.log("modeofpayment 获取失败")
             });
 
-        }
+        };
         $scope.preProcess();
         $scope.addPaper = function (paper, authors) {
             if (confirm("确定要添加论文？")) {
@@ -341,16 +341,6 @@ angular.module('myApp.controllers')
                 });
             }
         };
-
-        $scope.getVar = function () {
-            $scope.paper.ccflevel = $scope.paper.ccflevel ? $scope.paper.ccflevel : 'null';
-            console.log("$scope.isfauthor:" + $scope.isfauthor + "\t $scope.isCauthor:" + $scope.isCauthor);
-            console.log("$scope.paper.isfistSDU:" + $scope.paper.isfistSDU);
-            console.log("$scope.paper.included:" + $scope.paper.included);
-            console.log("$scope.paper.currency:" + $scope.paper.currency);
-            console.log("$scope.paper.ccflevel:" + $scope.paper.ccflevel);
-            console.log("$scope.paper.pubdate:" + Date.parse($scope.paper.pubdate));
-        }
 
         /*获取所有人员的信息  供人员选择*/
         $scope.queryUserInfoByNameOrID = function (users) {
@@ -405,15 +395,11 @@ angular.module('myApp.controllers')
             } else {
                 $scope.authors = [];
             }
-            if ($scope.paper.issue.length > 2 || $scope.paper.column.length > 2)
-                alert('期刊卷期不能多于两个字符');
-            else {
-                $scope.firstPage = !$scope.firstPage;
-            }
-        }
+            $scope.firstPage = !$scope.firstPage;
+        };
         $scope.delAuthor = function (idx) {
             $scope.authors.splice(idx, 1);
-        }
+        };
         $scope.addAuthor = function (myAuthor) {
             if (!myContains($scope.authors, myAuthor)) {
                 $scope.authors.push(myAuthor);

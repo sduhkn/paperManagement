@@ -82,18 +82,18 @@
                         <td style="text-align: center;"><span style="color: red">*</span>项目经费：</td>
                         <td>
                             <input ng-model="project.funding" type="number"
-                                   style="width: 20%;border-radius: 4px;text-align: center">
+                                   style="width: 20%;border-radius: 4px;text-align: center" required>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;"><span style="color: red">*</span>项目需要论文数量：</td>
                         <td>
                             <input ng-model="project.papernum" type="number"
-                                   style="width: 20%;border-radius: 4px;text-align: center">
+                                   style="width: 20%;border-radius: 4px;text-align: center" required>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;vertical-align: middle"><span style="color: red">*</span>项目需要论文说明：</td>
+                        <td style="text-align: center;vertical-align: middle">项目需要论文说明：</td>
                         <td><!--时间控件-->
                             <textarea ng-model="project.papercomment" class="form-control" rows="3" maxlength="150">
                             </textarea>
@@ -103,18 +103,18 @@
                         <td style="text-align: center;"><span style="color: red">*</span>项目需要专利数量：</td>
                         <td>
                             <input ng-model="project.patentnum" type="number"
-                                   style="width: 20%;border-radius: 4px;text-align: center">
+                                   style="width: 20%;border-radius: 4px;text-align: center" required>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;"><span style="color: red">*</span>项目需要软件著作权数量：</td>
                         <td>
                             <input ng-model="project.copyrightnum" type="number"
-                                   style="width: 20%;border-radius: 4px;text-align: center">
+                                   style="width: 20%;border-radius: 4px;text-align: center" required>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;vertical-align: middle"><span style="color: red">*</span>项目验收需要的其他条件：</td>
+                        <td style="text-align: center;vertical-align: middle">项目验收需要的其他条件：</td>
                         <td>
                             <textarea ng-model="project.others" class="form-control" rows="3" maxlength="150"></textarea>
                         </td>

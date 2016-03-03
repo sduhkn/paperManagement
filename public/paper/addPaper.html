@@ -135,8 +135,8 @@
                         <td style="text-align: center;">期刊专用：</td>
                         <td>
                             <div class="form-inline">
-                                第<input ng-model="paper.column" style="text-align: center;width: 15%" type="text" class="form-control" />卷，
-                                第<input ng-model="paper.issue" style="text-align: center;width: 15%" type="text" class="form-control" />期
+                                第<input ng-model="paper.column" style="text-align: center;width: 15%" type="text" class="form-control" maxlength="2"/>卷，
+                                第<input ng-model="paper.issue" style="text-align: center;width: 15%" type="text" class="form-control" maxlength="2" />期
                             </div>
                         </td>
                     </tr>
@@ -203,7 +203,6 @@
                             <a href onclick="javascript :history.back(-1);" class="btn btn-sm btn-primary">返回上一页</a>
                             <input ng-disabled="addPaperForm.$invalid" class="btn btn-sm btn-primary" type="button"
                                    ng-click="nextPage()" value="下一步">
-                            <input type="button" class="btn btn-default" ng-click="getVar()" value="获取变量"/>
                         </td>
 
                     </tr>
@@ -270,7 +269,7 @@
                     <tr>
                         <td colspan="5">
                             <a class="btn btn-sm btn-primary" type="button" ng-click=" firstPage = !firstPage ">返回上一步</a>
-                            <a class="btn btn-sm btn-primary" type="button" ng-click="addPaper(paper,authors)">添加论文</a>
+                            <button class="btn btn-sm btn-primary" ng-disabled="authors.length == 0" ng-click="addPaper(paper,authors)">添加论文</button>
                         </td>
                     </tr>
                     </tbody>
