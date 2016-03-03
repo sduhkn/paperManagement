@@ -32,7 +32,9 @@ angular.module('myApp.services')
                 }
             });
         };
-
+        this.deleteProject = function (projectid) {
+            return $http.post('/deleteProject/' + projectid);
+        };
         this.getProjectByID = function (projectid) {
             return $http.get('/project/' + projectid);
         };

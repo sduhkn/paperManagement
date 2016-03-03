@@ -23,7 +23,7 @@ angular.module('myApp.controllers')
             $scope.errorMsg = "服务器出错";
         });
     })
-    .controller('showProjectController', function ($scope, $stateParams, projectService) {
+    .controller('showProjectController', function ($scope, $stateParams, $state,projectService) {
         projectService.getProjectType()
             .success(function (data) {
                 $scope.projectType = data.codeInfo;
@@ -34,6 +34,17 @@ angular.module('myApp.controllers')
             .success(function (data) {
                 $scope.project = data.projectInfo;
             })
+        $scope.deleteProject = function () {
+            if (confirm("确定要删除这篇论文吗？")) {
+                projectService.deleteProject($stateParams.projectid)
+                    .success(function (data) {
+                        alert("删除成功");
+                        $state.go('stu.showMyProject');
+                    }).error(function () {
+                    alert("未知错误");
+                });
+            }
+        }
     })
     .controller('addProjectController', function ($state, $scope, $cookies, userService, projectService) {
         /*获取所有人员的信息  供人员选择*/

@@ -80,7 +80,7 @@ angular.module('myApp.controllers')
             $window.sessionStorage.paper = JSON.stringify(paper);
         };
     })
-    .controller('showPaperController', function ($scope, $stateParams, paperService) {
+    .controller('showPaperController', function ($scope, $stateParams, paperService,$state) {
         $scope.authors = [];
         $scope.preProcess = function () {
             paperService.getIncluded()
@@ -116,6 +116,17 @@ angular.module('myApp.controllers')
                 }).error(function () {
                 console.log("modeofpayment 获取失败")
             });
+        }
+        $scope.deletePaper = function () {
+            if (confirm("确定要删除这篇论文吗？")) {
+                paperService.deletePaper($stateParams.paperid)
+                    .success(function (data) {
+                        alert("删除成功");
+                        $state.go('stu.showMyPaper');
+                    }).error(function () {
+                    alert("未知错误");
+                });
+            }
         }
 
         paperService.getPaperAuthorByID($stateParams.paperid)

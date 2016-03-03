@@ -88,10 +88,12 @@ Paper.prototype.getAuthorByPaperID = function (callback) {
 }
 
 Paper.prototype.deletePaper = function (callback) {
-    var sql = 'delete from paper_info where paperid = ' + this.paperid;
-    client.getDbCon(sql, function (err, result) {
+    var sql=new Array();
+    sql[0]='delete from paper_info where paperid = ' + this.paperid;
+    sql[1]='delete from paper_author where paperid = ' + this.paperid;
+    client.getDbConSQL2(sql, function (err, result) {
         if (err) {
-            throw err;
+            return callback(err, null)
         }
         else {
             callback(err, result);

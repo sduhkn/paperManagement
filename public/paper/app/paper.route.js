@@ -8,7 +8,7 @@ module.exports = function (app) {
     app.get('/paper/getPaperAuthorByID', paperCtrl.getPaperAuthorByID);
     /*根据论文展示作者信息*/
     app.get('/paper/getAuthorByPaperID', paperCtrl.getAuthorByPaperID);
-    app.delete('/paper/deletePaper/:paperid', paperCtrl.deletePaper);
+    app.post('/paper/deletePaper/:paperid', paperCtrl.deletePaper);
     app.get('/paper/showMyPaper',
         //expressJWT({secret: app.get('jwtSecret')}),
         paperCtrl.getMyPaperInfo);

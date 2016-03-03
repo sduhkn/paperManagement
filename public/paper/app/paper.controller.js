@@ -90,7 +90,6 @@ exports.getAuthorByPaperID = function (req, res) {
     });
 };
 exports.deletePaper = function (req, res) {
-    console.log(req.params.paperid);
     var paperInfo = {
         paperid: req.params.paperid
     };
@@ -100,10 +99,10 @@ exports.deletePaper = function (req, res) {
             return res.sendStatus(500);
         }
         else {
-            if (result.affectedRows != 0) {
-                return res.sendStatus(200);
-            }
-            return res.sendStatus(400);
+            //if (result.affectedRows != 0) {
+            //    return res.sendStatus(200);
+            //}
+            return res.sendStatus(200);
         }
     });
 };

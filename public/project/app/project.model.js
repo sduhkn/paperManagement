@@ -128,3 +128,17 @@ Project.prototype.getPaperByProjectId = function (callback) {
         }
     })
 };
+Project.prototype.deleteProject = function (callback) {
+    var sql=new Array();
+    sql[0]='delete from project_info where projectid = ' + this.projectid;
+    sql[1]='delete from pp_label where projectid = ' + this.projectid;
+    client.getDbConSQL2(sql, function (err, result) {
+        if (err) {
+            logger.writeErr(err);
+            return callback(err, null)
+        }
+        else {
+            callback(err, result);
+        }
+    })
+};

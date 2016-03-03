@@ -101,3 +101,17 @@ exports.getPaperByProjectId = function (req, res) {
         }
     });
 };
+exports.deleteProject = function (req, res) {
+    var projectInfo = {
+        projectid: req.params.projectid
+    };
+    var project = new Project(projectInfo);
+    project.deleteProject(function (err) {
+        if (err) {
+            return res.sendStatus(500);
+        }
+        else {
+            return res.send(200);
+        }
+    });
+};

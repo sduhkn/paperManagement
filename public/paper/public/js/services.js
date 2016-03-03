@@ -57,7 +57,7 @@ angular.module('myApp.services')
         }
 
         var deletePaper = function (paperid) {
-            return $http.delete('/paper/deletePaper/' + paperid);
+            return $http.post('/paper/deletePaper/' + paperid);
         }
         /*用户添加paper*/
         var addPaper = function (paper, authors) {
