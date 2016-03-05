@@ -5,8 +5,8 @@
                 <h2>SDE管理系统</h2>
             </div>
             <div class="col-xs-4" style="margin-top: 20px">
-                <h4 class="text-warning">{{ user }},welcome to the home!
-                    <a href="/logout" style="margin-left:15px">登出</a>
+                <h4 class="text-warning">{{ user.name }},welcome to the home!
+                    <a ng-click="logout()" href style="margin-left:15px">登出</a>
                 </h4>
             </div>
         </div>
@@ -21,13 +21,13 @@
                 -->
                 <a ui-sref="stu.showMyPaper">我发表的论文</a>
             </li>
-            <li name='myli' ui-sref-active="active" ng-if=" levels >= 1 ">
+            <li name='myli' ui-sref-active="active" ng-if=" user.levels >= 1 ">
                 <a ui-sref="stu.showMyProject">我的项目</a>
             </li>
-            <li name='myli' ui-sref-active="active" ng-if=" levels == 0">
+            <li name='myli' ui-sref-active="active" ng-if=" user.levels == 0">
                 <a ui-sref="stu.showAllPaper">查看所有论文</a>
             </li>
-            <li name='myli' ui-sref-active="active" ng-if=" levels == 1">
+            <li name='myli' ui-sref-active="active" ng-if=" user.levels == 1">
                 <a ui-sref="stu.myInfo">我的信息</a>
             </li>
             <li name='myli' ui-sref-active="active">

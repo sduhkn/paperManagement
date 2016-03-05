@@ -3,11 +3,16 @@
  * angular stuController
  */
 angular.module('myApp.controllers')
-    .controller('stuController', function ($rootScope, $scope, $cookies, $state) {
-        var user = angular.fromJson($cookies.user);
-        $scope.user = user.name;
+    .controller('stuController', function ($scope, $state, $http, $window) {
         $scope.$state = $state;
-        $scope.levels = user.levels;
+        $scope.logout = function(){
+            $http.post("/logout")
+                .success(function(){
+                    $window.sessionStorage.userInfo = null;
+                    $window.sessionStorage.token = null;
+                    $state.go("login");
+                });
+        }
     })
     .controller('stu_showPaperInfoController', function ($scope, $state, $window, stuService) {
         /*showMyPaper.html controller*/

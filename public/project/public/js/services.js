@@ -26,14 +26,10 @@ angular.module('myApp.services')
             })
         };
         this.getMyProject = function (projectcharge) {
-            return $http.get('/myProject', {
-                params: {
-                    projectcharge: projectcharge
-                }
-            });
+            return $http.get('/myProject');
         };
         this.deleteProject = function (projectid) {
-            return $http.post('/deleteProject/' + projectid);
+            return $http.delete('/deleteProject/' + projectid);
         };
         this.getProjectByID = function (projectid) {
             return $http.get('/project/' + projectid);

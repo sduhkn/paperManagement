@@ -270,7 +270,7 @@ angular.module('myApp.controllers')
             };
         }
     )
-    .controller("addPaperController", function ($scope, $cookies, $state, paperService, userService) {
+    .controller("addPaperController", function ($scope, $window, $state, paperService, userService) {
         var myContains = function (a, obj) {
             for (var i = 0; i < a.length; i++) {
                 if (a[i].station === obj.station) {
@@ -286,8 +286,8 @@ angular.module('myApp.controllers')
             isconference: '1',
             isccf: '2',
             chargeAuthorInfo: {
-                authorname: angular.fromJson($cookies.user).name,
-                authorid: angular.fromJson($cookies.user).id
+                authorname: angular.fromJson($window.sessionStorage.userInfo).name,
+                authorid: angular.fromJson($window.sessionStorage.userInfo).id
             },
             isfistSDU: '1',//第一位是否为山大
             currency: '1',//币种

@@ -3,8 +3,7 @@
  * angular project controller
  */
 angular.module('myApp.controllers')
-    .controller('showMyProjectController', function ($scope, $cookies, projectService) {
-        //var projectchargeid = angular.fromJson($cookies.user).id;
+    .controller('showMyProjectController', function ($scope, projectService) {
         projectService.getProjectType()
             .success(function (data) {
                 $scope.projectType = data.codeInfo;
@@ -46,11 +45,11 @@ angular.module('myApp.controllers')
             }
         }
     })
-    .controller('addProjectController', function ($state, $scope, $cookies, userService, projectService) {
+    .controller('addProjectController', function ($state, $scope, $window, userService, projectService) {
         /*获取所有人员的信息  供人员选择*/
         $scope.project = {
-            projectchargename: angular.fromJson($cookies.user).name,
-            projectchargeid: angular.fromJson($cookies.user).id
+            projectchargename: angular.fromJson($window.sessionStorage.userInfo).name,
+            projectchargeid: angular.fromJson($window.sessionStorage.userInfo).id
         };
         $scope.queryUserInfoByNameOrID = function (users) {
             if (users.name || users.id) {
@@ -90,12 +89,12 @@ angular.module('myApp.controllers')
             }
         }
     })
-    .controller('editProjectController', function ($state, $stateParams, $scope, $cookies,
+    .controller('editProjectController', function ($state, $stateParams, $scope, $window,
                                                    userService, projectService) {
         /*获取所有人员的信息  供人员选择*/
         $scope.project = {
-            projectchargename: angular.fromJson($cookies.user).name,
-            projectchargeid: angular.fromJson($cookies.user).id
+            projectchargename: angular.fromJson($window.sessionStorage.userInfo).name,
+            projectchargeid: angular.fromJson($window.sessionStorage.userInfo).id
         };
         projectService.getProjectByID($stateParams.projectid)
             .success(function (data) {
@@ -141,8 +140,8 @@ angular.module('myApp.controllers')
             }
         }
     })
-    .controller('editProjectPaperController', function ($state, $stateParams, $scope, $cookies,
-                                                        userService, projectService, paperService) {
+    .controller('editProjectPaperController', function ($state, $stateParams, $scope,
+                                                         projectService, paperService) {
         $scope.papers = {};
         var myContains = function (a, obj) {
             for (var i = 0; i < a.length; i++) {

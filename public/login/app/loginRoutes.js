@@ -9,5 +9,5 @@ module.exports = function(app){
         res.redirect('/#login');
     });
     app.route('/login').post(loginCtrl.login);
-    app.route('/logout').get(loginCtrl.logout);
+    app.route('/logout').post(loginCtrl.logout);
 }

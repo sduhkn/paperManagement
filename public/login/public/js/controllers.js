@@ -13,9 +13,11 @@ angular.module('myApp.controllers',['myApp.directives'])
             promise
                 .then(function success(data){
                     $window.sessionStorage.token = data.token;
+                    $window.sessionStorage.userInfo = JSON.stringify(data.user);
                     $state.go('stu');
                 },function error(err){
                     delete $window.sessionStorage.token;
+                    delete $window.sessionStorage.userInfo;
                     $scope.errMsg = "用户名密码错误";
                 });
         }

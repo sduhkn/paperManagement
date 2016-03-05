@@ -3,13 +3,16 @@
  * angular loginServices
  */
 angular.module('myApp.services', [])
-    .factory('authenticationService', function ($http, $q, $window) {
+    .factory('authenticationService', function ($http, $q) {
+
+        var userInfo;
 
         function login(user) {
             var deferred = $q.defer();
             $http.post('/login', {
                 user: user,
             }).success(function (data) {
+                userInfo = data.user;
                 deferred.resolve(data);
             }).error(function (err) {
                 deferred.reject(err);
@@ -17,8 +20,13 @@ angular.module('myApp.services', [])
             return deferred.promise;
         };
 
+        function getUserInfo(){
+            return userInfo;
+        }
+
         return {
             login: login,
+            getUserInfo: getUserInfo
         }
     })/*.factory('TokenInterceptor', function ($q, $window) {
     return {

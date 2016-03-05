@@ -10,7 +10,25 @@ angular.module('myApp')
                 url: '/stu',
                 views: {
                     '': {
+                        resolve:{
+                            auth:["$q","$window","authenticationService",function($q, $window, authenticationService) {
+                                var userInfo;
+                                if ($window.sessionStorage.userInfo) {
+                                    userInfo = $window.sessionStorage.userInfo;
+                                }else{
+                                    userInfo = authenticationService.getUserInfo()
+                                }
+                                if (userInfo) {
+                                    return $q.when(userInfo);
+                                } else {
+                                    return $q.reject({ authenticated: false });
+                                }
+                            }]
+                        },
                         templateUrl: "./public/stu/stuHome.html",
+                        controller: function($scope,auth){
+                            $scope.user = JSON.parse(auth);
+                        }
                     },
                     'stuRight@stu': {
                         template: '<p>welcome to the home</p>',

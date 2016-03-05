@@ -40,6 +40,8 @@ exports.login = function(req, res){
 
 exports.logout = function(req, res){
     delete  req.session.user;
+    console.log(123);
     res.clearCookie('user', { path: '/' });
-    res.redirect('/');
+    console.log(12344);
+    return res.sendStatus(200);
 }
