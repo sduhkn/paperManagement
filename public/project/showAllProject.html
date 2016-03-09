@@ -1,0 +1,92 @@
+<!-- 我发表的论文右侧 -->
+<div ng-controller="showAllProjectController">
+    <div>
+        <!--如果有发表文章内容-->
+        <div class="container">
+            <div class="row form-inline">
+                <div class="col-xs-offset-1 col-xs-5">
+                    项目是否结题：
+                    <select ng-model="search.isend" class="form-control">
+                        <option value="">全选</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- show project info -->
+            <div class="col-xs-10">
+                <table class="table table-bordered table-hover" style="text-align: center;border: 2px solid #c8c9e8;">
+                    <tbody>
+                    <tr>
+                        <td colspan='8'>
+                            <!--<a ng-click="queryAllProject()" class="btn btn-sm btn-primary">查询</a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tbody  class="paperHeaderStyle">
+                    <tr>
+                        <td width="5%">序号</td>
+                        <td width="20%">项目名称</td>
+                        <td width="15%">项目类型</td>
+                        <td width="10%">负责人</td>
+                        <td width="10%">立项日期</td>
+                        <td width="10%">结题日期</td>
+                        <td width="10%">需要论文数量</td>
+                        <td width="10%">已标注论文数量</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="paperContentStyle">
+                    <tr ng-repeat="project in projectInfo | filter:search">
+                        <td>{{ $index + 1 }}</td>
+                        <td>
+                            <div>
+                                <a href="#/stu/project/{{project.projectid}}" >{{ project.projectname }}</a>
+                                <span ng-if="project.isend === '1' " style="color: red">(已完成)</span>
+                            </div>
+
+                        </td>
+                        <td>
+                            <p ng-repeat="type in projectType">
+                                <span ng-show="type.codeid == project.projecttype">{{ type.content }}</span>
+                            </p>
+                        </td>
+                        <td>{{ project.projectchargename }}</td>
+                        <td>
+                            {{ project.estdate | date:'yyyy-MM-dd'  }}
+                        </td>
+                        <td>{{ project.knotdate  | date:'yyyy-MM-dd' }}</td>
+                        <td>
+                            {{ project.papernum }}
+                        </td>
+                        <td>
+                            {{ project.lpapernum  }}
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div><!-- /.container -->
+
+        <!--如果没有项目-->
+        <div ng-show="!projectInfo && errorMsg" class="row">
+            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                <h2>{{ errorMsg }}</h2>
+            </div>
+        </div>
+        <!--加载中-->
+        <div ng-show="!projectInfo && !errorMsg" class="row">
+            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                <h2>加载中...</h2>
+            </div>
+        </div>
+
+        <!--分页部分-->
+        <myPagination conf="paginationConf" load-data="load()"></myPagination>
+    </div>
+
+</div>

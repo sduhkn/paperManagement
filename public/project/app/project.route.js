@@ -10,6 +10,6 @@ module.exports = function (app) {
     app.post('/editProjectPaper/:projectid', projectCtrl.editProjectPaper);
     app.get('/myProject', projectCtrl.getMyProject);
     app.get('/getPaperByProjectId/:projectid',projectCtrl.getPaperByProjectId);
-
+    app.get('/showAllProject', projectCtrl.getAllProject);
     app.delete('/deleteProject/:projectid', projectCtrl.deleteProject);
 }

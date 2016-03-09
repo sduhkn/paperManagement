@@ -18,8 +18,6 @@ var wait = require('wait.for');
  }*/
 exports.getMyPaperInfo = function (req, res) {
     console.log("req.session.user:" + req.session.user.id);
-    //console.log(req.user);
-
     var sql = "SELECT * FROM paper_info WHERE paper_info.paperid IN (" +
         "SELECT DISTINCT(paperid) FROM paper_author WHERE authorid =" + req.session.user.id + ") ORDER BY pubDate DESC";
     client.getDbCon(sql, function (err, paperInfo) {
@@ -31,7 +29,6 @@ exports.getMyPaperInfo = function (req, res) {
                 paperInfo: paperInfo
             });
         }
-
     });
 };
 
@@ -199,24 +196,3 @@ exports.queryMyPaper = function (req, res) {
         }
     });
 };
-
-exports.queryAllPaper = function (req, res) {
-    var paperInfo = {
-        publish: req.query.publish,
-        title: req.query.title
-    }
-    var queryInfo = {
-        startDate: req.query.startDate || '',
-        endDate: req.query.endDate || ''
-    }
-    var paper = new Paper(paperInfo);
-    paper.queryAllPaper(queryInfo, function (err, result) {
-        if (err) {
-            res.sendStatus(500);
-            console.log("服务器出错");
-        }
-        else {
-            res.send({paperInfo: result});
-        }
-    })
-}

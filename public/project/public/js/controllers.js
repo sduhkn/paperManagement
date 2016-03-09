@@ -210,4 +210,26 @@ angular.module('myApp.controllers')
                     $scope.errorMsg = "服务器出错";
                 });
         }
-    });
+    })
+    .controller('showAllProjectController', function ($scope, projectService) {
+        projectService.getProjectType()
+            .success(function (data) {
+                $scope.projectType = data.codeInfo;
+            }).error(function () {
+            alert('获取项目类型失败');
+        });
+        $scope.paginationConf = {
+            currentPage: 1,
+            totalPage: 1, //总页数
+            itemsPerPage: 10, //每页项数
+            pagerSize: 5//显示的页码个数
+        };
+        $scope.load = function () {
+            projectService.getAllProject($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                .success(function (data) {
+                    $scope.projectInfo = data.projectInfo;
+                    $scope.paginationConf.totalPage = Math.ceil(data.totalSize / $scope.paginationConf.itemsPerPage);
+                });
+        };
+        $scope.load();
+    })

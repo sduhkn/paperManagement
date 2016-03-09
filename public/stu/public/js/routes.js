@@ -163,6 +163,38 @@ angular.module('myApp')
                     }
                 }
             })
+            .state('stu.showAllProject', {
+                url: '/showAllProject',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/project/showAllProject.html",
+                    }
+                }
+            })
+            .state('stu.showAllUserInfo', {
+                url: '/showAllUserInfo',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/stu/showAllUserInfo.html",
+                    }
+                }
+            })
+            .state('stu.showAllUser', {
+                url: '/allUser/:alluserid',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/stu/showAllUser.html",
+                    }
+                }
+            })
+            .state('stu.addAllUser', {
+                url: '/addAllUser',
+                views: {
+                    'stuRight': {
+                        templateUrl: "./public/stu/addAllUser.html",
+                    }
+                }
+            })
     });
 /*angular.module("myApp")
  .config(function ($routeProvider){

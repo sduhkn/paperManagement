@@ -4,6 +4,7 @@
 var userModel = require('../../../app/models/userModel');
 var User = require('../../../app/models/user.model');
 var crypto = require('crypto');
+var client = require('../../../config/DB/DBConnect');
 //var client = require('../../../config/DB/DBConnect');
 
 exports.getStuOwnInfo = function (req, res) {
@@ -82,5 +83,48 @@ exports.changePassword = function (req, res) {
             })
         }
     })
+}
+exports.getAllUserInfo = function (req, res) {
+
+    if (req.session.user.levels == 1) {
+        var currentPage = req.query.currentPage;
+        var pageSize = req.query.pageSize;
+        var totalSize = 0;
+        var sql_count;
+        sql_count = "select count(id) as count from all_persons";
+        client.getDbCon(sql_count, function (err, userCount) {
+            if (userCount) {
+                totalSize = userCount[0].count;
+            }
+        });
+        var sql = "select id,name,levels from all_persons limit " + (currentPage - 1) * pageSize + "," + pageSize;
+        client.getDbCon(sql, function (err, allUserInfo) {
+            if (allUserInfo.length != 0) {
+                return res.send({
+                    allUserInfo: allUserInfo,
+                    totalSize: totalSize
+                });
+            } else {
+                return res.sendStatus(401);
+            }
+        });
+    }
+    else return res.sendStatus(401);
+}
+exports.getAllUserByID = function (req, res) {
+    if (req.session.user.levels == 1) {
+        var sql = "select id,name,levels from all_persons where id="+req.query.alluserid;
+        console.log(sql);
+        client.getDbCon(sql, function (err, allUser) {
+            if (allUser.length != 0) {
+                return res.send({
+                    allUser: allUser,
+                });
+            } else {
+                return res.sendStatus(401);
+            }
+        });
+    }
+    else return res.sendStatus(401);
 }
 

@@ -60,7 +60,7 @@ angular.module('myApp.controllers')
                 });
         }
     })
-    .controller('stu_showAllPaperInfoController', function ($scope, paperService) {
+    .controller('showAllPaperInfoController', function ($scope, paperService) {
         $scope.paginationConf = {
             currentPage: 1,
             totalPage: 1, //总页数
@@ -76,11 +76,8 @@ angular.module('myApp.controllers')
         };
         $scope.load();
 
-        $scope.editPaper = function (paper) {
-            $window.sessionStorage.paper = JSON.stringify(paper);
-        };
     })
-    .controller('showPaperController', function ($scope, $stateParams, paperService,$state) {
+    .controller('showPaperController', function ($scope, $stateParams, paperService, $state) {
         $scope.authors = [];
         $scope.preProcess = function () {
             paperService.getIncluded()

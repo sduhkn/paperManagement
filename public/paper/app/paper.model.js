@@ -124,25 +124,3 @@ Paper.prototype.queryMyPaper = function (queryInfo, callback) {
         }
     })
 };
-Paper.prototype.queryAllPaper = function (queryInfo, callback) {
-    var sql = "SELECT * FROM paper_info WHERE 1=1 ";
-    if (this.title) {
-        sql += "and title like '%" + this.title + "%' ";
-    }
-    if (this.publish) {
-        sql += "and publish like '%" + this.publish + "%' ";
-    }
-    if (queryInfo.startDate) {
-        sql += "and pubDate between '" + queryInfo.startDate + "' and '" + queryInfo.endDate + "' "
-    }
-    sql += "ORDER BY pubDate DESC LIMIT 15";
-    console.log(sql);
-    client.getDbCon(sql, function (err, result) {
-        if (err) {
-            throw err;
-        }
-        else {
-            callback(err, result);
-        }
-    })
-};

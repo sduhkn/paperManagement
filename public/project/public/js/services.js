@@ -38,5 +38,12 @@ angular.module('myApp.services')
         this.getPaperByProjectId = function (projectid) {
             return $http.get('/getPaperByProjectId/' + projectid);
         };
+        this.getAllProject = function (currentPage, pageSize) {
+            return $http.get('/showAllProject', {
+                params: {
+                    currentPage: currentPage, pageSize: pageSize
+                }
+            });
+        }
         return this;
     });

@@ -78,14 +78,6 @@ angular.module('myApp.services')
                 }
             });
         }
-        var queryAllPaper = function (queryInfo) {
-            return $http.get('/paper/queryAllPaper', {
-                params: {
-                    title: queryInfo.title, publish: queryInfo.publish,
-                    startDate: queryInfo.startDate, endDate: queryInfo.endDate
-                }
-            });
-        }
 
         return {
             getMyPaper: getMyPaper,
@@ -102,6 +94,5 @@ angular.module('myApp.services')
 
             /*查询函数*/
             queryMyPaper: queryMyPaper,
-            queryAllPaper: queryAllPaper,
         }
     });

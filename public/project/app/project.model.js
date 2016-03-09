@@ -142,3 +142,23 @@ Project.prototype.deleteProject = function (callback) {
         }
     })
 };
+//Project.prototype.queryAllProject = function (callback) {
+//    var sql = "SELECT * FROM project_info WHERE 1=1 ";
+//    if (this.projectname) {
+//        sql += "and projectname like '%" + this.projectname + "%' ";
+//    }
+//    if (this.projectchargename) {
+//        sql += "and projectchargename like '%" + this.projectchargename + "%' ";
+//    }
+//    sql += "ORDER BY estdate DESC";
+//    console.log(sql);
+//    client.getDbCon(sql, function (err, result) {
+//        if (err) {
+//            logger.writeErr(err);
+//            return callback(err, null)
+//        }
+//        else {
+//            callback(err, result);
+//        }
+//    })
+//};

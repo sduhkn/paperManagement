@@ -115,3 +115,47 @@ exports.deleteProject = function (req, res) {
         }
     });
 };
+exports.getAllProject= function(req,res){
+    //var projectInfo = {
+    //    projectname: req.query.projectName,
+    //    projectchargename: req.query.chargeNmae
+    //}
+    //console.log(projectInfo);
+    //var project = new Project(projectInfo);
+    //project.queryAllProject(function (err, result) {
+    //    if (err) {
+    //        res.sendStatus(500);
+    //        console.log("服务器出错");
+    //    }
+    //    else {
+    //        res.send({projectInfo: result});
+    //    }
+    //})
+    var currentPage = req.query.currentPage;
+    var pageSize = req.query.pageSize;
+    var totalSize = 0;
+    var sql_count;
+    if (req.cookies['projectCount'] && req.cookies['projectCount'] != 0) {
+        totalSize = req.cookies['projectCount'];
+    } else {
+        sql_count = "select count(projectid) as count from project_info";
+        client.getDbCon(sql_count, function (err, projectCount) {
+            if (projectCount) {
+                res.cookie('projectCount', projectCount[0].count, {maxAge: 10 * 60 * 1000});
+                totalSize = projectCount[0].count;
+            }
+        });
+    }
+
+    var sql = "select * from project_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
+    client.getDbCon(sql, function (err, projectInfo) {
+        if (projectInfo.length != 0) {
+            return res.send({
+                projectInfo: projectInfo,
+                totalSize: totalSize
+            });
+        } else {
+            return res.sendStatus(401);
+        }
+    });
+}

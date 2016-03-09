@@ -22,5 +22,6 @@ module.exports = function (app) {
         //expressJWT({secret: app.get('jwtSecret')}),
         stuCtrl.changePassword);
     app.get('/stu/getTeaInfo', stuCtrl.getTeaInfo);
-
+    app.get('/stu/showAllUserInfo', stuCtrl.getAllUserInfo);
+    app.get('/stu/getAllUserrByID', stuCtrl.getAllUserByID);
 }

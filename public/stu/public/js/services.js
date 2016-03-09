@@ -32,11 +32,27 @@ angular.module('myApp.services')
         var getTeaInfo = function () {
             return $http.get('/stu/getTeaInfo')
         }
+        var getAllUserInfo = function (currentPage, pageSize) {
+            return $http.get('/stu/showAllUserInfo', {
+                params: {
+                    currentPage: currentPage, pageSize: pageSize
+                }
+            });
+        }
+        var getAllUserByID = function (alluserid) {
+            return $http.get('/stu/getAllUserrByID', {
+                params: {
+                    alluserid: alluserid
+                }
+            });
+        }
         return {
             getStuOwnInfo: stuOwnInfo,
             updateStuInfo: updateStuInfo,
             changePassword: changePassword,
             getStype: getStype,
-            getTeaInfo:getTeaInfo,
+            getTeaInfo: getTeaInfo,
+            getAllUserInfo: getAllUserInfo,
+            getAllUserByID: getAllUserByID
         }
     });

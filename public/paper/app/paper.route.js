@@ -20,5 +20,4 @@ module.exports = function (app) {
     app.get('/paper/getCon_JouInfo', paperCtrl.getCon_JouInfo);
 
     app.get('/paper/queryMyPaper', paperCtrl.queryMyPaper);
-    app.get('/paper/queryAllPaper', paperCtrl.queryAllPaper);
 };

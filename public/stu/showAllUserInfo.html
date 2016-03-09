@@ -1,0 +1,69 @@
+<!-- 我发表的论文右侧 -->
+<div ng-controller="showAllUserInfoController">
+    <div>
+        <!--如果有发表文章内容-->
+        <div class="container">
+            <div class="row form-inline">
+            </div>
+
+            <!-- show project info -->
+            <div class="col-xs-10">
+                <table class="table table-bordered table-hover" style="text-align: center;border: 2px solid #c8c9e8;">
+                    <tbody>
+                    <tr>
+                        <td colspan='8'>
+                            <a ui-sref="stu.addAllUser" class="btn btn-sm btn-primary">添加</a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <tbody  class="paperHeaderStyle">
+                    <tr>
+                        <td width="20%">序号</td>
+                        <td width="25%">用户姓名</td>
+                        <td width="30%">学号或编号</td>
+                        <td width="25%">身份</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody class="paperContentStyle">
+                    <tr ng-repeat="allUser in allUserInfo | filter:search">
+                        <td>{{ $index + 1 }}</td>
+                        <td>
+                            <div>
+                                <a href="#/stu/allUser/{{allUser.id}}" >{{ allUser.name }}</a>
+                            </div>
+
+                        </td>
+                        <td>{{ allUser.id }}</td>
+                        <td>
+                            <p ng-show="allUser.levels == '1' ">学生</p>
+                            <p ng-show="allUser.levels == '2' ">教师</p>
+                            <p ng-show="allUser.levels == '3' ">管理员</p>
+                            <p ng-show="!allUser.levels">其他</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div><!-- /.container -->
+
+        <!--如果没有用户-->
+        <div ng-show="!allUserInfo && errorMsg" class="row">
+            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                <h2>{{ errorMsg }}</h2>
+            </div>
+        </div>
+        <!--加载中-->
+        <div ng-show="!allUserInfo && !errorMsg" class="row">
+            <div class="col-xs-offset-3 col-xs-11 text-center text-info">
+                <h2>加载中...</h2>
+            </div>
+        </div>
+
+        <!--分页部分-->
+        <myPagination conf="paginationConf" load-data="load()"></myPagination>
+    </div>
+
+</div>

@@ -5,9 +5,9 @@
 angular.module('myApp.controllers')
     .controller('stuController', function ($scope, $state, $http, $window) {
         $scope.$state = $state;
-        $scope.logout = function(){
+        $scope.logout = function () {
             $http.post("/logout")
-                .success(function(){
+                .success(function () {
                     $window.sessionStorage.userInfo = null;
                     $window.sessionStorage.token = null;
                     $state.go("login");
@@ -126,4 +126,32 @@ angular.module('myApp.controllers')
                 $scope.pwd.old = null;
             }
         }
-    );
+    )
+    .controller('showAllUserInfoController', function ($scope, stuService) {
+        $scope.paginationConf = {
+            currentPage: 1,
+            totalPage: 1, //总页数
+            itemsPerPage: 10, //每页项数
+            pagerSize: 5//显示的页码个数
+        };
+        $scope.load = function () {
+            stuService.getAllUserInfo($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                .success(function (data) {
+                    $scope.allUserInfo = data.allUserInfo;
+                    $scope.paginationConf.totalPage = Math.ceil(data.totalSize / $scope.paginationConf.itemsPerPage);
+                })
+                .error(function (data, status) {
+                    $scope.errMsg = "未知错误";
+                });
+        };
+        $scope.load();
+    })
+    .controller('showAllUserController', function ($scope, $stateParams, stuService) {
+        stuService.getAllUserByID($stateParams.alluserid)
+            .success(function (data) {
+                $scope.allUser = data.allUser[0];
+            }).error(function () {
+            alert("出错了");
+        });
+
+    })

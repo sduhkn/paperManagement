@@ -1,0 +1,41 @@
+<div ng-controller="showAllUserController">
+    <div class="container">
+        <div class="col-xs-10">
+            <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
+                <thead class="paperHeaderStyle">
+                <tr>
+                    <td colspan="4">用户基本信息</td>
+                </tr>
+                </thead>
+                <tbody class="paperContentStyle">
+                <tr>
+                    <td style="width: 15%;text-align: right">用户姓名：</td>
+                    <td style="width: 35%">{{ allUser.name }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%;text-align: right">用户学号或编号：</td>
+                    <td style="width: 35%">{{ allUser.id }}</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right">用户类别：</td>
+                    <td>
+                        <p ng-show="allUser.levels == '1' ">学生</p>
+                        <p ng-show="allUser.levels == '2' ">教师</p>
+                        <p ng-show="allUser.levels == '3' ">管理员</p>
+                        <p ng-show="!allUser.levels">其他</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center">
+                        <a href onclick="javascript :history.back(-1);" class="btn btn-sm btn-primary">返回上一页</a>
+                        <a href="#/stu/editProject/{{project.projectid}}" class="btn btn-sm btn-primary">修改人员信息</a>
+                        <a ng-click="deleteProject()" class="btn btn-sm btn-danger">删除这个用户</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
