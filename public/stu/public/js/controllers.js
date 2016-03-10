@@ -87,35 +87,39 @@ angular.module('myApp.controllers')
                 alert("error: " + status);
             });
         $scope.updateStuInfo = function () {
-            stuService.updateStuInfo($scope.stu)
-                .success(function (data, status) {
-                    alert("修改成功");
-                })
-                .error(function (data, status) {
-                    alert("未知错误");
-                });
+            if (confirm("确定要修改个人信息吗？")) {
+                stuService.updateStuInfo($scope.stu)
+                    .success(function (data, status) {
+                        alert("修改成功");
+                    })
+                    .error(function (data, status) {
+                        alert("未知错误");
+                    });
+            }
         }
     })
     .controller('changePasswordController', function ($scope, stuService) {
             $scope.checkForm = function () {
                 if ($scope.pwd.new1 != $scope.pwd.new2) {
-                    alert("新密码不一致");
+                    alert("两次新密码不一致");
                 } else {
                     if ($scope.pwd.old == $scope.pwd.new1) {
                         alert("新旧密码不能相同");
                     }
                     else {
-                        if ($scope.pwd.new1.length < 6) {
-                            alert("密码须不少于六位");
+                        if ($scope.pwd.new1.length < 6 || $scope.pwd.new1.length > 12) {
+                            alert("密码应该在六到十二位之间");
                         }
                         else {
-                            stuService.changePassword($scope.pwd)
-                                .success(function (data, status) {
-                                    alert(data.msg);
-                                })
-                                .error(function (data, status) {
-                                    alert("error: " + status);
-                                });
+                            if (confirm("确定要修改个人密码吗？")) {
+                                stuService.changePassword($scope.pwd)
+                                    .success(function (data, status) {
+                                        alert(data.msg);
+                                    })
+                                    .error(function (data, status) {
+                                        alert("error: " + status);
+                                    });
+                            }
                         }
                     }
                 }
@@ -146,23 +150,51 @@ angular.module('myApp.controllers')
         };
         $scope.load();
     })
-    .controller('showAllUserController', function ($scope, $stateParams, stuService) {
+    .controller('showAllUserController', function ($scope, $stateParams, $state, stuService) {
         stuService.getAllUserByID($stateParams.alluserid)
             .success(function (data) {
                 $scope.allUser = data.allUser[0];
             }).error(function () {
             alert("出错了");
         });
+        $scope.deleteAllUser = function () {
+            if (confirm("确定要删除该用户吗？")) {
+                stuService.deleteAllUser($scope.allUser)
+                    .success(function () {
+                        alert("删除成功");
+                        $state.go('stu.showAllUserInfo');
+                    })
+                    .error(function () {
+                        alert("未知错误");
+                    });
+            }
+        }
+        $scope.resetPassword = function () {
+            if (confirm("确定要重置该用户密码吗？")) {
+                stuService.resetPassword($scope.allUser)
+                    .success(function () {
+                        alert("重置密码成功！");
+                    })
+                    .error(function () {
+                        alert("未知错误");
+                    });
+            }
+
+        }
 
     })
-    .controller('addAllUserController', function ($scope, stuService) {
-        $scope.addAllUser = function () {
-            stuService.addAllUser($scope.allUser)
-                .success(function () {
-                    alert("添加成功");
-                })
-                .error(function () {
-                    alert("未知错误");
-                });
+    .controller('addAllUserController', function ($scope, stuService, $state) {
+            $scope.addAllUser = function () {
+                if (confirm("确定要添加该用户吗？")) {
+                    stuService.addAllUser($scope.allUser)
+                        .success(function () {
+                            alert("添加成功");
+                            $state.go('stu.showAllUserInfo');
+                        })
+                        .error(function () {
+                            alert("未知错误");
+                        });
+                }
+            }
         }
-    })
+    )

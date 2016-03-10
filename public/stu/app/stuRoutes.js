@@ -25,4 +25,6 @@ module.exports = function (app) {
     app.get('/stu/showAllUserInfo', stuCtrl.getAllUserInfo);
     app.get('/stu/getAllUserrByID', stuCtrl.getAllUserByID);
     app.post('/stu/addAllUser', stuCtrl.addAllUser);
+    app.post('/stu/deleteAllUser', stuCtrl.deleteAllUser);
+    app.post('/stu/resetPassword', stuCtrl.resetPassword);
 }

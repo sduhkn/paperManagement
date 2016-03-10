@@ -89,8 +89,8 @@
             修改:<input type="checkbox" ng-model="disable"/>
         </div>
 
-        <div class="col-xs-2" ng-if="disable">
-            <button class="btn btn-primary" ng-click="updateStuInfo()">提交</button>
+        <div class="col-xs-2" >
+            <button class="btn btn-primary" ng-disabled="!disable" ng-click="updateStuInfo()">提交</button>
         </div>
     </div>
 </div>

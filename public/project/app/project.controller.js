@@ -47,22 +47,22 @@ exports.editProject = function (req, res) {
     });
 };
 /*
-* 为project添加paper标注
-* */
+ * 为project添加paper标注
+ * */
 exports.editProjectPaper = function (req, res) {
     var projectInfo = {
         projectid: req.params.projectid
     }
     var project = new Project(projectInfo);
-    project.getProjectByID(function(err,result){
-        if(err){
+    project.getProjectByID(function (err, result) {
+        if (err) {
             return res.sendStatus(500);
         }
         var myProjectInfo = result[0];
-        myProjectInfo.papers =  req.body.papers;
+        myProjectInfo.papers = req.body.papers;
         var myProject = new Project(myProjectInfo);
         myProject.savePaper(function (err, result1) {
-            if (err){
+            if (err) {
                 return res.sendStatus(500);
             }
         });
@@ -115,7 +115,7 @@ exports.deleteProject = function (req, res) {
         }
     });
 };
-exports.getAllProject= function(req,res){
+exports.getAllProject = function (req, res) {
     //var projectInfo = {
     //    projectname: req.query.projectName,
     //    projectchargename: req.query.chargeNmae
@@ -148,20 +148,30 @@ exports.getAllProject= function(req,res){
     //}
     sql_count = "select count(projectid) as count from project_info";
     client.getDbCon(sql_count, function (err, projectCount) {
-        if (projectCount) {
+        if (projectCount.length!=0) {
             totalSize = projectCount[0].count;
-        }
-    });
-
-    var sql = "select * from project_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
-    client.getDbCon(sql, function (err, projectInfo) {
-        if (projectInfo.length != 0) {
-            return res.send({
-                projectInfo: projectInfo,
-                totalSize: totalSize
+            var sql = "select * from project_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
+            client.getDbCon(sql, function (err, projectInfo) {
+                if (projectInfo.length != 0) {
+                    return res.send({
+                        projectInfo: projectInfo,
+                        totalSize: totalSize
+                    });
+                } else {
+                    return res.sendStatus(401);
+                }
             });
-        } else {
-            return res.sendStatus(401);
         }
     });
+    //var sql = "select * from project_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
+    //client.getDbCon(sql, function (err, projectInfo) {
+    //    if (projectInfo.length != 0) {
+    //        return res.send({
+    //            projectInfo: projectInfo,
+    //            totalSize: totalSize
+    //        });
+    //    } else {
+    //        return res.sendStatus(401);
+    //    }
+    //});
 }

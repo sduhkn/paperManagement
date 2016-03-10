@@ -29,8 +29,8 @@
                 <tr>
                     <td colspan="4" style="text-align: center">
                         <a href onclick="javascript :history.back(-1);" class="btn btn-sm btn-primary">返回上一页</a>
-                        <a href="#/stu/editProject/{{project.projectid}}" class="btn btn-sm btn-primary">修改人员信息</a>
-                        <a ng-click="deleteProject()" class="btn btn-sm btn-danger">删除这个用户</a>
+                        <a ng-show="allUser.levels" ng-click="resetPassword()" class="btn btn-sm btn-primary">重置该用户密码</a>
+                        <a ng-click="deleteAllUser()" class="btn btn-sm btn-danger">删除这个用户</a>
                     </td>
                 </tr>
                 </tbody>

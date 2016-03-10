@@ -138,21 +138,32 @@ exports.getAllPaperInfo = function (req, res) {
     client.getDbCon(sql_count, function (err, paperCount) {
         if (paperCount) {
             totalSize = paperCount[0].count;
-        }
-    });
-
-    var sql = "select * from paper_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
-    client.getDbCon(sql, function (err, paperInfo) {
-        if (paperInfo.length != 0) {
-            return res.send({
-                paperInfo: paperInfo,
-                totalSize: totalSize
+            var sql = "select * from paper_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
+            client.getDbCon(sql, function (err, paperInfo) {
+                if (paperInfo.length != 0) {
+                    return res.send({
+                        paperInfo: paperInfo,
+                        totalSize: totalSize
+                    });
+                } else {
+                    return res.sendStatus(401);
+                }
             });
-        } else {
-            return res.sendStatus(401);
         }
-
     });
+
+    //var sql = "select * from paper_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
+    //client.getDbCon(sql, function (err, paperInfo) {
+    //    if (paperInfo.length != 0) {
+    //        return res.send({
+    //            paperInfo: paperInfo,
+    //            totalSize: totalSize
+    //        });
+    //    } else {
+    //        return res.sendStatus(401);
+    //    }
+    //
+    //});
 };
 
 exports.getCon_JouInfo = function (req, res) {

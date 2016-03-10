@@ -48,9 +48,17 @@ angular.module('myApp.services')
         }
         var addAllUser = function (allUser) {
             return $http.post('/stu/addAllUser', {
-                params: {
-                    allUser: allUser
-                }
+                allUser: allUser
+            });
+        }
+        var deleteAllUser = function (allUser) {
+            return $http.post('/stu/deleteAllUser', {
+                allUser: allUser
+            });
+        }
+        var resetPassword = function (allUser) {
+            return $http.post('/stu/resetPassword', {
+                allUser: allUser
             });
         }
         return {
@@ -61,6 +69,8 @@ angular.module('myApp.services')
             getTeaInfo: getTeaInfo,
             getAllUserInfo: getAllUserInfo,
             getAllUserByID: getAllUserByID,
-            addAllUser: addAllUser
+            addAllUser: addAllUser,
+            deleteAllUser: deleteAllUser,
+            resetPassword: resetPassword
         }
     });
