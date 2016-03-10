@@ -24,4 +24,5 @@ module.exports = function (app) {
     app.get('/stu/getTeaInfo', stuCtrl.getTeaInfo);
     app.get('/stu/showAllUserInfo', stuCtrl.getAllUserInfo);
     app.get('/stu/getAllUserrByID', stuCtrl.getAllUserByID);
+    app.post('/stu/addAllUser', stuCtrl.addAllUser);
 }

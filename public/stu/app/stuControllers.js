@@ -113,7 +113,7 @@ exports.getAllUserInfo = function (req, res) {
 }
 exports.getAllUserByID = function (req, res) {
     if (req.session.user.levels == 1) {
-        var sql = "select id,name,levels from all_persons where id="+req.query.alluserid;
+        var sql = "select id,name,levels from all_persons where id=" + req.query.alluserid;
         console.log(sql);
         client.getDbCon(sql, function (err, allUser) {
             if (allUser.length != 0) {
@@ -124,6 +124,36 @@ exports.getAllUserByID = function (req, res) {
                 return res.sendStatus(401);
             }
         });
+    }
+    else return res.sendStatus(401);
+}
+exports.addAllUser = function (req, res) {
+    if (req.session.user.levels == 1) {
+        var userInfo = {
+            id: req.session.user.id,
+            levels: req.session.user.levels
+        }
+        var user = new User(userInfo);
+        var sql;
+        var id = req.query.allUser.id;
+        var name = req.query.allUser.name;
+        var sha1_pwd = crypto.createHash('sha1').update("111111").digest("base64");
+        if (!req.query.allUser.levels) {
+            sql = "insert into others_info oid,oname values(" + id + "," + name + ")";
+        }
+        else if (req.query.allUser.levels == 2 || req.query.allUser.levels == 3) {
+            sql = "insert into teacher_info tid,tname values(" + id + "," + name + "<" + req.query.allUser.levels + ")";
+        } else {
+            sql = "insert into student_info sid,sname,level values(" + id + "," + name + "," + req.query.allUser.levels + ")";
+        }
+        console.log(sql);
+        user.addAllUser(sql, function (err) {
+            if (err) {
+                return res.send({msg: "未知错误"});
+            }
+            else
+                return res.send({msg: "修改成功"});
+        })
     }
     else return res.sendStatus(401);
 }

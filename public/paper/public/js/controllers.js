@@ -134,7 +134,7 @@ angular.module('myApp.controllers')
                 $scope.paper.pubdate = data.paperInfo.pubdate.substring(0, 10);
                 $scope.paper.paymentDate = data.paperInfo.paymentDate.substring(0, 10);
             }).error(function () {
-            alert("出错了");
+            alert("获取作者失败");
         });
 
     })

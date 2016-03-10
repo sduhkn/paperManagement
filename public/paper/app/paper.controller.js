@@ -50,14 +50,10 @@ exports.getPaperAuthorByID = function (req, res) {
                         return res.sendStatus(500);
                     }
                     else {
-                        if (authors.length != 0) {
-                            return res.send({
-                                paperInfo: paperResult,
-                                authors: authors
-                            });
-                        } else {
-                            return res.sendStatus(401);
-                        }
+                        return res.send({
+                            paperInfo: paperResult,
+                            authors: authors
+                        });
                     }
                 });
             } else {
@@ -76,13 +72,9 @@ exports.getAuthorByPaperID = function (req, res) {
             return res.sendStatus(500);
         }
         else {
-            if (authors.length != 0) {
-                return res.send({
-                    authors: authors
-                });
-            } else {
-                return res.sendStatus(401);
-            }
+            return res.send({
+                authors: authors
+            });
         }
     });
 };
@@ -131,17 +123,23 @@ exports.getAllPaperInfo = function (req, res) {
     var pageSize = req.query.pageSize;
     var totalSize = 0;
     var sql_count;
-    if (req.cookies['paperCount'] && req.cookies['paperCount'] != 0) {
-        totalSize = req.cookies['paperCount'];
-    } else {
-        sql_count = "select count(paperid) as count from paper_info";
-        client.getDbCon(sql_count, function (err, paperCount) {
-            if (paperCount) {
-                res.cookie('paperCount', paperCount[0].count, {maxAge: 10 * 60 * 1000});
-                totalSize = paperCount[0].count;
-            }
-        });
-    }
+    //if (req.cookies['paperCount'] && req.cookies['paperCount'] != 0) {
+    //    totalSize = req.cookies['paperCount'];
+    //} else {
+    //    sql_count = "select count(paperid) as count from paper_info";
+    //    client.getDbCon(sql_count, function (err, paperCount) {
+    //        if (paperCount) {
+    //            res.cookie('paperCount', paperCount[0].count, {maxAge: 10 * 60 * 1000});
+    //            totalSize = paperCount[0].count;
+    //        }
+    //    });
+    //}
+    sql_count = "select count(paperid) as count from paper_info";
+    client.getDbCon(sql_count, function (err, paperCount) {
+        if (paperCount) {
+            totalSize = paperCount[0].count;
+        }
+    });
 
     var sql = "select * from paper_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
     client.getDbCon(sql, function (err, paperInfo) {

@@ -155,3 +155,14 @@ angular.module('myApp.controllers')
         });
 
     })
+    .controller('addAllUserController', function ($scope, stuService) {
+        $scope.addAllUser = function () {
+            stuService.addAllUser($scope.allUser)
+                .success(function () {
+                    alert("添加成功");
+                })
+                .error(function () {
+                    alert("未知错误");
+                });
+        }
+    })

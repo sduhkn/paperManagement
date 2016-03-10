@@ -149,3 +149,13 @@ User.prototype.updateStuInfo = function (callback) {
         }
     });
 };
+User.prototype.addAllUser = function (sql, callback) {
+    client.getDbConParams(sql, sha1_pwd, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            callback(err);
+        }
+    });
+};

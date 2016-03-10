@@ -135,17 +135,23 @@ exports.getAllProject= function(req,res){
     var pageSize = req.query.pageSize;
     var totalSize = 0;
     var sql_count;
-    if (req.cookies['projectCount'] && req.cookies['projectCount'] != 0) {
-        totalSize = req.cookies['projectCount'];
-    } else {
-        sql_count = "select count(projectid) as count from project_info";
-        client.getDbCon(sql_count, function (err, projectCount) {
-            if (projectCount) {
-                res.cookie('projectCount', projectCount[0].count, {maxAge: 10 * 60 * 1000});
-                totalSize = projectCount[0].count;
-            }
-        });
-    }
+    //if (req.cookies['projectCount'] && req.cookies['projectCount'] != 0) {
+    //    totalSize = req.cookies['projectCount'];
+    //} else {
+    //    sql_count = "select count(projectid) as count from project_info";
+    //    client.getDbCon(sql_count, function (err, projectCount) {
+    //        if (projectCount) {
+    //            res.cookie('projectCount', projectCount[0].count, {maxAge: 10 * 60 * 1000});
+    //            totalSize = projectCount[0].count;
+    //        }
+    //    });
+    //}
+    sql_count = "select count(projectid) as count from project_info";
+    client.getDbCon(sql_count, function (err, projectCount) {
+        if (projectCount) {
+            totalSize = projectCount[0].count;
+        }
+    });
 
     var sql = "select * from project_info limit " + (currentPage - 1) * pageSize + "," + pageSize;
     client.getDbCon(sql, function (err, projectInfo) {

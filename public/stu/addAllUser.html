@@ -1,0 +1,45 @@
+<div ng-controller="addAllUserController">
+    <form  role="form" name="addAllUserForm">
+    <div class="container">
+        <div class="col-xs-10">
+            <table class="table table-bordered" style="border: 2px solid #c8c9e8;">
+                <thead class="paperHeaderStyle">
+                    <tr>
+                        <td colspan="4">添加新用户</td>
+                    </tr>
+                </thead>
+                <tbody class="paperContentStyle">
+                    <tr>
+                    <td style="text-align: center;" width="30%"><span style="color: red">*</span>用户编号：</td>
+                    <td width="70%">
+                        <input ng-model="allUser.id" class="form-control" style="width: 50%"  maxlength="50" type="text" required />
+                    </td>
+                    </tr>
+                    <td style="text-align: center;" width="30%"><span style="color: red">*</span>用户姓名：</td>
+                    <td width="70%">
+                        <input ng-model="allUser.name" class="form-control" style="width: 50%"  maxlength="50" type="text" required />
+                    </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><span style="color: red">*</span>选择新用户类别：</td>
+                        <td>
+                            <select ng-model="allUser.levels" style="width: 20%;border-radius: 4px">
+                                <option value="1" selected>学生</option>
+                                <option value="2">教师</option>
+                                <option value="3">管理员</option>
+                                <option value="4">其他</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center">
+                            <a href onclick="javascript :history.back(-1);" class="btn btn-sm btn-primary">返回上一页</a>
+                            <input type="button" ng-disabled="addAllUserForm.$invalid" ng-click="addAllUser()"value="添加新用户" class="btn btn-sm btn-primary"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </form>
+</div>

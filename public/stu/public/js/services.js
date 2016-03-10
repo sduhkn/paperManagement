@@ -46,6 +46,13 @@ angular.module('myApp.services')
                 }
             });
         }
+        var addAllUser = function (allUser) {
+            return $http.post('/stu/addAllUser', {
+                params: {
+                    allUser: allUser
+                }
+            });
+        }
         return {
             getStuOwnInfo: stuOwnInfo,
             updateStuInfo: updateStuInfo,
@@ -53,6 +60,7 @@ angular.module('myApp.services')
             getStype: getStype,
             getTeaInfo: getTeaInfo,
             getAllUserInfo: getAllUserInfo,
-            getAllUserByID: getAllUserByID
+            getAllUserByID: getAllUserByID,
+            addAllUser: addAllUser
         }
     });
