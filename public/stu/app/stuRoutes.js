@@ -5,7 +5,7 @@
 
 var stuCtrl = require('./stuControllers');
 //var ensureAuthorized = require('../../../myModules/Authentication/ensureAuthorized'); 自己可以写中间件
-var expressJWT = require('express-jwt');
+//var expressJWT = require('express-jwt');
 
 
 module.exports = function (app) {

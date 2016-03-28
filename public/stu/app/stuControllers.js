@@ -46,10 +46,10 @@ exports.updateStuInfo = function (req, res) {
     user.name = req.body.stu.sname;
     user.updateStuInfo(function (err) {
         if (err) {
-            return res.send(401);
+            return res.sendStatus(401);
         }
         else
-            return res.send(200);
+            return res.sendStatus(200);
     })
 }
 exports.changePassword = function (req, res) {
